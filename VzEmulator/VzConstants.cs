@@ -20,6 +20,16 @@ namespace VzEmulate2
         internal const ushort CursorPositionPtr = 0x78A6;
         internal const ushort OutputDevicePtr = 0x789C;
 
+        internal const ushort OutputLatchAndKbStart = 0x6800;
+        internal const ushort OutputLatchAndKbEnd= 0x6FFF;
+
+        internal const ushort VideoRamStart = 0x7000;
+        internal const ushort VideoRamEnd = 0x77ff;
+        internal const ushort VideoRamSize = 0x7FF;
+
+        internal const ushort TopOfRom = 0x5FFF;
+
+
         internal const byte FileTypeBasic = 0xF0;
         internal const byte FileTypeMC = 0xF1;
 

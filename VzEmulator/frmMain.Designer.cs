@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnStart = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.btnPause = new System.Windows.Forms.Button();
             this.btnContinue = new System.Windows.Forms.Button();
@@ -58,15 +58,15 @@
             this.pnlTop.SuspendLayout();
             this.SuspendLayout();
             // 
-            // button1
+            // btnStart
             // 
-            this.button1.Location = new System.Drawing.Point(9, 12);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(135, 37);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Start";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnStart.Location = new System.Drawing.Point(9, 12);
+            this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(135, 37);
+            this.btnStart.TabIndex = 0;
+            this.btnStart.Text = "Start";
+            this.btnStart.UseVisualStyleBackColor = true;
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // textBox1
             // 
@@ -233,7 +233,7 @@
             this.pnlTop.Controls.Add(this.txtMCEnd);
             this.pnlTop.Controls.Add(this.txtMCStart);
             this.pnlTop.Controls.Add(this.button4);
-            this.pnlTop.Controls.Add(this.button1);
+            this.pnlTop.Controls.Add(this.btnStart);
             this.pnlTop.Controls.Add(this.btnDebug);
             this.pnlTop.Controls.Add(this.btnPause);
             this.pnlTop.Controls.Add(this.btnSaveMC);
@@ -369,7 +369,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button btnPause;
         private System.Windows.Forms.Button btnContinue;
