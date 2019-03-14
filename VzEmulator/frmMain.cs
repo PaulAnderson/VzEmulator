@@ -32,6 +32,7 @@ namespace VzEmulate2
         InstructionTracer tracer;
         ushort EndMCProgram;
         GraphicsPainter graphicsPainter;
+        Random rnd = new Random(DateTime.Now.Millisecond);
 
         byte _outputLatch = 0;
         public byte OutputLatch {
@@ -151,9 +152,7 @@ namespace VzEmulate2
             btnStart.Text = "Reset";
             btnPause.Enabled = true;
             btnContinue.Enabled = true;
-
         }
-
 
         private string GetTextModeText()
         {
@@ -298,6 +297,9 @@ namespace VzEmulate2
                 tracer.TraceNextInstruction();
 
         }
+        byte lastVal = 0;
+        byte[] diskContents;
+        int diskIndex;
 
         HashSet<int> addresses = new HashSet<int>();
         private void z80OnMemoryAccess(object sender, MemoryAccessEventArgs args)
@@ -474,9 +476,55 @@ namespace VzEmulate2
             //port writes. todo
             if (args.EventType == MemoryAccessEventType.AfterPortWrite)
             {
-                var addr = args.Address;
-                var value = args.Value;
+                ushort addr = args.Address;
+                byte value = args.Value;
+                Console.Write(DateTime.Now.ToLongTimeString());
+                Console.WriteLine(" Port Write: Addr {0:X4}, value: {1:X2}", addr, value);
             }
+            if (args.EventType == MemoryAccessEventType.BeforePortRead)
+            {
+
+                // args.Value = (byte)(rnd.Next() & 0xFF); 
+                if (args.Address == 0x11)
+                {
+                    if (diskContents ==null)
+                    {
+                        diskContents = File.ReadAllBytes("SavedFiles\\test1.dsk");
+                    }
+                    if (diskIndex >= diskContents.Length)
+                        diskIndex = 0;
+                    args.Value = diskContents[diskIndex/8]; //Dos routine reads port 11 once for each change to bit 7 of port 12. 
+                    diskIndex++; //Todo reset location on track seek (port 10). That will save scanning the whole disk
+
+                    args.CancelMemoryAccess = true;
+
+                }
+                if (args.Address == 0x12)
+                {
+                    if (lastVal == 0)
+                    {
+                        args.Value = 0x80;
+                        lastVal = args.Value;
+                    }
+                    else
+                    {
+                        args.Value = 0x00;
+                        lastVal = args.Value;
+
+                    }
+                    args.CancelMemoryAccess = true;
+                }
+
+
+
+
+                ushort addr = args.Address;
+                byte value = args.Value;
+               // Console.Write(DateTime.Now.ToLongTimeString());
+
+              //  Console.WriteLine(" Port Read: Addr {0:X4}, value: {1:X2}", addr, value);
+            }
+
 
             //Block writes to ROM
             if (args.Address < VzConstants.TopOfRom && args.EventType == MemoryAccessEventType.BeforeMemoryWrite)
