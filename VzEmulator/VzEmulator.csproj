@@ -55,6 +55,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Debugger\InstructionTracer.cs" />
+    <Compile Include="Peripherals\Disk.cs" />
+    <Compile Include="Peripherals\Drive.cs" />
+    <Compile Include="Peripherals\IPeripheral.cs" />
+    <Compile Include="Peripherals\PeripheralRouter.cs" />
     <Compile Include="Screen\DirectBitmap.cs" />
     <Compile Include="Debugger\frmMemoryView.cs">
       <SubType>Form</SubType>

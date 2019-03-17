@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using VzEmulate2.Screen;
 using VzEmulator.Debug;
+using VzEmulator.Peripherals;
 
 namespace VzEmulate2
 {
@@ -32,7 +33,8 @@ namespace VzEmulate2
         InstructionTracer tracer;
         ushort EndMCProgram;
         GraphicsPainter graphicsPainter;
-        Random rnd = new Random(DateTime.Now.Millisecond);
+        PeripheralRouter router = new PeripheralRouter();
+        Drive drive = new Drive();
 
         byte _outputLatch = 0;
         public byte OutputLatch {
@@ -58,6 +60,13 @@ namespace VzEmulate2
             {
                 ctrl.PreviewKeyDown += Button_PreviewKeyDown;
             }
+
+            SetupDevices();
+        }
+
+        private void SetupDevices()
+        {
+            router.Add(drive);
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -297,22 +306,6 @@ namespace VzEmulate2
                 tracer.TraceNextInstruction();
 
         }
-        byte lastVal = 0;
-        byte[] diskContents;
-        int diskIndex;
-        int diskCurrentTrack = 5;
-        int diskLocationOntrack = 0;
-        int diskTrackLength = 2480;   // 99160/40
-        int lastStepNo;
-        int lastStepNo2;
-        int? prevFileIndex = null;
-        int diskReadsDebugged = 0;
-        bool prevWriteEnable = false;
-        byte writeBitNo = 0;
-        byte firstHalfBit = 0;
-        byte currentWritingByte = 0;
-        int bytesWritten = 0;
-        bool inDosInitRoutine=false;
 
         HashSet<int> addresses = new HashSet<int>();
         private void z80OnMemoryAccess(object sender, MemoryAccessEventArgs args)
@@ -486,230 +479,35 @@ namespace VzEmulate2
 
             }
 
-            //port writes. todo
             if (args.EventType == MemoryAccessEventType.AfterPortWrite)
             {
-                ushort addr = args.Address;
-                byte value = args.Value;
-                string valueBinary = Convert.ToString(value, 2).PadLeft(8, '0');
-                //Console.Write(DateTime.Now.ToLongTimeString());
-                //Console.WriteLine(" Port Write: Addr {0:X4}, value: {1:X2} = {2}", addr, value, valueBinary);
-                /*
-22:59:19 Port Write: Addr 0010, value: 61 = 01100001 
-22:59:19 Port Write: Addr 0010, value: 71 = 01110001
-22:59:19 Port Write: Addr 0010, value: 79 = 01111001
-22:59:19 Port Write: Addr 0010, value: 78 = 01111000
-22:59:19 Port Write: Addr 0010, value: 7C = 01111100
-22:59:19 Port Write: Addr 0010, value: 74 = 01110100
-22:59:19 Port Write: Addr 0010, value: 76 = 01110110
-22:59:19 Port Write: Addr 0010, value: 72 = 01110010
-22:59:19 Port Write: Addr 0010, value: 73 = 01110011
-22:59:19 Port Write: Addr 0010, value: 71 = 01110001
-22:59:19 Port Write: Addr 0010, value: 79 = 01111001
-22:59:19 Port Write: Addr 0010, value: 78 = 01111000
-22:59:19 Port Write: Addr 0010, value: 7C = 01111100
-22:59:19 Port Write: Addr 0010, value: 74 = 01110100
-22:59:19 Port Write: Addr 0010, value: 76 = 01110110
-22:59:19 Port Write: Addr 0010, value: 72 = 01110010
-22:59:19 Port Write: Addr 0010, value: 73 = 01110011
-
-                Bit 0 - 3 : stepper motor
-                Bit 4 : Drive 1 Active (1=active)
-                Bit 5 : Write Data
-                Bit 6 : Write Request. Enable? (0=Active)
-                Bit 7 : Drive 2 Active (1=active)
-
-                 */
-                if (addr == 0x10)
-                {
-                    //Disk drive control
-                    if (diskContents == null)
-                    {
-                        diskContents = File.ReadAllBytes("SavedFiles\\test1.dsk");
-                    }
-
-                    byte stepNo = (byte)(value & 0xF);
-                    if ((stepNo == 1 && lastStepNo == 9 && lastStepNo2 == 8)
-                        | (stepNo == 4 && lastStepNo == 6 && lastStepNo2 == 2))
-                    {
-                        diskCurrentTrack += 1;
-                        if (diskCurrentTrack > 40) diskCurrentTrack = 40;
-                        Console.WriteLine("Track {0}", diskCurrentTrack);
-
-                    }
-                    if ((stepNo == 8 && lastStepNo == 9 && lastStepNo2 == 1) |
-                            (stepNo == 2 && lastStepNo == 6 && lastStepNo2 == 4))
-                    {
-                        diskCurrentTrack -= 1;
-                        if (diskCurrentTrack < 0) diskCurrentTrack = 0;
-                        Console.WriteLine("Track {0}", diskCurrentTrack);
-
-                    }
-                    lastStepNo2 = lastStepNo;
-                    lastStepNo = stepNo;
-                    prevFileIndex = null;
-                    //end stepper motor logic
-
-                    bool isWriteEnable = !((value & 0x40) == 0x40);
-                    if (isWriteEnable)
-                    {
-                        if (prevWriteEnable)
-                        {
-                            if ((writeBitNo & 1) == 0)
-                            {
-                                //first written bit of actual bit. Just store it for later comparison
-                                firstHalfBit = (byte)((value & 0x20) >> 5);
-                            }
-                            else
-                            {
-                                byte thisHalfBit = (byte)((value & 0x20) >> 5);
-                                byte xorResult = (byte)(firstHalfBit ^ thisHalfBit);
-                                byte shiftedResult = (byte)(xorResult << 7-(writeBitNo / 2));
-                                currentWritingByte |= shiftedResult;
-                            }
-                            if (writeBitNo == 15)
-                            {
-                                //all 8 bits received, write to file
-                                int fileIndex = (diskCurrentTrack * diskTrackLength) + (diskLocationOntrack / 8);
-
-                                //bounds check fileIndex
-                                if (fileIndex < 0) fileIndex = 0;
-                                if (fileIndex > diskContents.Length - 1) fileIndex = diskContents.Length - 1;
-
-                                //write byte. Todo: Write changes to file
-                                diskContents[fileIndex] = currentWritingByte;
-
-                                /*if ((bytesWritten & 0x0F) == 0x0)
-                                {
-                                    Console.WriteLine();
-                                    Console.Write("Disk Write: {0:X4}: ", fileIndex);
-                                }
-                                Console.Write("{0:X2} ",  currentWritingByte);*/
-
-                                diskLocationOntrack += 8; 
-                                bytesWritten++;
-                                writeBitNo = 0; //start next byte
-                                currentWritingByte = 0;
-                                firstHalfBit = 0;
-
-                            }
-                            else
-                            {
-                                writeBitNo++;
-                            }
-                        } else
-                        {
-                            //ignore first bit written, just result byte to be written
-                            currentWritingByte = 0;
-                            writeBitNo = 0;
-                            firstHalfBit = 0;
-
-                            //Adjust write location to next full byte
-                            if (inDosInitRoutine)
-                            {
-                                diskLocationOntrack = 0;
-                            } else
-                            {
-                                int writeOffset = 2; //How many bytes skipped in the time to switch from reading to writing
-                                diskLocationOntrack = ((int)(Math.Ceiling(diskLocationOntrack / 8.0) + writeOffset) * 8);
-                            }
-
-                            //Reset write counter
-                            bytesWritten = 0;
-                        }
-                    } else
-                    {
-                        if (prevWriteEnable) Console.WriteLine();
-                    }
-                    prevWriteEnable = isWriteEnable;
-
-                }
+                router.HandlePortWrite(args.Address, args.Value);
             }
+
             if (args.EventType == MemoryAccessEventType.BeforePortRead)
             {
 
-                if (args.Address == 0x11)
+                byte? value = router.HandlePortRead(args.Address);
+                if (value.HasValue)
                 {
-                    if (diskContents ==null)
-                    {
-                        diskContents = File.ReadAllBytes("SavedFiles\\test1.dsk");
-                    }
-
-                    inDosInitRoutine = false;
-
-                    if (diskIndex >= diskContents.Length)
-                        diskIndex = 0;
-
-                    int fileIndex = (diskCurrentTrack * diskTrackLength) + (diskLocationOntrack/ 8);
-
-                    //bounds check fileIndex
-                    if (fileIndex < 0) fileIndex = 0;
-                    if (fileIndex > diskContents.Length - 1) fileIndex = diskContents.Length - 1;
-
-                    args.Value = diskContents[fileIndex]; //Dos routine reads port 11 once for each change to bit 7 of port 12. 
-                    diskIndex++; //Todo reset location on track seek (port 10). That will save scanning the whole disk
-                    
-                    if (!prevFileIndex.HasValue || prevFileIndex != fileIndex)
-                    {
-                        if (!prevFileIndex.HasValue || fileIndex - prevFileIndex>1 || diskReadsDebugged >= 15)
-                        {
-                            if (diskReadsDebugged >= 15)
-                            {
-                                diskReadsDebugged = 0;
-                                   // Console.WriteLine();
-                            }
-                            //Console.Write("Disk Read: {0:X4}: {1:X2} ", fileIndex, args.Value);
-                        } else
-                        {
-                            //Console.Write("{0:X2} ", args.Value);
-                            diskReadsDebugged++;
-                        }
-                    }
-                    prevFileIndex = fileIndex;
-                    args.CancelMemoryAccess = true;
-
-                }
-                if (args.Address == 0x12)
-                {
-                    if (lastVal == 0)
-                    {
-                        args.Value = 0x80;
-                        lastVal = args.Value;
-
-                        if (!prevWriteEnable)
-                        {
-                            //update position unless in write mode (write function takes care of its own location)
-                            diskLocationOntrack++;
-                            if (diskLocationOntrack > (diskTrackLength * 8) + 10)
-                                diskLocationOntrack = 0;
-                        }
-                    }
-                    else
-                    {
-                        args.Value = 0x00;
-                        lastVal = args.Value;
-
-                    }
+                    args.Value = value.Value;
                     args.CancelMemoryAccess = true;
                 }
-
-                ushort addr = args.Address;
-                byte value = args.Value;
-               // Console.Write(DateTime.Now.ToLongTimeString());
-
-              //  Console.WriteLine(" Port Read: Addr {0:X4}, value: {1:X2}", addr, value);
             }
 
-            //intercept dos init keyword, reset to start of file to align sectors
-            if (args.Address == 0x4b08 && args.EventType == MemoryAccessEventType.AfterMemoryRead)
+            if (args.EventType == MemoryAccessEventType.BeforeMemoryRead)
             {
-                inDosInitRoutine = true;
+                byte? value = router.HandleMemoryRead(args.Address);
+                if (value.HasValue)
+                {
+                    args.Value = value.Value;
+                    args.CancelMemoryAccess = true;
+                }
             }
 
             //Block writes to ROM
             if (args.Address < VzConstants.TopOfRom && args.EventType == MemoryAccessEventType.BeforeMemoryWrite)
                 args.CancelMemoryAccess = true;
-
 
             //Display
             if (args.EventType == MemoryAccessEventType.AfterMemoryWrite && args.Address >= VzConstants.VideoRamStart && args.Address <= VzConstants.VideoRamEnd)
