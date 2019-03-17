@@ -15,7 +15,7 @@ namespace VzEmulator.Peripherals
         int diskIndex;
         int diskCurrentTrack = 5;
         int diskLocationOntrack = 0;
-        int diskTrackLength = 2480;   // 99160/40
+        const int diskTrackLength = 2480;   // 99160/40
         int lastStepNo;
         int lastStepNo2;
         int? prevFileIndex = null;
@@ -242,6 +242,15 @@ namespace VzEmulator.Peripherals
             }
         }
 
+        public void LoadDiskImage(string fileName)
+        {
+            diskContents = File.ReadAllBytes(fileName);
 
+        }
+        public void SaveDiskImage(string fileName)
+        {
+            File.WriteAllBytes(fileName, diskContents);
+
+        }
     }
 }

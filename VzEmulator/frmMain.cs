@@ -834,6 +834,11 @@ namespace VzEmulate2
             graphicsPainter.UseFixedScale = !graphicsPainter.UseFixedScale;
             graphicsPainter.FixedScale = 2;
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            drive.SaveDiskImage("SavedFiles\\test1.dsk");
+        }
     }
 }
 ;
