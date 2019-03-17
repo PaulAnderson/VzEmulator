@@ -839,6 +839,12 @@ namespace VzEmulate2
         {
             drive.SaveDiskImage("SavedFiles\\test1.dsk");
         }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            drive.LoadDiskImage("SavedFiles\\test1.dsk");
+
+        }
     }
 }
 ;
