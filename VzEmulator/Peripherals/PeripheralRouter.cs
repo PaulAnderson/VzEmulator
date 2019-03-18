@@ -14,16 +14,17 @@ namespace VzEmulator.Peripherals
         {
             AttachedDevices = new List<IPeripheral>();
         }
-        public void Add(IPeripheral peripheral)
+        public PeripheralRouter Add(IPeripheral peripheral)
         {
             AttachedDevices.Add(peripheral);
+            return this;
         }
 
         public byte? HandlePortRead(ushort address)
         {
             foreach (var device in AttachedDevices)
             {
-                if (address >= device.PortRange.Item1 && address <= device.PortRange.Item2 )
+                if (device.PortRange!=null && address >= device.PortRange.Item1 && address <= device.PortRange.Item2 )
                 {
                     return device.HandlePortRead(address);
                 }
@@ -34,7 +35,7 @@ namespace VzEmulator.Peripherals
         {
             foreach (var device in AttachedDevices)
             {
-                if (address >= device.PortRange.Item1 && address <= device.PortRange.Item2)
+                if (device.PortRange != null && address >= device.PortRange.Item1 && address <= device.PortRange.Item2)
                 {
                     device.HandlePortWrite(address,value);
                 }
@@ -44,7 +45,7 @@ namespace VzEmulator.Peripherals
         {
             foreach (var device in AttachedDevices)
             {
-                if (address >= device.MemoryRange.Item1 && address <= device.MemoryRange.Item2)
+                if (device.MemoryRange != null && address >= device.MemoryRange.Item1 && address <= device.MemoryRange.Item2)
                 {
                     return device.HandleMemoryRead(address);
                 }
@@ -55,7 +56,7 @@ namespace VzEmulator.Peripherals
         {
             foreach (var device in AttachedDevices)
             {
-                if (address >= device.MemoryRange.Item1 && address <= device.MemoryRange.Item2)
+                if (device.MemoryRange != null && address >= device.MemoryRange.Item1 && address <= device.MemoryRange.Item2)
                 {
                     device.HandleMemoryWrite(address, value);
                 }

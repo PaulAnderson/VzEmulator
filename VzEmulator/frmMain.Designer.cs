@@ -45,7 +45,7 @@
             this.btnSaveMC = new System.Windows.Forms.Button();
             this.btnDebug = new System.Windows.Forms.Button();
             this.pnlTop = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnSaveDisk = new System.Windows.Forms.Button();
             this.btnScale = new System.Windows.Forms.Button();
             this.btnSmooth = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
@@ -55,7 +55,7 @@
             this.btnQuickLoad = new System.Windows.Forms.Button();
             this.btnQuickSave = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnLoadDisk = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pnlTop.SuspendLayout();
             this.SuspendLayout();
@@ -82,7 +82,6 @@
             this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(1353, 616);
             this.textBox1.TabIndex = 1;
-            this.textBox1.DoubleClick += new System.EventHandler(this.textBox1_DoubleClick);
             // 
             // btnPause
             // 
@@ -195,7 +194,6 @@
             this.pictureBox1.Size = new System.Drawing.Size(1353, 616);
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.DoubleClick += new System.EventHandler(this.pictureBox1_DoubleClick);
             // 
             // btnSaveBasic
             // 
@@ -229,8 +227,8 @@
             // 
             // pnlTop
             // 
-            this.pnlTop.Controls.Add(this.button2);
-            this.pnlTop.Controls.Add(this.button1);
+            this.pnlTop.Controls.Add(this.btnLoadDisk);
+            this.pnlTop.Controls.Add(this.btnSaveDisk);
             this.pnlTop.Controls.Add(this.btnScale);
             this.pnlTop.Controls.Add(this.btnSmooth);
             this.pnlTop.Controls.Add(this.label3);
@@ -260,16 +258,16 @@
             this.pnlTop.Size = new System.Drawing.Size(1353, 106);
             this.pnlTop.TabIndex = 8;
             // 
-            // button1
+            // btnSaveDisk
             // 
-            this.button1.Location = new System.Drawing.Point(1109, 12);
-            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(128, 37);
-            this.button1.TabIndex = 11;
-            this.button1.Text = "Save Disk";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnSaveDisk.Location = new System.Drawing.Point(1109, 12);
+            this.btnSaveDisk.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnSaveDisk.Name = "btnSaveDisk";
+            this.btnSaveDisk.Size = new System.Drawing.Size(128, 37);
+            this.btnSaveDisk.TabIndex = 11;
+            this.btnSaveDisk.Text = "Save Disk";
+            this.btnSaveDisk.UseVisualStyleBackColor = true;
+            this.btnSaveDisk.Click += new System.EventHandler(this.btnSaveDisk_Click);
             // 
             // btnScale
             // 
@@ -360,16 +358,16 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // button2
+            // btnLoadDisk
             // 
-            this.button2.Location = new System.Drawing.Point(1109, 60);
-            this.button2.Margin = new System.Windows.Forms.Padding(2);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(128, 37);
-            this.button2.TabIndex = 12;
-            this.button2.Text = "Load Disk";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click_1);
+            this.btnLoadDisk.Location = new System.Drawing.Point(1109, 60);
+            this.btnLoadDisk.Margin = new System.Windows.Forms.Padding(2);
+            this.btnLoadDisk.Name = "btnLoadDisk";
+            this.btnLoadDisk.Size = new System.Drawing.Size(128, 37);
+            this.btnLoadDisk.TabIndex = 12;
+            this.btnLoadDisk.Text = "Load Disk";
+            this.btnLoadDisk.UseVisualStyleBackColor = true;
+            this.btnLoadDisk.Click += new System.EventHandler(this.btnLoadDisk_Click);
             // 
             // frmMain
             // 
@@ -384,7 +382,7 @@
             this.Text = "VZ300 Emulator";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.frmMain_KeyUp);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.pnlTop.ResumeLayout(false);
             this.pnlTop.PerformLayout();
@@ -421,8 +419,8 @@
         private System.Windows.Forms.Button btnQuickLoad;
         private System.Windows.Forms.Button btnScale;
         private System.Windows.Forms.Button btnSmooth;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnSaveDisk;
+        private System.Windows.Forms.Button btnLoadDisk;
     }
 }
 

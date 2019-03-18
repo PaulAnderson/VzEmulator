@@ -35,7 +35,7 @@ namespace VzEmulate2
         GraphicsPainter graphicsPainter;
         PeripheralRouter router = new PeripheralRouter();
         Drive drive = new Drive();
-
+        Keyboard keyboard;
         byte _outputLatch = 0;
         public byte OutputLatch {
             get
@@ -66,7 +66,8 @@ namespace VzEmulate2
 
         private void SetupDevices()
         {
-            router.Add(drive);
+            keyboard = new Keyboard(intSource);
+            router.Add(drive).Add(keyboard);
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -284,7 +285,6 @@ namespace VzEmulate2
             if (z80.Memory[z80.Registers.PC] == 0xFB)
             {
                 intSource.IntActive = false;
-
             }
 
             if (savingImage)
@@ -301,7 +301,6 @@ namespace VzEmulate2
 
             }
 
-
             if (isTrace)
                 tracer.TraceNextInstruction();
 
@@ -317,166 +316,7 @@ namespace VzEmulate2
                 {
                     OutputLatch = args.Value;
                 }
-                //Keyboard
-                if (args.EventType == MemoryAccessEventType.AfterMemoryRead)
-                {
-                    args.CancelMemoryAccess = true;
-
-                    var addr = args.Address & 0xff;
-                    addr = 0xff - addr;
-                    args.Value = 0b10111111;
-
-                    if (currentKey.HasValue || currentKeyCode != Keys.None)
-                    {
-                        var keyCode = currentKeyCode & Keys.KeyCode;
-
-                        if (currentKey >= 97 && currentKey <= 122)
-                            currentKey -= 32;
-                        var c = '\0';
-                        c = currentKey.HasValue ? (char)currentKey.Value : '\0';
-
-                        if ((addr & 1) > 0)
-                        {
-                            if (c == 'R')
-                                args.Value &= 0b11011111;
-                            if (c == 'Q')
-                                args.Value &= 0b11101111;
-                            if (c == 'E')
-                                args.Value &= 0b11110111;
-                            if (c == ' ')
-                                args.Value &= 0b11111011;
-                            if (c == 'W')
-                                args.Value &= 0b11111101;
-                            if (c == 'T')
-                                args.Value &= 0b11111110;
-                        }
-                        if ((addr & 2) > 0)
-                        {
-                            if (c == 'F')
-                                args.Value &= 0b11011111;
-                            if (c == 'A')
-                                args.Value &= 0b11101111;
-                            if (c == 'D')
-                                args.Value &= 0b11110111;
-                            if ((currentKeyCode & Keys.Control) == Keys.Control
-                                || keyCode == Keys.Left || keyCode == Keys.Back
-                                || keyCode == Keys.Right || keyCode == Keys.Up
-                                || keyCode == Keys.Down || keyCode == Keys.Insert
-                                || keyCode == Keys.Delete || keyCode == Keys.End)
-                                args.Value &= 0b11111011;
-                            if (c == 'S')
-                                args.Value &= 0b11111101;
-                            if (c == 'G')
-                                args.Value &= 0b11111110;
-                        }
-                        if ((addr & 4) > 0)
-                        {
-                            if (c == 'V')
-                                args.Value &= 0b11011111;
-                            if (c == 'Z')
-                                args.Value &= 0b11101111;
-                            if (c == 'C')
-                                args.Value &= 0b11110111;
-                            if ((currentKeyCode & Keys.Shift) == Keys.Shift ||
-                                ((currentKeyCode & Keys.Control) != Keys.Control && (currentKeyCode & Keys.Shift) != Keys.Shift && (currentKeyCode & Keys.KeyCode) == Keys.Oemplus))
-                                args.Value &= 0b11111011;
-                            if (c == 'X')
-                                args.Value &= 0b11111101;
-                            if (c == 'B')
-                                args.Value &= 0b11111110;
-                        }
-                        if ((addr & 8) > 0)
-                        {
-                            if (c == '4')
-                                args.Value &= 0b11011111;
-                            if (c == '1')
-                                args.Value &= 0b11101111;
-                            if (c == '3')
-                                args.Value &= 0b11110111;
-                            if ((currentKeyCode & Keys.Alt) == Keys.Alt)
-                                args.Value &= 0b11111011;
-                            if (c == '2')
-                                args.Value &= 0b11111101;
-                            if (c == '5')
-                                args.Value &= 0b11111110;
-                        }
-                        if ((addr & 16) > 0)
-                        {
-                            if (c == 'M' || keyCode == Keys.Left || keyCode == Keys.Back)
-                                args.Value &= 0b11011111;
-                            if (c == ' ' || keyCode == Keys.Down)
-                                args.Value &= 0b11101111;
-                            if (keyCode == Keys.Oemcomma
-                                || keyCode == Keys.Right)
-                                args.Value &= 0b11110111;
-                            if (keyCode == Keys.F1)
-                                args.Value &= 0b11111011;
-                            if (keyCode == Keys.OemPeriod
-                                || keyCode == Keys.Up)
-                                args.Value &= 0b11111101;
-                            if (c == 'N')
-                                args.Value &= 0b11111110;
-                        }
-                        if ((addr & 32) > 0)
-                        {
-                            if (c == '7')
-                                args.Value &= 0b11011111;
-                            if (c == '0')
-                                args.Value &= 0b11101111;
-                            if (c == '8')
-                                args.Value &= 0b11110111;
-                            if (c == '-' || (currentKeyCode & Keys.KeyCode) == Keys.OemMinus || ((currentKeyCode & Keys.Shift) != Keys.Shift & (currentKeyCode & Keys.KeyCode) == Keys.Oemplus))
-                                args.Value &= 0b11111011;
-                            if (c == '9')
-                                args.Value &= 0b11111101;
-                            if (c == '6')
-                                args.Value &= 0b11111110;
-                        }
-                        if ((addr & 64) > 0)
-                        {
-                            if (c == 'U')
-                                args.Value &= 0b11011111;
-                            if (c == 'P')
-                                args.Value &= 0b11101111;
-                            if (c == 'I')
-                                args.Value &= 0b11110111;
-                            if (c == (char)13)
-                                args.Value &= 0b11111011;
-                            if (c == 'O')
-                                args.Value &= 0b11111101;
-                            if (c == 'Y')
-                                args.Value &= 0b11111110;
-                        }
-                        if ((addr & 128) > 0)
-                        {
-                            if (c == 'J')
-                                args.Value &= 0b11011111;
-                            if (c == ';' || keyCode == Keys.Delete || keyCode == Keys.Oem1 ||
-                                ((currentKeyCode & Keys.Shift) == Keys.Shift && (currentKeyCode & Keys.KeyCode) == Keys.Oemplus))
-                                args.Value &= 0b11101111;
-                            if (c == 'K')
-                                args.Value &= 0b11110111;
-                            if (c == ':' || keyCode == Keys.End || keyCode == Keys.Oem7)
-                                args.Value &= 0b11111011;
-                            if (c == 'L' || keyCode == Keys.Insert)
-                                args.Value &= 0b11111101;
-                            if (c == 'H')
-                                args.Value &= 0b11111110;
-                        }
-                    }
-                    else
-                    {
-                        //keys scanned but no key pressed. Good place for a small delay to reduce host cpu use when then guest process is just waiting for input
-                        System.Threading.Thread.Sleep(TimeSpan.Zero); //Do any other work waiting
-                    }
-
-                    if (intSource.IntActive)
-                    {
-                        args.Value &= 0x7f;
-                        intSource.IntActive = false;
-                    }
-                }
-
+                
             }
 
             if (args.EventType == MemoryAccessEventType.AfterPortWrite)
@@ -522,9 +362,9 @@ namespace VzEmulate2
         }
         private void UpdateVideoMemoryFromMainMemory()
         {
-            for (int i = 0x7000; i <= 0x77FF; i++)
+            for (int i = VzConstants.VideoRamStart; i <= VzConstants.VideoRamEnd; i++)
             {
-                VideoMemory[i - 0x7000] = cpu.Memory[i];
+                VideoMemory[i - VzConstants.VideoRamStart] = cpu.Memory[i];
             }
         }
         private void btnPause_Click(object sender, EventArgs e)
@@ -544,22 +384,19 @@ namespace VzEmulate2
                 Task.Run(() => cpu.Continue());
         }
 
-        int? currentKey;
-        Keys? currentKeyCode = Keys.None;
-
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            currentKey = e.KeyValue;
-            currentKeyCode = e.KeyData;
+            keyboard.currentKey = e.KeyValue;
+            keyboard.currentKeyCode = e.KeyData;
             e.Handled = true;
 
             //trigger interrupt early to handle keys fast
             intSource.IntActive = true;
         }
-        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        private void frmMain_KeyUp(object sender, KeyEventArgs e)
         {
-            currentKey = null;
-            currentKeyCode = e.KeyCode ^ e.KeyData;
+            keyboard.currentKey = null;
+            keyboard.currentKeyCode = e.KeyCode ^ e.KeyData;
             e.Handled = true;
         }
 
@@ -688,7 +525,7 @@ namespace VzEmulate2
                 //invalid file
             }
 
-            //Refresh video memory in case the loaded file overlapped with video memory. Todo check this and only update if needed
+            //Refresh video memory in case the loaded file overlapped with video memory.
             UpdateVideoMemoryFromMainMemory();
 
         }
@@ -739,17 +576,7 @@ namespace VzEmulate2
         {
             EndMCProgram = MemUtils.StringToUShort(txtMCEnd.Text);
         }
-
-        private void pictureBox1_DoubleClick(object sender, EventArgs e)
-        {
-            pictureBox1.Visible = !pictureBox1.Visible;
-        }
-
-        private void textBox1_DoubleClick(object sender, EventArgs e)
-        {
-            pictureBox1.Visible = !pictureBox1.Visible;
-        }
-
+        
         private void button3_Click(object sender, EventArgs e)
         {
             var dlg = new SaveFileDialog();
@@ -835,15 +662,22 @@ namespace VzEmulate2
             graphicsPainter.FixedScale = 2;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnSaveDisk_Click(object sender, EventArgs e)
         {
-            drive.SaveDiskImage("SavedFiles\\test1.dsk");
+            var saveFileDialog = new SaveFileDialog();
+            if (saveFileDialog.ShowDialog()==DialogResult.OK)
+            {
+                drive.SaveDiskImage(saveFileDialog.FileName);
+            }
         }
 
-        private void button2_Click_1(object sender, EventArgs e)
+        private void btnLoadDisk_Click(object sender, EventArgs e)
         {
-            drive.LoadDiskImage("SavedFiles\\test1.dsk");
-
+            var openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                drive.LoadDiskImage(openFileDialog.FileName);
+            }
         }
     }
 }
