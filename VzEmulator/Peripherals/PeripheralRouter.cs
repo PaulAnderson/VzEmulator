@@ -52,15 +52,17 @@ namespace VzEmulator.Peripherals
             }
             return null;
         }
-        public void HandleMemoryWrite(ushort address, byte value)
+        public bool HandleMemoryWrite(ushort address, byte value)
         {
+            bool result = false;
             foreach (var device in AttachedDevices)
             {
                 if (device.MemoryRange != null && address >= device.MemoryRange.Item1 && address <= device.MemoryRange.Item2)
                 {
-                    device.HandleMemoryWrite(address, value);
+                    result |= device.HandleMemoryWrite(address, value);
                 }
             }
+            return result;
         }
     }
 }

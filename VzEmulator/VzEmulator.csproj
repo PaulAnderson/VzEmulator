@@ -58,6 +58,7 @@
     <Compile Include="Peripherals\Disk.cs" />
     <Compile Include="Peripherals\Drive.cs" />
     <Compile Include="Peripherals\IPeripheral.cs" />
+    <Compile Include="Peripherals\OutputLatch.cs" />
     <Compile Include="Peripherals\Keyboard.cs" />
     <Compile Include="Peripherals\PeripheralRouter.cs" />
     <Compile Include="Screen\DirectBitmap.cs" />

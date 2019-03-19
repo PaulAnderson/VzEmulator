@@ -36,18 +36,7 @@ namespace VzEmulate2
         PeripheralRouter router = new PeripheralRouter();
         Drive drive = new Drive();
         Keyboard keyboard;
-        byte _outputLatch = 0;
-        public byte OutputLatch {
-            get
-            {
-                return _outputLatch;
-            }
-            set
-            {
-                _outputLatch = value;
-                graphicsPainter?.SetModeFromOutputLatch(value);
-            }
-        }
+        OutputLatch outputLatch = new OutputLatch();
 
         public frmMain()
         {
@@ -67,7 +56,7 @@ namespace VzEmulate2
         private void SetupDevices()
         {
             keyboard = new Keyboard(intSource);
-            router.Add(drive).Add(keyboard);
+            router.Add(drive).Add(keyboard).Add(outputLatch);
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -85,7 +74,7 @@ namespace VzEmulate2
             if (cpu == null)
             {
                 VideoMemory = new byte[VzConstants.VideoRamSize+1];
-                graphicsPainter = new GraphicsPainter(pictureBox1, VideoMemory, 0, 25);
+                graphicsPainter = new GraphicsPainter(pictureBox1, VideoMemory, outputLatch, 0, 25);
 
                 var z80 = new Z80Processor();
 
@@ -226,7 +215,7 @@ namespace VzEmulate2
             z80.Memory[21] = z80.Registers.Alternate.E;
             z80.Memory[22] = z80.Registers.Alternate.H;
             z80.Memory[23] = z80.Registers.Alternate.L;
-            z80.Memory[24] = OutputLatch;
+            z80.Memory[24] = outputLatch.Value;
         }
         private void LoadRegistersFromMemory(IZ80Processor z80)
         {
@@ -254,7 +243,7 @@ namespace VzEmulate2
             z80.Registers.Alternate.E = z80.Memory[21];
             z80.Registers.Alternate.H = z80.Memory[22];
             z80.Registers.Alternate.L = z80.Memory[23];
-            OutputLatch = z80.Memory[24];
+            outputLatch.Value = z80.Memory[24];
 
         }
 
@@ -309,16 +298,6 @@ namespace VzEmulate2
         HashSet<int> addresses = new HashSet<int>();
         private void z80OnMemoryAccess(object sender, MemoryAccessEventArgs args)
         {
-            if (args.Address >= VzConstants.OutputLatchAndKbStart && args.Address <= VzConstants.OutputLatchAndKbEnd)
-            {
-                //Output latch
-                if (args.EventType == MemoryAccessEventType.AfterMemoryWrite)
-                {
-                    OutputLatch = args.Value;
-                }
-                
-            }
-
             if (args.EventType == MemoryAccessEventType.AfterPortWrite)
             {
                 router.HandlePortWrite(args.Address, args.Value);
@@ -343,6 +322,11 @@ namespace VzEmulate2
                     args.Value = value.Value;
                     args.CancelMemoryAccess = true;
                 }
+            }
+
+            if (args.EventType == MemoryAccessEventType.BeforeMemoryWrite)
+            {
+                args.CancelMemoryAccess = router.HandleMemoryWrite(args.Address, args.Value);
             }
 
             //Block writes to ROM
@@ -648,7 +632,7 @@ namespace VzEmulate2
 
         private void btnGR_Click(object sender, EventArgs e)
         {
-            OutputLatch ^= 0x08; //toggle graphics mode
+            outputLatch.Value ^= 0x08; //toggle graphics mode
         }
 
         private void btnSmooth_Click(object sender, EventArgs e)

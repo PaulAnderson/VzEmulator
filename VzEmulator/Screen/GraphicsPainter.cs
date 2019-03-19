@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using VzEmulator.Peripherals;
 
 namespace VzEmulate2.Screen
 {
@@ -23,6 +24,8 @@ namespace VzEmulate2.Screen
 
         Timer screenRefreshTimer;
         Timer fpsCalculateTimer;
+
+        OutputLatch outputLatch;
 
         int fps;
         public String CurrentFps;
@@ -61,9 +64,10 @@ namespace VzEmulate2.Screen
         public GraphicsMode GraphicsMode { get; set; }
         public BackgroundColour BackgroundColour { get; set; }
 
-        public GraphicsPainter(Control ctrl, Byte[] VideoMemory, int RenderStartAddress, int RefreshIntervalMS)
+        public GraphicsPainter(Control ctrl, Byte[] VideoMemory, OutputLatch outputLatch, int RenderStartAddress, int RefreshIntervalMS)
         {
             paintControl = ctrl;
+            this.outputLatch = outputLatch;
             textModeRenderer = new TextModeRenderer(VideoMemory, 0);
             graphicsModeRenderer = new GraphicsModeRenderer(VideoMemory, 0);
 
@@ -86,7 +90,7 @@ namespace VzEmulate2.Screen
 
         }
 
-        public void SetModeFromOutputLatch(byte OutputLatchValue)
+        private void SetModeFromOutputLatch(byte OutputLatchValue)
         {
             GraphicsMode = (OutputLatchValue & 0x08) == 0x08 ? GraphicsMode.Graphics : GraphicsMode.Text;
             BackgroundColour = (OutputLatchValue & 0x10) == 0x10 ? BackgroundColour.Orange : BackgroundColour.Green;
@@ -94,6 +98,8 @@ namespace VzEmulate2.Screen
 
         private void RenderScreen()
         {
+            SetModeFromOutputLatch(outputLatch?.Value ?? 0);
+
             //bitmap display, graphics and text modes
             paintControl.Invalidate();
             paintControl.Update();

@@ -187,9 +187,9 @@ namespace VzEmulator.Peripherals
             return value;
         }
 
-        public void HandleMemoryWrite(ushort address, byte value)
+        public bool HandleMemoryWrite(ushort address, byte value)
         {
-            //do nothing
+            return false;
         }
 
         public byte? HandlePortRead(ushort address)

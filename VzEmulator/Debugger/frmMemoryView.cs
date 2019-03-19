@@ -34,7 +34,7 @@ namespace VzEmulate2
 
             pictureBox1.MouseWheel += new MouseEventHandler(pictureBox1_MouseWheel);
 
-            var graphicsPainter = new GraphicsPainter(pictureBox1, Memory, 0, 25)
+            var graphicsPainter = new GraphicsPainter(pictureBox1, Memory, null, 0, 25)
             {
                 UseFixedScale = true,
             };
