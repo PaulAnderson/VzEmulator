@@ -25,6 +25,8 @@ namespace VzEmulator.Peripherals
 
         public bool HandleMemoryWrite(ushort address, byte value)
         {
+            if (MemoryRange.Item1 <= address & address <= MemoryRange.Item2)
+                this.Value = value;
             return false;
         }
 
@@ -35,8 +37,6 @@ namespace VzEmulator.Peripherals
 
         public void HandlePortWrite(ushort address, byte value)
         {
-            if (MemoryRange.Item1 >= address & address >= MemoryRange.Item2)
-                this.Value = value;
         }
     }
 }
