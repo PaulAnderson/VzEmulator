@@ -1,13 +1,12 @@
-﻿using Konamiman.Z80dotNet;
-using System;
+﻿using System;
 
-namespace VzEmulate2
+namespace VzEmulator
 {
     internal class MemUtils  
     {
-        public IMemory Memory;
+        public IIndexer Memory;
 
-        public MemUtils(IMemory memory)
+        public MemUtils(IIndexer memory)
         {
             Memory = memory;
         }

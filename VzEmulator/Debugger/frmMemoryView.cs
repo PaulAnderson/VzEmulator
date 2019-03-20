@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
-using VzEmulate2.Screen;
+using VzEmulator.Screen;
 
-namespace VzEmulate2
+namespace VzEmulator
 {
     public partial class frmMemoryView : Form
     {

@@ -1,7 +1,7 @@
 ﻿using Konamiman.Z80dotNet;
 using System;
 
-namespace VzEmulate2
+namespace VzEmulator
 {
     class InterruptSource : IZ80InterruptSource
     {

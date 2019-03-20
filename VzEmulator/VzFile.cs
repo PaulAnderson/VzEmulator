@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace VzEmulate2
+namespace VzEmulator
 {
     class VzFile
     {

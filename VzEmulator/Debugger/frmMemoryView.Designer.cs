@@ -1,4 +1,4 @@
-﻿namespace VzEmulate2
+﻿namespace VzEmulator
 {
     partial class frmMemoryView
     {

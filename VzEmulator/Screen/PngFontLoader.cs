@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using VzEmulate2;
 
 namespace VzEmulator.Screen
 {

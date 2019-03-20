@@ -2,7 +2,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace VzEmulate2
+namespace VzEmulator
 {
     public partial class frmDebug : Form
     {

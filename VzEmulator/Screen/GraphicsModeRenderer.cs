@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
 
-namespace VzEmulate2.Screen
+namespace VzEmulator.Screen
 {
     class GraphicsModeRenderer : Renderer
     {

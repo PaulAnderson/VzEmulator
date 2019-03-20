@@ -5,12 +5,12 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using VzEmulate2.Screen;
-using VzEmulator;
+
 using VzEmulator.Debug;
 using VzEmulator.Peripherals;
+using VzEmulator.Screen;
 
-namespace VzEmulate2
+namespace VzEmulator
 {
     public partial class frmMain : Form
     {
@@ -40,7 +40,7 @@ namespace VzEmulate2
         OutputLatch outputLatch = new OutputLatch();
         Rom rom = new Rom();
         private VideoMemory videoMemory;
-
+        Z80dotNetMemoryAccessor memory;
 
         public frmMain()
         {
@@ -60,7 +60,8 @@ namespace VzEmulate2
         private void SetupDevices()
         {
             keyboard = new Keyboard(intSource);
-            videoMemory = new VideoMemory(new Z80dotNetMemoryAccessor(cpu.Memory));
+            memory = new Z80dotNetMemoryAccessor(cpu.Memory);
+            videoMemory = new VideoMemory(memory);
             router.Add(drive).Add(keyboard).Add(outputLatch).Add(rom).Add(videoMemory);
         }
 
@@ -86,11 +87,11 @@ namespace VzEmulate2
                 cpu.ClockSynchronizer = null;
                 cpu.RegisterInterruptSource(intSource);
 
-                mem = new MemUtils(cpu.Memory);
+                mem = new MemUtils(memory);
                 tracer = new InstructionTracer(cpu);
 
                 var program = File.ReadAllBytes(fileName);
-                cpu.Memory.SetContents(0, program);
+                memory.SetContents(0, program);
 
                 //set events
                 cpu.BeforeInstructionFetch += Z80OnBeforeInstructionFetch;
@@ -106,7 +107,7 @@ namespace VzEmulate2
             }
             else {
                 var program = File.ReadAllBytes(fileName);
-                cpu.Memory.SetContents(0, program);
+                memory.SetContents(0, program);
 
                 if (cpu.IsHalted)
                     cpu.Reset();
@@ -429,7 +430,7 @@ namespace VzEmulate2
             }
             for (int i = 0; i < file.content.Length - VzFile.ProgramContentStart; i++)
             {
-                file.content[i + VzFile.ProgramContentStart] = cpu.Memory[StartAddress + i];
+                file.content[i + VzFile.ProgramContentStart] = memory[StartAddress + i];
             }
 
             File.WriteAllBytes(Filename, file.content);
@@ -464,22 +465,22 @@ namespace VzEmulate2
                 //load content
                 for (int i = 0; i < file.content.Length - VzFile.ProgramContentStart; i++)
                 {
-                    cpu.Memory[addr + i] = file.content[i + VzFile.ProgramContentStart];
+                    memory[addr + i] = file.content[i + VzFile.ProgramContentStart];
                 }
 
                 //Save start address pointer
                 if (file.fileType == VzConstants.FileTypeBasic)
                 {
                     //basic file
-                    cpu.Memory[VzConstants.StartBasicProgramPtr] = file.startaddr_l;
-                    cpu.Memory[VzConstants.StartBasicProgramPtr + 1] = file.startaddr_h;
+                    memory[VzConstants.StartBasicProgramPtr] = file.startaddr_l;
+                    memory[VzConstants.StartBasicProgramPtr + 1] = file.startaddr_h;
 
                 }
                 else if (file.fileType == VzConstants.FileTypeMC)
                 {
                     //Machinecode file
-                    cpu.Memory[VzConstants.UserExecWordPtr] = file.startaddr_l;
-                    cpu.Memory[VzConstants.UserExecWordPtr + 1] = file.startaddr_h;
+                    memory[VzConstants.UserExecWordPtr] = file.startaddr_l;
+                    memory[VzConstants.UserExecWordPtr + 1] = file.startaddr_h;
 
                     // cpu.ExecuteCall(addr);
                 }
@@ -491,12 +492,12 @@ namespace VzEmulate2
                 if (file.fileType == 0xF0)
                 {
                     //basic file
-                    cpu.Memory[0x78F9] = (byte)(addrEnd & 0x00FF);
-                    cpu.Memory[0x78FA] = (byte)((addrEnd & 0xFF00) >> 8);
-                    cpu.Memory[0x78FB] = (byte)(addrEnd & 0x00FF);
-                    cpu.Memory[0x78FC] = (byte)((addrEnd & 0xFF00) >> 8);
-                    cpu.Memory[0x78FD] = (byte)(addrEnd & 0x00FF);
-                    cpu.Memory[0x78FE] = (byte)((addrEnd & 0xFF00) >> 8);
+                    memory[0x78F9] = (byte)(addrEnd & 0x00FF);
+                    memory[0x78FA] = (byte)((addrEnd & 0xFF00) >> 8);
+                    memory[0x78FB] = (byte)(addrEnd & 0x00FF);
+                    memory[0x78FC] = (byte)((addrEnd & 0xFF00) >> 8);
+                    memory[0x78FD] = (byte)(addrEnd & 0x00FF);
+                    memory[0x78FE] = (byte)((addrEnd & 0xFF00) >> 8);
                 }
             }
             else
@@ -595,7 +596,7 @@ namespace VzEmulate2
             //Read image
             var image = File.ReadAllBytes(fileName);
             var rom = File.ReadAllBytes(romFilename);
-            z80.Memory.SetContents(0, image); //todo dont read in the first 256 bytes, these are used for storing register since they are ROM in the VZ anyway
+            memory.SetContents(0, image); //todo dont read in the first 256 bytes, these are used for storing register since they are ROM in the VZ anyway
 
             z80.Reset();
 
@@ -618,11 +619,11 @@ namespace VzEmulate2
             LoadRegistersFromMemory(cpu);
 
             //Write memory to file
-            File.WriteAllBytes(ImageFilename, cpu.Memory.GetContents(0, 0xFFFF));
+            File.WriteAllBytes(ImageFilename, memory.GetContents(0, 0xFFFF));
 
              //re-read rom file to replace locations written with register values
             var rom = File.ReadAllBytes(romFilename);
-            cpu.Memory.SetContents(0, rom);
+            memory.SetContents(0, rom);
         }
 
         private void btnGR_Click(object sender, EventArgs e)

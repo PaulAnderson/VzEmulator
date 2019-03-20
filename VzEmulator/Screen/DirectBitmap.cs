@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 
-namespace VzEmulate2
+namespace VzEmulator
 {
     public class DirectBitmap : IDisposable
     {

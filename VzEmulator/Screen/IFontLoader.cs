@@ -1,6 +1,4 @@
-﻿using VzEmulate2;
-
-namespace VzEmulator.Screen
+﻿namespace VzEmulator.Screen
 {
     interface IFontLoader
     {

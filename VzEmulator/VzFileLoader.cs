@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace VzEmulate2
+namespace VzEmulator
 {
     class VzFileLoader
     {

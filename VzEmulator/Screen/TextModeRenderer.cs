@@ -2,7 +2,7 @@
 using System.Drawing.Drawing2D;
 using VzEmulator.Screen;
 
-namespace VzEmulate2.Screen
+namespace VzEmulator.Screen
 {
     class TextModeRenderer : Renderer
     {

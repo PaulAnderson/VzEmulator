@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace VzEmulate2
+namespace VzEmulator
 {
     static class Program
     {

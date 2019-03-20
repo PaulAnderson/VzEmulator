@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VzEmulate2
+namespace VzEmulator
 {
     internal class VzConstants
     {
