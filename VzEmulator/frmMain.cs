@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using VzEmulate2.Screen;
+using VzEmulator;
 using VzEmulator.Debug;
 using VzEmulator.Peripherals;
 
@@ -13,8 +14,8 @@ namespace VzEmulate2
 {
     public partial class frmMain : Form
     {
-        private Z80Processor cpu;
-        private byte[] VideoMemory;
+        private Z80Processor cpu = new Z80Processor();
+        bool cpuIsSetup = false;
         Timer interruptTimer;
         Timer watchTimer;
         Timer debugTimer;
@@ -37,13 +38,16 @@ namespace VzEmulate2
         Drive drive = new Drive();
         Keyboard keyboard;
         OutputLatch outputLatch = new OutputLatch();
+        Rom rom = new Rom();
+        private VideoMemory videoMemory;
+
 
         public frmMain()
         {
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void frmMain_Load(object sender, EventArgs e)
         {
             foreach (Control ctrl in pnlTop.Controls)
             {
@@ -56,7 +60,8 @@ namespace VzEmulate2
         private void SetupDevices()
         {
             keyboard = new Keyboard(intSource);
-            router.Add(drive).Add(keyboard).Add(outputLatch);
+            videoMemory = new VideoMemory(new Z80dotNetMemoryAccessor(cpu.Memory));
+            router.Add(drive).Add(keyboard).Add(outputLatch).Add(rom).Add(videoMemory);
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -71,35 +76,35 @@ namespace VzEmulate2
                 fileName = placeHolderRomFilename;
             }
 
-            if (cpu == null)
+            if (!cpuIsSetup)
             {
-                VideoMemory = new byte[VzConstants.VideoRamSize+1];
-                graphicsPainter = new GraphicsPainter(pictureBox1, VideoMemory, outputLatch, 0, 25);
 
-                var z80 = new Z80Processor();
+                graphicsPainter = new GraphicsPainter(pictureBox1, videoMemory.Content, outputLatch, 0, 25);
+                cpu.AutoStopOnDiPlusHalt = false;
+                cpu.AutoStopOnRetWithStackEmpty = false;
 
-                cpu = z80;
-                z80.AutoStopOnDiPlusHalt = false;
-                z80.AutoStopOnRetWithStackEmpty = false;
+                cpu.ClockSynchronizer = null;
+                cpu.RegisterInterruptSource(intSource);
 
-                z80.ClockSynchronizer = null;
-                z80.RegisterInterruptSource(intSource);
-
-                mem = new MemUtils(z80.Memory);
-                tracer = new InstructionTracer(z80);
+                mem = new MemUtils(cpu.Memory);
+                tracer = new InstructionTracer(cpu);
 
                 var program = File.ReadAllBytes(fileName);
-                z80.Memory.SetContents(0, program);
+                cpu.Memory.SetContents(0, program);
 
                 //set events
-                z80.BeforeInstructionFetch += Z80OnBeforeInstructionFetch;
-                z80.AfterInstructionExecution += Z80OnAfterInstructionExecution;
+                cpu.BeforeInstructionFetch += Z80OnBeforeInstructionFetch;
+                cpu.AfterInstructionExecution += Z80OnAfterInstructionExecution;
 
-                z80.MemoryAccess += z80OnMemoryAccess;
+                cpu.MemoryAccess += z80OnMemoryAccess;
 
                 cpu.Reset();
                 StartCpuTask();
-            } else {
+
+                cpuIsSetup = true;
+
+            }
+            else {
                 var program = File.ReadAllBytes(fileName);
                 cpu.Memory.SetContents(0, program);
 
@@ -168,7 +173,7 @@ namespace VzEmulate2
                     {
                         pos = (ushort)(offset + y * 32 + x);
                     }
-                    var value = VideoMemory[pos];
+                    var value = videoMemory.Content[pos];
 
                     //create string
                     if (value < 0x20) value += 0x40;
@@ -176,7 +181,7 @@ namespace VzEmulate2
                     if (value > 32 && value <= 128)
                     {
                         sb.Append((char)value);
-                    } else if (value == 32 && VideoMemory[pos] == 32) //inverted space, cursor
+                    } else if (value == 32 && videoMemory.Content[pos] == 32) //inverted space, cursor
                     {
                         sb.Append('#');
                     }
@@ -329,28 +334,18 @@ namespace VzEmulate2
                 args.CancelMemoryAccess = router.HandleMemoryWrite(args.Address, args.Value);
             }
 
-            //Block writes to ROM
-            if (args.Address < VzConstants.TopOfRom && args.EventType == MemoryAccessEventType.BeforeMemoryWrite)
-                args.CancelMemoryAccess = true;
-
             //Display
             if (args.EventType == MemoryAccessEventType.AfterMemoryWrite && args.Address >= VzConstants.VideoRamStart && args.Address <= VzConstants.VideoRamEnd)
             {
                 var pos = (args.Address & VzConstants.VideoRamSize);
-                VideoMemory[pos] = args.Value;
+                //videoMemory.Content[pos] = args.Value;
 
                 //todo
                 var y = pos / 32;
                 var x = pos - y * 32;
             }
         }
-        private void UpdateVideoMemoryFromMainMemory()
-        {
-            for (int i = VzConstants.VideoRamStart; i <= VzConstants.VideoRamEnd; i++)
-            {
-                VideoMemory[i - VzConstants.VideoRamStart] = cpu.Memory[i];
-            }
-        }
+        
         private void btnPause_Click(object sender, EventArgs e)
         {
             stopping = true;
@@ -510,7 +505,7 @@ namespace VzEmulate2
             }
 
             //Refresh video memory in case the loaded file overlapped with video memory.
-            UpdateVideoMemoryFromMainMemory();
+            videoMemory.UpdateVideoMemoryFromMainMemory();
 
         }
 
@@ -611,7 +606,7 @@ namespace VzEmulate2
             z80.Memory.SetContents(0, rom, 0, 256);
 
             //Refresh video memory
-            UpdateVideoMemoryFromMainMemory();
+            videoMemory.UpdateVideoMemoryFromMainMemory();
 
             StartCpuTask();
         }

@@ -55,12 +55,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Debugger\InstructionTracer.cs" />
+    <Compile Include="IMemoryAccessor.cs" />
+    <Compile Include="Z80dotNetMemoryAccessor.cs" />
     <Compile Include="Peripherals\Disk.cs" />
     <Compile Include="Peripherals\Drive.cs" />
     <Compile Include="Peripherals\IPeripheral.cs" />
     <Compile Include="Peripherals\OutputLatch.cs" />
     <Compile Include="Peripherals\Keyboard.cs" />
     <Compile Include="Peripherals\PeripheralRouter.cs" />
+    <Compile Include="Peripherals\Rom.cs" />
+    <Compile Include="Peripherals\VideoMemory.cs" />
     <Compile Include="Screen\DirectBitmap.cs" />
     <Compile Include="Debugger\frmMemoryView.cs">
       <SubType>Form</SubType>
