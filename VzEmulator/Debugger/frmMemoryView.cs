@@ -14,7 +14,7 @@ namespace VzEmulator
 
         Byte[] Memory = new byte[2000];
         HashSet<int> SearchResults = new HashSet<int>();
-        Z80Processor cpu;
+        ICpu cpu;
         Timer RefreshTimer;
         Timer CursorTimer;
 
@@ -28,7 +28,7 @@ namespace VzEmulator
 
         private TextboxValidation validation = new TextboxValidation();
 
-        public frmMemoryView(Z80Processor cpu)
+        public frmMemoryView(ICpu cpu)
         {
             InitializeComponent();
 

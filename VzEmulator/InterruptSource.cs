@@ -3,9 +3,8 @@ using System;
 
 namespace VzEmulator
 {
-    class InterruptSource : IZ80InterruptSource
+    class InterruptSource : IZ80InterruptSource, IInterruptEnableFlag
     {
-
         private bool _intActive;
         public bool IntActive {
             get {
@@ -17,6 +16,8 @@ namespace VzEmulator
                 return false;
             }
             set { _intActive = value; }  }
+
+        public Boolean IsEnabled { get => IntActive; set => IntActive = value; }
 
         bool IZ80InterruptSource.IntLineIsActive => IntActive;
 

@@ -6,7 +6,7 @@ namespace VzEmulator
 {
     public partial class frmDebug : Form
     {
-        private Z80Processor _cpu;
+        private ICpu _cpu;
         private MemUtils _memUtils;
         private Timer _timer;
 
@@ -18,7 +18,7 @@ namespace VzEmulator
         const int AddressLabelColumn = 1;
         const int ValueTextBoxColumn = 2;
 
-        internal frmDebug(Z80Processor cpu, MemUtils memUtils)
+        internal frmDebug(ICpu cpu, MemUtils memUtils)
         {
             InitializeComponent();
             _cpu = cpu;

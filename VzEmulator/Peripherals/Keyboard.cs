@@ -16,12 +16,12 @@ namespace VzEmulator.Peripherals
 
         public bool DebugEnabled { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        InterruptSource intSource;
+        IInterruptEnableFlag intSource;
 
         public int? currentKey;
         public Keys? currentKeyCode = Keys.None;
 
-        public Keyboard(InterruptSource interruptSource)
+        public Keyboard(IInterruptEnableFlag interruptSource)
         {
             intSource = interruptSource;
         }
@@ -178,10 +178,10 @@ namespace VzEmulator.Peripherals
                 System.Threading.Thread.Sleep(TimeSpan.Zero); //Do any other work waiting
             }
 
-            if (intSource.IntActive)
+            if (intSource.IsEnabled)
             {
                 value &= 0x7f;
-                intSource.IntActive = false;
+                intSource.IsEnabled = false;
             }
 
             return value;

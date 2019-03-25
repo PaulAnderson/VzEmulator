@@ -14,7 +14,7 @@ namespace VzEmulator
 {
     public partial class frmMain : Form
     {
-        private Z80Processor cpu = new Z80Processor();
+        private ICpu cpu = new Z80dotNetCpuAdapter();
         bool cpuIsSetup = false;
         Timer interruptTimer;
         Timer watchTimer;
@@ -30,7 +30,7 @@ namespace VzEmulator
         bool isTrace;
         long instructionsPerSecond;
         private MemUtils mem;
-        InterruptSource intSource = new InterruptSource();
+        IInterruptEnableFlag intSource;
         InstructionTracer tracer;
         ushort EndMCProgram;
         GraphicsPainter graphicsPainter;
@@ -40,7 +40,7 @@ namespace VzEmulator
         OutputLatch outputLatch = new OutputLatch();
         Rom rom = new Rom();
         private VideoMemory videoMemory;
-        Z80dotNetMemoryAccessor memory;
+        IMemoryAccessor memory;
 
         public frmMain()
         {
@@ -59,8 +59,9 @@ namespace VzEmulator
 
         private void SetupDevices()
         {
+            intSource = cpu.InterruptEnableFlag;
             keyboard = new Keyboard(intSource);
-            memory = new Z80dotNetMemoryAccessor(cpu.Memory);
+            memory = cpu.Memory;
             videoMemory = new VideoMemory(memory);
             router.Add(drive).Add(keyboard).Add(outputLatch).Add(rom).Add(videoMemory);
         }
@@ -81,11 +82,6 @@ namespace VzEmulator
             {
 
                 graphicsPainter = new GraphicsPainter(pictureBox1, videoMemory.Content, outputLatch, 0, 25);
-                cpu.AutoStopOnDiPlusHalt = false;
-                cpu.AutoStopOnRetWithStackEmpty = false;
-
-                cpu.ClockSynchronizer = null;
-                cpu.RegisterInterruptSource(intSource);
 
                 mem = new MemUtils(memory);
                 tracer = new InstructionTracer(cpu);
@@ -94,7 +90,6 @@ namespace VzEmulator
                 memory.SetContents(0, program);
 
                 //set events
-                cpu.BeforeInstructionFetch += Z80OnBeforeInstructionFetch;
                 cpu.AfterInstructionExecution += Z80OnAfterInstructionExecution;
 
                 cpu.MemoryAccess += z80OnMemoryAccess;
@@ -119,7 +114,7 @@ namespace VzEmulator
             {
                 var timer = new Timer();
                 timer.Interval = 10; //ms
-                timer.Tick += (v, a) => intSource.IntActive = true;
+                timer.Tick += (v, a) => intSource.IsEnabled = true;
                 timer.Start();
                 interruptTimer = timer;
             }
@@ -195,60 +190,62 @@ namespace VzEmulator
 
             return sb.ToString();
         }
-        private void SaveRegistersToMemory(IZ80Processor z80)
+        private void SaveRegistersToMemory(ICpu z80)
         {
-            z80.Memory[0] = z80.Registers.A;
-            z80.Memory[1] = z80.Registers.F;
-            z80.Memory[2] = z80.Registers.B;
-            z80.Memory[3] = z80.Registers.C;
-            z80.Memory[4] = z80.Registers.D;
-            z80.Memory[5] = z80.Registers.E;
-            z80.Memory[6] = z80.Registers.H;
-            z80.Memory[7] = z80.Registers.L;
-            z80.Memory[8] = z80.Registers.IXH;
-            z80.Memory[9] = z80.Registers.IXL;
-            z80.Memory[10] = z80.Registers.IYH;
-            z80.Memory[11] = z80.Registers.IYL;
-            z80.Memory[12] = (byte)((z80.Registers.SP & 0xFF00) >> 8);
-            z80.Memory[13] = (byte)(z80.Registers.SP & 0xFF);
-            z80.Memory[14] = (byte)((z80.Registers.PC & 0xFF00) >> 8);
-            z80.Memory[15] = (byte)(z80.Registers.PC & 0xFF);
-            z80.Memory[16] = z80.Registers.Alternate.A;
-            z80.Memory[17] = z80.Registers.Alternate.F;
-            z80.Memory[18] = z80.Registers.Alternate.B;
-            z80.Memory[19] = z80.Registers.Alternate.C;
-            z80.Memory[20] = z80.Registers.Alternate.D;
-            z80.Memory[21] = z80.Registers.Alternate.E;
-            z80.Memory[22] = z80.Registers.Alternate.H;
-            z80.Memory[23] = z80.Registers.Alternate.L;
+            z80.SaveRegistersToMemory(0);
+            //z80.Memory[0] = z80.Registers.A;
+            //z80.Memory[1] = z80.Registers.F;
+            //z80.Memory[2] = z80.Registers.B;
+            //z80.Memory[3] = z80.Registers.C;
+            //z80.Memory[4] = z80.Registers.D;
+            //z80.Memory[5] = z80.Registers.E;
+            //z80.Memory[6] = z80.Registers.H;
+            //z80.Memory[7] = z80.Registers.L;
+            //z80.Memory[8] = z80.Registers.IXH;
+            //z80.Memory[9] = z80.Registers.IXL;
+            //z80.Memory[10] = z80.Registers.IYH;
+            //z80.Memory[11] = z80.Registers.IYL;
+            //z80.Memory[12] = (byte)((z80.Registers.SP & 0xFF00) >> 8);
+            //z80.Memory[13] = (byte)(z80.Registers.SP & 0xFF);
+            //z80.Memory[14] = (byte)((z80.Registers.PC & 0xFF00) >> 8);
+            //z80.Memory[15] = (byte)(z80.Registers.PC & 0xFF);
+            //z80.Memory[16] = z80.Registers.Alternate.A;
+            //z80.Memory[17] = z80.Registers.Alternate.F;
+            //z80.Memory[18] = z80.Registers.Alternate.B;
+            //z80.Memory[19] = z80.Registers.Alternate.C;
+            //z80.Memory[20] = z80.Registers.Alternate.D;
+            //z80.Memory[21] = z80.Registers.Alternate.E;
+            //z80.Memory[22] = z80.Registers.Alternate.H;
+            //z80.Memory[23] = z80.Registers.Alternate.L;
             z80.Memory[24] = outputLatch.Value;
         }
-        private void LoadRegistersFromMemory(IZ80Processor z80)
+        private void LoadRegistersFromMemory(ICpu z80)
         {
-            z80.Registers.A = z80.Memory[0];
-            z80.Registers.F = z80.Memory[1];
-            z80.Registers.B = z80.Memory[2];
-            z80.Registers.C = z80.Memory[3];
-            z80.Registers.D = z80.Memory[4];
-            z80.Registers.E = z80.Memory[5];
-            z80.Registers.H = z80.Memory[6];
-            z80.Registers.L = z80.Memory[7];
-            z80.Registers.IXH = z80.Memory[8];
-            z80.Registers.IXL = z80.Memory[9];
-            z80.Registers.IYH = z80.Memory[10];
-            z80.Registers.IYL = z80.Memory[11];
-            z80.Registers.SP = (short)(z80.Memory[12] << 8);
-            z80.Registers.SP += z80.Memory[13];
-            z80.Registers.PC = (ushort)(z80.Memory[14] << 8);
-            z80.Registers.PC += z80.Memory[15];
-            z80.Registers.Alternate.A = z80.Memory[16];
-            z80.Registers.Alternate.F = z80.Memory[17];
-            z80.Registers.Alternate.B = z80.Memory[18];
-            z80.Registers.Alternate.C = z80.Memory[19];
-            z80.Registers.Alternate.D = z80.Memory[20];
-            z80.Registers.Alternate.E = z80.Memory[21];
-            z80.Registers.Alternate.H = z80.Memory[22];
-            z80.Registers.Alternate.L = z80.Memory[23];
+            z80.LoadRegistersFromMemory(0);
+            //z80.Registers.A = z80.Memory[0];
+            //z80.Registers.F = z80.Memory[1];
+            //z80.Registers.B = z80.Memory[2];
+            //z80.Registers.C = z80.Memory[3];
+            //z80.Registers.D = z80.Memory[4];
+            //z80.Registers.E = z80.Memory[5];
+            //z80.Registers.H = z80.Memory[6];
+            //z80.Registers.L = z80.Memory[7];
+            //z80.Registers.IXH = z80.Memory[8];
+            //z80.Registers.IXL = z80.Memory[9];
+            //z80.Registers.IYH = z80.Memory[10];
+            //z80.Registers.IYL = z80.Memory[11];
+            //z80.Registers.SP = (short)(z80.Memory[12] << 8);
+            //z80.Registers.SP += z80.Memory[13];
+            //z80.Registers.PC = (ushort)(z80.Memory[14] << 8);
+            //z80.Registers.PC += z80.Memory[15];
+            //z80.Registers.Alternate.A = z80.Memory[16];
+            //z80.Registers.Alternate.F = z80.Memory[17];
+            //z80.Registers.Alternate.B = z80.Memory[18];
+            //z80.Registers.Alternate.C = z80.Memory[19];
+            //z80.Registers.Alternate.D = z80.Memory[20];
+            //z80.Registers.Alternate.E = z80.Memory[21];
+            //z80.Registers.Alternate.H = z80.Memory[22];
+            //z80.Registers.Alternate.L = z80.Memory[23];
             outputLatch.Value = z80.Memory[24];
 
         }
@@ -271,15 +268,15 @@ namespace VzEmulator
                 cpu.Reset();
                 resetting = false;
             }
-        }
-        private void Z80OnBeforeInstructionFetch(object sender, BeforeInstructionFetchEventArgs args)
-        {
-            var z80 = (IZ80Processor)sender;
-
+        //}
+        //private void Z80OnBeforeInstructionFetch(object sender, BeforeInstructionFetchEventArgs args)
+        //{
+        //    var z80 = (IZ80Processor)sender;
+           
             //reset INT on EI (enable interrupts)
-            if (z80.Memory[z80.Registers.PC] == 0xFB)
+            if (memory[z80.Registers.PC] == 0xFB)
             {
-                intSource.IntActive = false;
+                intSource.IsEnabled = false;
             }
 
             if (savingImage)
@@ -371,7 +368,7 @@ namespace VzEmulator
             e.Handled = true;
 
             //trigger interrupt early to handle keys fast
-            intSource.IntActive = true;
+            intSource.IsEnabled = true;
         }
         private void frmMain_KeyUp(object sender, KeyEventArgs e)
         {
