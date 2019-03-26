@@ -14,7 +14,8 @@ namespace VzEmulator
         void Reset();
         bool IsHalted { get; }
         IRegisters Registers { get; }
-        ProcessorState State { get; } //todo use local enum
+        CpuState State { get; } //todo use local enum
+
 
         event EventHandler<MemoryAccessEventArgs> MemoryAccess; //todo type
         event EventHandler<AfterInstructionExecutionEventArgs> AfterInstructionExecution; //todo type
@@ -39,4 +40,13 @@ namespace VzEmulator
         short IY { get; set; }
         short SP { get; set; }
     }
+
+    public enum CpuState
+    {
+        Stopped = 0,
+        Paused = 1,
+        Running = 2,
+        ExecutingOneInstruction = 3
+    }
+
 }

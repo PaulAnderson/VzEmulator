@@ -253,7 +253,7 @@ namespace VzEmulator
         private void Z80OnAfterInstructionExecution(object sender, AfterInstructionExecutionEventArgs args)
         {
 
-            var z80 = (IZ80Processor)sender;
+            var z80 = (ICpu)sender;
 
             instructionsPerSecond += 1;
 
@@ -582,11 +582,12 @@ namespace VzEmulator
         {
             LoadImage(quickSaveFilename);
         }
+
         private void LoadImage(string fileName)
         {
             loadingImage = true;
 
-            while (cpu.State == ProcessorState.Running)
+            while (cpu.State == CpuState.Running)
                 System.Threading.Thread.Sleep(0);
 
             var z80 = cpu;

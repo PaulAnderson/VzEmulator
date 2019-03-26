@@ -21,13 +21,10 @@ namespace VzEmulator
         private Z80DotNetRegisterAdapter _registers;
         public IRegisters Registers => _registers;
 
-        public ProcessorState State => _cpu.State;//todo
+        public CpuState State => (CpuState)(int) _cpu.State;
 
         InterruptSource intSource = new InterruptSource();
 
-        public event EventHandler<bool> AfterInstructionExecution;
-        public event EventHandler<MemoryAccessEventArgs> MemoryAccess;
-                                                                                                                            
         public Z80dotNetCpuAdapter()
         {
             _cpu = new Z80Processor();
@@ -43,34 +40,39 @@ namespace VzEmulator
 
             _cpu.RegisterInterruptSource(intSource);
 
+            _cpu.AfterInstructionExecution += OnCpuAfterInstructionExecution;
+            _cpu.MemoryAccess += OnCpuMemoryAccess;
+
+
         }
 
-        event EventHandler<AfterInstructionExecutionEventArgs> ICpu.AfterInstructionExecution
+        private void OnCpuAfterInstructionExecution(object sender, AfterInstructionExecutionEventArgs args)
         {
-            add
-            {
-                _cpu.AfterInstructionExecution += value; //todo
-            }
-
-            remove
-            {
-                throw new NotImplementedException();
-            }
+            //todo map
+            OnRaiseAfterInstructionExecution(args);
+            //todo map
         }
 
-        event EventHandler<MemoryAccessEventArgs> ICpu.MemoryAccess
+        public event EventHandler<AfterInstructionExecutionEventArgs> AfterInstructionExecution;
+        
+        protected virtual void OnRaiseAfterInstructionExecution(AfterInstructionExecutionEventArgs e)
         {
-            add
-            {
-                _cpu.MemoryAccess += value; //todo
-            }
-
-            remove
-            {
-                throw new NotImplementedException();
-            }
+            AfterInstructionExecution?.Invoke(this, e);
         }
 
+        private void OnCpuMemoryAccess(object sender, MemoryAccessEventArgs args)
+        {
+            //todo map
+            OnRaiseMemoryAccess(args);
+            //todo map
+        }
+
+        public event EventHandler<MemoryAccessEventArgs> MemoryAccess;
+
+        protected virtual void OnRaiseMemoryAccess(MemoryAccessEventArgs e)
+        {
+            MemoryAccess?.Invoke(this, e);
+        }
 
         public void Reset()
         {
