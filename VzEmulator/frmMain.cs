@@ -92,7 +92,8 @@ namespace VzEmulator
                 //set events
                 cpu.AfterInstructionExecution += Z80OnAfterInstructionExecution;
 
-                cpu.MemoryAccess += z80OnMemoryAccess;
+                cpu.MemoryAccess += OnCpuBusAccess;
+                cpu.PortAccess += OnCpuBusAccess;
 
                 cpu.Reset();
                 StartCpuTask();
@@ -299,48 +300,37 @@ namespace VzEmulator
         }
 
         HashSet<int> addresses = new HashSet<int>();
-        private void z80OnMemoryAccess(object sender, MemoryAccessEventArgs args)
+        private void OnCpuBusAccess(object sender, BusEventArgs args)
         {
-            if (args.EventType == MemoryAccessEventType.AfterPortWrite)
+            if (args.IsMemoryAccess)
             {
-                router.HandlePortWrite(args.Address, args.Value);
-            }
-
-            if (args.EventType == MemoryAccessEventType.BeforePortRead)
-            {
-
-                byte? value = router.HandlePortRead(args.Address);
-                if (value.HasValue)
+                if (args.IsRead)
                 {
-                    args.Value = value.Value;
-                    args.CancelMemoryAccess = true;
+                    byte? value = router.HandleMemoryRead(args.Address);
+                    if (value.HasValue)
+                    {
+                        args.Value = value.Value;
+                        args.IsComplete = true;
+                    }
                 }
-            }
-
-            if (args.EventType == MemoryAccessEventType.BeforeMemoryRead)
-            {
-                byte? value = router.HandleMemoryRead(args.Address);
-                if (value.HasValue)
+                else
                 {
-                    args.Value = value.Value;
-                    args.CancelMemoryAccess = true;
+                    args.IsComplete = router.HandleMemoryWrite(args.Address, args.Value);
                 }
-            }
-
-            if (args.EventType == MemoryAccessEventType.BeforeMemoryWrite)
-            {
-                args.CancelMemoryAccess = router.HandleMemoryWrite(args.Address, args.Value);
-            }
-
-            //Display
-            if (args.EventType == MemoryAccessEventType.AfterMemoryWrite && args.Address >= VzConstants.VideoRamStart && args.Address <= VzConstants.VideoRamEnd)
-            {
-                var pos = (args.Address & VzConstants.VideoRamSize);
-                //videoMemory.Content[pos] = args.Value;
-
-                //todo
-                var y = pos / 32;
-                var x = pos - y * 32;
+            } else {
+                if (args.IsRead)
+                {
+                    byte? value = router.HandlePortRead(args.Address);
+                    if (value.HasValue)
+                    {
+                        args.Value = value.Value;
+                        args.IsComplete = true;
+                    }
+                }
+                else
+                {
+                    router.HandlePortWrite(args.Address, args.Value);
+                }
             }
         }
         

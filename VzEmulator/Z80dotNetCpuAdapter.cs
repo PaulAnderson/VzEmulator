@@ -62,14 +62,57 @@ namespace VzEmulator
 
         private void OnCpuMemoryAccess(object sender, MemoryAccessEventArgs args)
         {
-            //todo map
-            OnRaiseMemoryAccess(args);
-            //todo map
+            var busEventArgs = MapBusEventArgs(args);
+
+            //raise event
+            if (busEventArgs != null)
+            {
+                OnRaiseMemoryAccess(busEventArgs);
+
+                //map result
+                args.CancelMemoryAccess = busEventArgs.IsComplete;
+                args.Value = busEventArgs.Value;
+            }
+        }
+        private BusEventArgs MapBusEventArgs(MemoryAccessEventArgs args)
+        {
+            bool isRead;
+            bool isMemory;
+
+            switch (args.EventType)
+            {
+                case MemoryAccessEventType.AfterPortWrite:
+                    isRead = false;
+                    isMemory = false;
+                    break;
+                case MemoryAccessEventType.BeforePortRead:
+                    isRead = true;
+                    isMemory = false;
+                    break;
+                case MemoryAccessEventType.BeforeMemoryWrite:
+                    isRead = false;
+                    isMemory = true;
+                    break;
+                case MemoryAccessEventType.BeforeMemoryRead:
+                    isRead = true;
+                    isMemory = true;
+                    break;
+                default:
+                    return null;
+            }
+
+            return new BusEventArgs(isRead, isMemory, args.Address, args.Value);
+        }
+        public event EventHandler<BusEventArgs> MemoryAccess;
+
+        protected virtual void OnRaiseMemoryAccess(BusEventArgs e)
+        {
+            MemoryAccess?.Invoke(this, e);
         }
 
-        public event EventHandler<MemoryAccessEventArgs> MemoryAccess;
+        public event EventHandler<BusEventArgs> PortAccess;
 
-        protected virtual void OnRaiseMemoryAccess(MemoryAccessEventArgs e)
+        protected virtual void OnRaisePortAccess(BusEventArgs e)
         {
             MemoryAccess?.Invoke(this, e);
         }

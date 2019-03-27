@@ -17,7 +17,9 @@ namespace VzEmulator
         CpuState State { get; } //todo use local enum
 
 
-        event EventHandler<MemoryAccessEventArgs> MemoryAccess; //todo type
+        event EventHandler<BusEventArgs> MemoryAccess; 
+        event EventHandler<BusEventArgs> PortAccess; //todo type
+
         event EventHandler<AfterInstructionExecutionEventArgs> AfterInstructionExecution; //todo type
 
         void ExecuteCall(ushort Address);
@@ -49,4 +51,20 @@ namespace VzEmulator
         ExecutingOneInstruction = 3
     }
 
+    public class BusEventArgs
+    {
+        public bool IsRead { get; }
+        public bool IsMemoryAccess { get; }
+        public ushort Address { get; }
+        public byte Value { get; set; }
+        public bool IsComplete { get; set; }
+
+        public BusEventArgs(bool isRead, bool isMemoryAccess, ushort address, byte value)
+        {
+            this.IsRead = isRead;
+            this.IsMemoryAccess = isMemoryAccess;
+            this.Address = address;
+            this.Value = value;
+        }
+    }
 }
