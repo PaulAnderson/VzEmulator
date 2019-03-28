@@ -16,17 +16,17 @@ namespace VzEmulator
         IRegisters Registers { get; }
         CpuState State { get; } //todo use local enum
 
-
         event EventHandler<BusEventArgs> MemoryAccess; 
         event EventHandler<BusEventArgs> PortAccess; //todo type
 
-        event EventHandler<AfterInstructionExecutionEventArgs> AfterInstructionExecution; //todo type
+        event EventHandler<InstructionEventArgs> AfterInstructionExecution;
 
         void ExecuteCall(ushort Address);
 
         void SaveRegistersToMemory(ushort StartAddress);
         void LoadRegistersFromMemory(ushort StartAddress);
         void Continue();
+        void Pause();
     }
 
     public interface IRegisters
@@ -67,4 +67,17 @@ namespace VzEmulator
             this.Value = value;
         }
     }
+    public class InstructionEventArgs
+    {
+        public ushort Address { get; }
+        public byte[] OpCode { get; }
+        public bool StopWhenComplete { get; set; }
+
+        public InstructionEventArgs(ushort address, byte[] opCode)
+        {
+            this.Address = address;
+            this.OpCode = opCode;
+        }
+    }
+
 }

@@ -24,6 +24,7 @@ namespace VzEmulator
         public CpuState State => (CpuState)(int) _cpu.State;
 
         InterruptSource intSource = new InterruptSource();
+        private bool _isStopping;
 
         public Z80dotNetCpuAdapter()
         {
@@ -48,14 +49,22 @@ namespace VzEmulator
 
         private void OnCpuAfterInstructionExecution(object sender, AfterInstructionExecutionEventArgs args)
         {
-            //todo map
-            OnRaiseAfterInstructionExecution(args);
-            //todo map
+            //map
+            var instructionEventArgs = new InstructionEventArgs(_cpu.Registers.PC, args.Opcode);
+
+            OnRaiseAfterInstructionExecution(instructionEventArgs);
+
+            //map
+            if (instructionEventArgs.StopWhenComplete | _isStopping)
+            {
+                args.ExecutionStopper.Stop(isPause: true);
+                _isStopping = false;
+            }
         }
 
-        public event EventHandler<AfterInstructionExecutionEventArgs> AfterInstructionExecution;
+        public event EventHandler<InstructionEventArgs> AfterInstructionExecution;
         
-        protected virtual void OnRaiseAfterInstructionExecution(AfterInstructionExecutionEventArgs e)
+        protected virtual void OnRaiseAfterInstructionExecution(InstructionEventArgs e)
         {
             AfterInstructionExecution?.Invoke(this, e);
         }
@@ -67,7 +76,14 @@ namespace VzEmulator
             //raise event
             if (busEventArgs != null)
             {
-                OnRaiseMemoryAccess(busEventArgs);
+                if (busEventArgs.IsMemoryAccess)
+                {
+                    OnRaiseMemoryAccess(busEventArgs);
+                }
+                else
+                {
+                    OnRaisePortAccess(busEventArgs);
+                }
 
                 //map result
                 args.CancelMemoryAccess = busEventArgs.IsComplete;
@@ -114,7 +130,7 @@ namespace VzEmulator
 
         protected virtual void OnRaisePortAccess(BusEventArgs e)
         {
-            MemoryAccess?.Invoke(this, e);
+            PortAccess?.Invoke(this, e);
         }
 
         public void Reset()
@@ -140,6 +156,12 @@ namespace VzEmulator
         public void Continue()
         {
             _cpu.Continue();
+        }
+
+        public void Pause()
+        {
+
+            _isStopping = true;
         }
 
         class Z80DotNetRegisterAdapter : IRegisters

@@ -1,5 +1,4 @@
-﻿using Konamiman.Z80dotNet;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -251,7 +250,7 @@ namespace VzEmulator
 
         }
 
-        private void Z80OnAfterInstructionExecution(object sender, AfterInstructionExecutionEventArgs args)
+        private void Z80OnAfterInstructionExecution(object sender, InstructionEventArgs args)
         {
 
             var z80 = (ICpu)sender;
@@ -260,7 +259,7 @@ namespace VzEmulator
 
             if (stopping)
             {
-                args.ExecutionStopper.Stop(true);
+                args.StopWhenComplete = true;
                 stopping = false;
             }
 
@@ -269,10 +268,6 @@ namespace VzEmulator
                 cpu.Reset();
                 resetting = false;
             }
-        //}
-        //private void Z80OnBeforeInstructionFetch(object sender, BeforeInstructionFetchEventArgs args)
-        //{
-        //    var z80 = (IZ80Processor)sender;
            
             //reset INT on EI (enable interrupts)
             if (memory[z80.Registers.PC] == 0xFB)
@@ -289,8 +284,7 @@ namespace VzEmulator
             if (loadingImage)
             {
                 loadingImage = false;
-
-                args.ExecutionStopper.Stop(true);
+                args.StopWhenComplete=true;
 
             }
 
