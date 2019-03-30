@@ -155,6 +155,7 @@ namespace VzEmulator
 
         public void Continue()
         {
+            _isStopping = false;
             _cpu.Continue();
         }
 

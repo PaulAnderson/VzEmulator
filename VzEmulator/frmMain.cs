@@ -18,7 +18,6 @@ namespace VzEmulator
         Timer interruptTimer;
         Timer watchTimer;
         Timer debugTimer;
-        bool stopping;
         bool resetting;
         bool savingImage;
         bool loadingImage;
@@ -257,13 +256,7 @@ namespace VzEmulator
 
             instructionsPerSecond += 1;
 
-            if (stopping)
-            {
-                args.StopWhenComplete = true;
-                stopping = false;
-            }
-
-            if (resetting)
+            if ( resetting)
             {
                 cpu.Reset();
                 resetting = false;
@@ -330,7 +323,7 @@ namespace VzEmulator
         
         private void btnPause_Click(object sender, EventArgs e)
         {
-            stopping = true;
+            cpu.Pause();
         }
 
         private void btnContinue_Click(object sender, EventArgs e)
@@ -340,7 +333,6 @@ namespace VzEmulator
 
         private void StartCpuTask()
         {
-            stopping = false;
             if (cpu != null)
                 Task.Run(() => cpu.Continue());
         }
