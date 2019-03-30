@@ -14,17 +14,13 @@ namespace VzEmulator
         void Reset();
         bool IsHalted { get; }
         IRegisters Registers { get; }
-        CpuState State { get; } //todo use local enum
+        CpuState State { get; }
 
-        event EventHandler<BusEventArgs> MemoryAccess; 
-        event EventHandler<BusEventArgs> PortAccess; //todo type
-
+        event EventHandler<BusEventArgs> MemoryAccess;
+        event EventHandler<BusEventArgs> PortAccess;
         event EventHandler<InstructionEventArgs> AfterInstructionExecution;
 
         void ExecuteCall(ushort Address);
-
-        void SaveRegistersToMemory(ushort StartAddress);
-        void LoadRegistersFromMemory(ushort StartAddress);
         void Continue();
         void Pause();
     }
@@ -38,6 +34,10 @@ namespace VzEmulator
         short BC { get; set; }
         short DE { get; set; }
         short HL { get; set; }
+        short AltAF { get; set; }
+        short AltBC { get; set; }
+        short AltDE { get; set; }
+        short AltHL { get; set; }
         short IX { get; set; }
         short IY { get; set; }
         short SP { get; set; }

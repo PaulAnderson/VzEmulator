@@ -143,16 +143,6 @@ namespace VzEmulator
             _cpu.ExecuteCall(Address);
         }
 
-        public void SaveRegistersToMemory(ushort StartAddress)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void LoadRegistersFromMemory(ushort StartAddress)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Continue()
         {
             _isStopping = false;
@@ -182,6 +172,10 @@ namespace VzEmulator
             public short BC { get => _registers.BC; set => _registers.BC = value; }
             public short DE { get => _registers.DE; set => _registers.DE = value; }
             public short HL { get => _registers.HL; set => _registers.HL = value; }
+            public short AltAF { get => _registers.Alternate.AF; set => _registers.Alternate.AF = value; }
+            public short AltBC { get => _registers.Alternate.BC; set => _registers.Alternate.BC = value; }
+            public short AltDE { get => _registers.Alternate.DE; set => _registers.Alternate.DE = value; }
+            public short AltHL { get => _registers.Alternate.HL; set => _registers.Alternate.HL = value; }
             public short IX { get => _registers.IX; set => _registers.IX = value; }
             public short IY { get => _registers.IY; set => _registers.IY = value; }
             public short SP { get => _registers.SP; set => _registers.SP = value; }
