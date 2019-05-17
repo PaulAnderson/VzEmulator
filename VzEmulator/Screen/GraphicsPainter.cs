@@ -66,27 +66,46 @@ namespace VzEmulator.Screen
 
         public GraphicsPainter(Control ctrl, Byte[] VideoMemory, OutputLatch outputLatch, int RenderStartAddress, int RefreshIntervalMS)
         {
-            paintControl = ctrl;
             this.outputLatch = outputLatch;
             textModeRenderer = new TextModeRenderer(VideoMemory, 0);
             graphicsModeRenderer = new GraphicsModeRenderer(VideoMemory, 0);
 
+            if (ctrl != null)
+            {
+                paintControl = ctrl;
+                paintControl.Paint += new System.Windows.Forms.PaintEventHandler(Control_Paint);
+
+                SetupRefreshTimer(RefreshIntervalMS: RefreshIntervalMS);
+                SetupFpsCalculator(RefreshIntervalMS: 1000);
+            }
+        }
+
+        private void SetupRefreshTimer(int RefreshIntervalMS)
+        {
             screenRefreshTimer = new Timer();
             screenRefreshTimer.Interval = RefreshIntervalMS;
             screenRefreshTimer.Tick += (v, a) => RenderScreen();
             screenRefreshTimer.Start();
-
+        }
+        private void SetupFpsCalculator(int RefreshIntervalMS)
+        {
             fpsCalculateTimer = new Timer();
-            fpsCalculateTimer.Interval = 1000; //ms
+            fpsCalculateTimer.Interval = RefreshIntervalMS; //ms
             fpsCalculateTimer.Tick += (v, a) =>
             {
-                CurrentFps = (fps / (fpsCalculateTimer.Interval / 1000.0)).ToString();
+                CurrentFps = (fps / (fpsCalculateTimer.Interval / (decimal)RefreshIntervalMS)).ToString();
                 fps = 0;
             };
             fpsCalculateTimer.Start();
+        }
 
-            
-            ctrl.Paint += new System.Windows.Forms.PaintEventHandler(Control_Paint);
+        private void RenderScreen()
+        {
+            //bitmap display, graphics and text modes
+            paintControl?.Invalidate();
+            paintControl?.Update();
+
+            fps++;
 
         }
 
@@ -96,44 +115,24 @@ namespace VzEmulator.Screen
             BackgroundColour = (OutputLatchValue & 0x10) == 0x10 ? BackgroundColour.Orange : BackgroundColour.Green;
         }
 
-        private void RenderScreen()
+        private void Control_Paint(object sender, PaintEventArgs e)
+        {
+            var gr = e.Graphics;
+            PaintGraphics(gr);
+        }
+
+        internal void PaintGraphics(System.Drawing.Graphics gr)
         {
             SetModeFromOutputLatch(outputLatch?.Value ?? 0);
 
-            //bitmap display, graphics and text modes
-            paintControl.Invalidate();
-            paintControl.Update();
-
-            fps++;
-
-        }
-
-        private void Control_Paint(object sender, PaintEventArgs e)
-        {
-
-            var gr = e.Graphics;
-
             gr.InterpolationMode = InterpolationMode.NearestNeighbor;
 
-            bool graphicsMode = GraphicsMode == GraphicsMode.Graphics;
+            bool isGraphicsMode = GraphicsMode == GraphicsMode.Graphics;
 
-            if (graphicsMode)
-            {
-                //graphics mode
-                if (graphicsModeRenderer != null)
-                {
-                    graphicsModeRenderer.Render(gr, BackgroundColour == BackgroundColour.Orange);
-                }
-            }
+            if (isGraphicsMode)
+                    graphicsModeRenderer?.Render(gr, BackgroundColour == BackgroundColour.Orange);
             else
-            {
-                //text mode
-                if (textModeRenderer != null)
-                {
-                    textModeRenderer.Render(gr, BackgroundColour == BackgroundColour.Orange);
-                }
-            }
+               textModeRenderer?.Render(gr, BackgroundColour == BackgroundColour.Orange);
         }
-
     }
 }
