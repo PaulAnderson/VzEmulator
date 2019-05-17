@@ -553,7 +553,7 @@ namespace VzEmulator
 
         private void btnGR_Click(object sender, EventArgs e)
         {
-            outputLatch.Value ^= 0x08; //toggle graphics mode
+            outputLatch.Value ^= (byte)VzConstants.OutputLatchBits.GraphicsMode; //toggle graphics mode
         }
 
         private void btnSmooth_Click(object sender, EventArgs e)

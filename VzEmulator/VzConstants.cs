@@ -52,5 +52,12 @@ namespace VzEmulator
             public static Color VZ_BR_ORANGE    => Color.FromArgb(255,196,24);
         }
 
+        [Flags]
+        internal enum OutputLatchBits : byte
+        {
+            GraphicsMode=0x08,
+            BackgroundColour=0x10,
+        }
+
     }
 }

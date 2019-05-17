@@ -111,8 +111,8 @@ namespace VzEmulator.Screen
 
         private void SetModeFromOutputLatch(byte OutputLatchValue)
         {
-            GraphicsMode = (OutputLatchValue & 0x08) == 0x08 ? GraphicsMode.Graphics : GraphicsMode.Text;
-            BackgroundColour = (OutputLatchValue & 0x10) == 0x10 ? BackgroundColour.Orange : BackgroundColour.Green;
+            GraphicsMode = (OutputLatchValue & (byte)VzConstants.OutputLatchBits.GraphicsMode) > 0 ? GraphicsMode.Graphics : GraphicsMode.Text;
+            BackgroundColour = (OutputLatchValue & (byte)VzConstants.OutputLatchBits.BackgroundColour) > 0 ? BackgroundColour.Orange : BackgroundColour.Green;
         }
 
         private void Control_Paint(object sender, PaintEventArgs e)
