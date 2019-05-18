@@ -58,6 +58,7 @@
     <Compile Include="ICpu.cs" />
     <Compile Include="IInterruptEnableFlag.cs" />
     <Compile Include="IMemoryAccessor.cs" />
+    <Compile Include="FileHandler.cs" />
     <Compile Include="Z80dotNetCpuAdapter.cs" />
     <Compile Include="Z80dotNetMemoryAccessor.cs" />
     <Compile Include="Peripherals\Disk.cs" />
@@ -99,7 +100,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VzFile.cs" />
-    <Compile Include="VzFileLoader.cs" />
+    <Compile Include="FileIO.cs" />
     <Compile Include="Screen\TextModeRenderer.cs" />
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
