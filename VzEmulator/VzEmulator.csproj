@@ -59,6 +59,8 @@
     <Compile Include="IInterruptEnableFlag.cs" />
     <Compile Include="IMemoryAccessor.cs" />
     <Compile Include="FileHandler.cs" />
+    <Compile Include="Peripherals\Sound.cs" />
+    <Compile Include="SystemTime.cs" />
     <Compile Include="Z80dotNetCpuAdapter.cs" />
     <Compile Include="Z80dotNetMemoryAccessor.cs" />
     <Compile Include="Peripherals\Disk.cs" />
