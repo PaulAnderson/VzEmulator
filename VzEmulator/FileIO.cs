@@ -7,6 +7,7 @@ namespace VzEmulator
         abstract public VzFile LoadFile(string FileName);
         abstract public VzFile LoadFile(byte[] content);
         abstract public void WriteFile(string fileName, byte[] content);
+        abstract public byte[] ReadFile(string FileName);
 
         public static FileIO GetDefaultImplementation()
         {
@@ -18,7 +19,7 @@ namespace VzEmulator
     {
         public override VzFile LoadFile(string FileName)
         {
-            return LoadFile(File.ReadAllBytes(FileName));
+            return LoadFile(ReadFile(FileName));
         }
         public override VzFile LoadFile(byte[] content)
         {
@@ -26,9 +27,11 @@ namespace VzEmulator
             {
                 content = content
             };
-
         }
-
+        public override byte[] ReadFile(string FileName)
+        {
+            return File.ReadAllBytes(FileName);
+        }
         public override void WriteFile(string fileName, byte[] content)
         {
             File.WriteAllBytes(fileName, content);

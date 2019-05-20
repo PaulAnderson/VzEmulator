@@ -39,6 +39,7 @@ namespace VzEmulator
         Rom rom = new Rom();
         private VideoMemory videoMemory;
         IMemoryAccessor memory;
+        FileIO fileIo;
         FileHandler fileHandler;
 
         public frmMain()
@@ -63,8 +64,8 @@ namespace VzEmulator
             memory = cpu.Memory;
             videoMemory = new VideoMemory(memory);
             router.Add(drive).Add(keyboard).Add(outputLatch).Add(rom).Add(videoMemory);
-
-            fileHandler = new FileHandler(FileIO.GetDefaultImplementation(), memory, videoMemory);
+            fileIo = FileIO.GetDefaultImplementation();
+            fileHandler = new FileHandler(fileIo, memory, videoMemory);
 
         }
 
@@ -88,7 +89,7 @@ namespace VzEmulator
                 mem = new MemUtils(memory);
                 tracer = new InstructionTracer(cpu);
 
-                var program = File.ReadAllBytes(fileName);
+                var program = fileIo.ReadFile(fileName);
                 memory.SetContents(0, program);
 
                 //set events
@@ -104,7 +105,7 @@ namespace VzEmulator
 
             }
             else {
-                var program = File.ReadAllBytes(fileName);
+                var program = fileIo.ReadFile(fileName);
                 memory.SetContents(0, program);
 
                 if (cpu.IsHalted)
@@ -439,8 +440,8 @@ namespace VzEmulator
 
             var z80 = cpu;
             //Read image
-            var image = File.ReadAllBytes(fileName);
-            var rom = File.ReadAllBytes(romFilename);
+            var image = fileIo.ReadFile(fileName);
+            var rom = fileIo.ReadFile(romFilename);
             memory.SetContents(0, image); //todo dont read in the first 256 bytes, these are used for storing register since they are ROM in the VZ anyway
 
             z80.Reset();
@@ -464,10 +465,10 @@ namespace VzEmulator
             LoadRegistersFromMemory(cpu);
 
             //Write memory to file
-            File.WriteAllBytes(ImageFilename, memory.GetContents(0, 0xFFFF));
+            fileIo.WriteFile(ImageFilename, memory.GetContents(0, 0xFFFF));
 
              //re-read rom file to replace locations written with register values
-            var rom = File.ReadAllBytes(romFilename);
+            var rom = fileIo.ReadFile(romFilename);
             memory.SetContents(0, rom);
         }
 
