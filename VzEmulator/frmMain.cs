@@ -41,6 +41,7 @@ namespace VzEmulator
         IMemoryAccessor memory;
         FileIO fileIo;
         FileHandler fileHandler;
+        Sound sound;
 
         public frmMain()
         {
@@ -66,7 +67,7 @@ namespace VzEmulator
             router.Add(drive).Add(keyboard).Add(outputLatch).Add(rom).Add(videoMemory);
             fileIo = FileIO.GetDefaultImplementation();
             fileHandler = new FileHandler(fileIo, memory, videoMemory);
-
+            sound = new Sound(outputLatch, cpu);
         }
 
         private void btnStart_Click(object sender, EventArgs e)
