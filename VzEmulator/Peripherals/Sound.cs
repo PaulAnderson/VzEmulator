@@ -17,7 +17,7 @@ namespace VzEmulator.Peripherals
         const int speakerBit = 1; //1,32 = speaker. 2,4 = tape out
         private const int z80targetKips = 514; //540/4*3.5469
 
-        private int targetCycleLengthMs = 50;
+        private int targetCycleLengthMs = 300;
         int instructionCount = 0;
         DateTime? cycleStartTime;
         List<byte> outputLatchHistory;
@@ -50,7 +50,6 @@ namespace VzEmulator.Peripherals
             {
                 GenerateSound(elapsedMs, outputLatchHistory);
                 cycleStartTime = null;//wait for next transition
-                //StartCycle();
             }
             
         }
@@ -67,9 +66,10 @@ namespace VzEmulator.Peripherals
             //Create a wav fie in memory
             //queue the sound play the sound on a new thread
             //check queue length, if >.5 sec then cull 
+            int samplesPerSecond = 96000;
+            short bitsPerSample = 16;
 
-            //FileStream stream = new FileStream("test.wav", FileMode.Create);
-            MemoryStream stream = new MemoryStream();
+            MemoryStream stream = new MemoryStream(samplesPerSecond*bitsPerSample/8);
             BinaryWriter writer = new BinaryWriter(stream);
             int RIFF = 0x46464952;
             int WAVE = 0x45564157;
@@ -78,8 +78,6 @@ namespace VzEmulator.Peripherals
             int format = 0x20746D66;
             short formatType = 1;
             short tracks = 1;
-            int samplesPerSecond = 96000;
-            short bitsPerSample = 16;
             short frameSize = (short)(tracks * ((bitsPerSample + 7) / 8));
             int bytesPerSecond = samplesPerSecond * frameSize;
             int waveSize = 4;
@@ -113,7 +111,7 @@ namespace VzEmulator.Peripherals
                 for (double i = 0; i < latchData.Count; i += totalRatio)
                 {
                     short s;
-                    s = (short) ((latchData[(int) i] & speakerBit) / speakerBit * 32000);
+                    s = (short) ((latchData[(int) i] & speakerBit) / speakerBit * 1000);
                     writer.Write(s);
                 }
             }
@@ -121,23 +119,9 @@ namespace VzEmulator.Peripherals
             {
                 //todo. cpu running too slow for realtime sound probably
             }
-            //for (double i = 0; i < samples ; i+= totalRatio)
-            //{
-            //    short s;
-            //    if (i < latchData.Count)
-            //    {
-            //        s = (short)((latchData[(int)i] & speakerBit+4)/ speakerBit * 32000);
-            //        writer.Write(s);
 
-            //    }
-            //    else
-            //        break;
-            //}
-
-            //writer.Close();
             stream.Seek(0, SeekOrigin.Begin);
             var player = new SoundPlayer(stream);
-            //player.SoundLocation = "test.wav";
             player.Play();
             stream.Close();
 
