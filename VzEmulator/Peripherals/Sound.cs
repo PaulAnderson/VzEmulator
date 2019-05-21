@@ -14,9 +14,11 @@ namespace VzEmulator.Peripherals
         ICpu cpu;
         SystemTime systemTime;
 
-        int targetCycleLengthMs = 1000;
+        const int speakerBit = 1; //1,32 = speaker. 2,4 = tape out
+        private const int z80targetKips = 514; //540/4*3.5469
 
-        int instructionCount=0;
+        private int targetCycleLengthMs = 50;
+        int instructionCount = 0;
         DateTime? cycleStartTime;
         List<byte> outputLatchHistory;
 
@@ -27,9 +29,6 @@ namespace VzEmulator.Peripherals
             this.cpu = cpu;
             cpu.AfterInstructionExecution += Cpu_AfterInstructionExecution;
         }
-
-        const int speakerBit = 1; //1,32 = speaker. 2,4 = tape out
-        private const int z80targetKips = 514; //540/4*3.5469
 
         private int prevValue;
         private void Cpu_AfterInstructionExecution(object sender, InstructionEventArgs e)
@@ -69,7 +68,8 @@ namespace VzEmulator.Peripherals
             //queue the sound play the sound on a new thread
             //check queue length, if >.5 sec then cull 
 
-            FileStream stream = new FileStream("test.wav", FileMode.Create);
+            //FileStream stream = new FileStream("test.wav", FileMode.Create);
+            MemoryStream stream = new MemoryStream();
             BinaryWriter writer = new BinaryWriter(stream);
             int RIFF = 0x46464952;
             int WAVE = 0x45564157;
@@ -101,8 +101,8 @@ namespace VzEmulator.Peripherals
             writer.Write(data);
             writer.Write(dataChunkSize);
 
-            double SampleRateRatio = (double)samplesPerSecond / (1000 / elapsedMs)/ latchData.Count;
-            double cpuSpeedRatio = instructionCount / (1000 / elapsedMs) / (z80targetKips*1000);
+            double SampleRateRatio = (double)samplesPerSecond / latchData.Count / ( 1000 / elapsedMs);
+            double cpuSpeedRatio = latchData.Count / (elapsedMs / 1000) / (z80targetKips*1000);
             double totalRatio = SampleRateRatio * cpuSpeedRatio;
 
             if (totalRatio < 1)
@@ -134,13 +134,13 @@ namespace VzEmulator.Peripherals
             //        break;
             //}
 
-            writer.Close();
+            //writer.Close();
+            stream.Seek(0, SeekOrigin.Begin);
+            var player = new SoundPlayer(stream);
+            //player.SoundLocation = "test.wav";
+            player.Play();
             stream.Close();
 
-            var player = new SoundPlayer();
-            player.SoundLocation = "test.wav";
-
-            player.Play();
         }
 
     }
