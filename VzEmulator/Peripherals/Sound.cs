@@ -21,6 +21,7 @@ namespace VzEmulator.Peripherals
         int instructionCount = 0;
         DateTime? cycleStartTime;
         List<byte> outputLatchHistory;
+        QueuedSoundPlayer player = new QueuedSoundPlayer();
 
         public Sound(OutputLatch outputLatch, ICpu cpu, SystemTime systemTime = null)
         {
@@ -121,9 +122,7 @@ namespace VzEmulator.Peripherals
             }
 
             stream.Seek(0, SeekOrigin.Begin);
-            var player = new SoundPlayer(stream);
-            player.Play();
-            stream.Close();
+            player.Play(stream);
 
         }
 
