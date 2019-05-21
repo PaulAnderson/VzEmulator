@@ -15,7 +15,6 @@ namespace VzEmulator.Peripherals
         SystemTime systemTime;
 
         int targetCycleLengthMs = 1000;
-        int samplesPerSecond = 44100;
 
         int instructionCount=0;
         DateTime? cycleStartTime;
@@ -29,7 +28,8 @@ namespace VzEmulator.Peripherals
             cpu.AfterInstructionExecution += Cpu_AfterInstructionExecution;
         }
 
-        const int speakerBit = 2; //1,32 = speaker. 2,4 = tape out
+        const int speakerBit = 1; //1,32 = speaker. 2,4 = tape out
+        private const int z80targetKips = 514; //540/4*3.5469
 
         private int prevValue;
         private void Cpu_AfterInstructionExecution(object sender, InstructionEventArgs e)
@@ -78,7 +78,7 @@ namespace VzEmulator.Peripherals
             int format = 0x20746D66;
             short formatType = 1;
             short tracks = 1;
-            int samplesPerSecond = 44100;
+            int samplesPerSecond = 96000;
             short bitsPerSample = 16;
             short frameSize = (short)(tracks * ((bitsPerSample + 7) / 8));
             int bytesPerSecond = samplesPerSecond * frameSize;
@@ -101,20 +101,38 @@ namespace VzEmulator.Peripherals
             writer.Write(data);
             writer.Write(dataChunkSize);
 
-            double ratio = (double)samplesPerSecond / (1000 / elapsedMs);
+            double SampleRateRatio = (double)samplesPerSecond / (1000 / elapsedMs)/ latchData.Count;
+            double cpuSpeedRatio = instructionCount / (1000 / elapsedMs) / (z80targetKips*1000);
+            double totalRatio = SampleRateRatio * cpuSpeedRatio;
 
-            for (double i = 0; i < samples ; i+=ratio)
+            if (totalRatio < 1)
             {
-                short s;
-                if (i < latchData.Count)
-                {
-                    s = (short)((latchData[(int)i] & speakerBit+4)/ speakerBit * 32000);
-                    writer.Write(s);
 
+                totalRatio = 1 / totalRatio;
+
+                for (double i = 0; i < latchData.Count; i += totalRatio)
+                {
+                    short s;
+                    s = (short) ((latchData[(int) i] & speakerBit) / speakerBit * 32000);
+                    writer.Write(s);
                 }
-                else
-                    break;
             }
+            else
+            {
+                //todo. cpu running too slow for realtime sound probably
+            }
+            //for (double i = 0; i < samples ; i+= totalRatio)
+            //{
+            //    short s;
+            //    if (i < latchData.Count)
+            //    {
+            //        s = (short)((latchData[(int)i] & speakerBit+4)/ speakerBit * 32000);
+            //        writer.Write(s);
+
+            //    }
+            //    else
+            //        break;
+            //}
 
             writer.Close();
             stream.Close();
