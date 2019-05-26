@@ -22,13 +22,17 @@ namespace VzEmulator.Peripherals
         {
             public Stream StreamToPlay { get; set; }
             public DateTime Created { get; set; }
+            public SoundPlayerWrapper Player { get; set; }
+            public int LengthInMs { get; set; }
         }
 
         Queue<SoundStream> StreamQueue = new Queue<SoundStream>();
         bool isRunning;
-        public void Play(Stream stream)
+        public void Play(Stream stream, int lengthMs)
         {
-            StreamQueue.Enqueue(new SoundStream { StreamToPlay = stream, Created = systemTime.Now });
+            var newPlayer = new SoundPlayerWrapper(stream);
+            newPlayer.LoadAsync();
+            StreamQueue.Enqueue(new SoundStream { StreamToPlay = stream, Created = systemTime.Now, Player = newPlayer, LengthInMs= lengthMs });
             if (!isRunning)
             {
                 isRunning = true;
@@ -39,12 +43,20 @@ namespace VzEmulator.Peripherals
                         var player = new SoundPlayer();
                         while (StreamQueue.Count > 0)
                         {
+                            Console.WriteLine(StreamQueue.Count);
                             var soundStream = StreamQueue.Dequeue();
+                            soundStream.Player.PlayOnThread();
                             //todo skip if created date too far in the past
-                            player.Stream = soundStream.StreamToPlay;
-                            player.PlaySync();
-                            soundStream.StreamToPlay.Close();
+                            //player.Stream = soundStream.StreamToPlay;
+                            //player.PlaySync();
+                            while (soundStream.Player.Started.AddMilliseconds(soundStream.LengthInMs*.8) > DateTime.Now) {
+                                {
+                                }
+
+                            }
                         }
+
+                        Console.WriteLine("Sound queue empty.");
                     } finally
                     {
                         isRunning = false;

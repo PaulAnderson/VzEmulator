@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Media;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace VzEmulator.Peripherals
@@ -15,9 +16,9 @@ namespace VzEmulator.Peripherals
         SystemTime systemTime;
 
         const int speakerBit = 1; //1,32 = speaker. 2,4 = tape out
-        private const int z80targetKips = 514; //540/4*3.5469
+        private const int z80targetKips = 478; //540/4*3.5469
 
-        private int targetCycleLengthMs = 300;
+        private int targetCycleLengthMs = 50;
         int instructionCount = 0;
         DateTime? cycleStartTime;
         List<byte> outputLatchHistory;
@@ -49,7 +50,7 @@ namespace VzEmulator.Peripherals
             var elapsedMs = (systemTime.Now - cycleStartTime.Value).TotalMilliseconds;
             if (elapsedMs > targetCycleLengthMs)
             {
-                GenerateSound(elapsedMs, outputLatchHistory);
+                new Thread(() => { GenerateSound(elapsedMs, outputLatchHistory); }).Start();
                 cycleStartTime = null;//wait for next transition
             }
             
@@ -122,7 +123,7 @@ namespace VzEmulator.Peripherals
             }
 
             stream.Seek(0, SeekOrigin.Begin);
-            player.Play(stream);
+            player.Play(stream,(int)elapsedMs);
 
         }
 
