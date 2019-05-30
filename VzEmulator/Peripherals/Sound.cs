@@ -68,6 +68,10 @@ namespace VzEmulator.Peripherals
             //Create a wav fie in memory
             //queue the sound play the sound on a new thread
             //check queue length, if >.5 sec then cull 
+
+            double cpuSpeedRatio = latchData.Count / (z80targetKips * elapsedMs);
+            double simulatedMs = elapsedMs * cpuSpeedRatio;
+
             int samplesPerSecond = 96000;
             short bitsPerSample = 16;
 
@@ -84,7 +88,7 @@ namespace VzEmulator.Peripherals
             int bytesPerSecond = samplesPerSecond * frameSize;
             int waveSize = 4;
             int data = 0x61746164;
-            int samples = (int)(samplesPerSecond/(1000/elapsedMs));
+            int samples = (int)(samplesPerSecond/(1000/ simulatedMs));
             int dataChunkSize = samples * frameSize;
             int fileSize = waveSize + headerSize + formatChunkSize + headerSize + dataChunkSize;
             writer.Write(RIFF);
@@ -101,9 +105,9 @@ namespace VzEmulator.Peripherals
             writer.Write(data);
             writer.Write(dataChunkSize);
 
-            double SampleRateRatio = (double)samplesPerSecond / latchData.Count / ( 1000 / elapsedMs);
-            double cpuSpeedRatio = latchData.Count / (elapsedMs / 1000) / (z80targetKips*1000);
-            double totalRatio = SampleRateRatio * cpuSpeedRatio;
+            //double SampleRateRatio = (double)samplesPerSecond / latchData.Count / ( 1000 / elapsedMs);
+            double SampleRateRatio = latchData.Count / samples;
+            double totalRatio = SampleRateRatio;// * cpuSpeedRatio;
 
             if (totalRatio < 1)
             {
@@ -120,6 +124,12 @@ namespace VzEmulator.Peripherals
             else
             {
                 //todo. cpu running too slow for realtime sound probably
+                for (double i = 0; i < samples; i += 1)
+                {
+                    short s;
+                    s = (short)((latchData[(int)(i*totalRatio)] & speakerBit) / speakerBit * 1000);
+                    writer.Write(s);
+                }
             }
 
             stream.Seek(0, SeekOrigin.Begin);
