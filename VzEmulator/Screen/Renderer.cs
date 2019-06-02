@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 
 namespace VzEmulator.Screen
 {
@@ -18,6 +19,28 @@ namespace VzEmulator.Screen
         public int FixedScale { get; set; }
         public bool UseSmoothing { get; set; }
 
+        protected ImageAttributes ImageAttributes { get; set; }
+
+        public void SetDefaultImageAttributes()
+        {
+            ImageAttributes = new ImageAttributes();
+        }
+        public void SetGrayScaleImageAttributes()
+        {
+
+            var matrix = new[]
+            {
+                new[] { 0.299f, 0.299f, 0.299f, 0, 0 },
+                new[] { 0.587f, 0.587f, 0.587f, 0, 0 },
+                new[] { 0.114f, 0.114f, 0.114f, 0, 0 },
+                new[] { 0f,      0,      0,      1, 0 },
+                new[] { 0f,      0,      0,      0, 1 },
+            };
+
+            var ia = new ImageAttributes();
+            ia.SetColorMatrix(new ColorMatrix(matrix));
+            ImageAttributes = ia;
+        }
         protected Renderer(byte[] Memory, ushort VideoMemoryStartAddress)
         {
             _Memory = Memory;
@@ -64,11 +87,23 @@ namespace VzEmulator.Screen
 
             if (scalex < 1 || scaley < 1) gr.InterpolationMode = InterpolationMode.HighQualityBilinear; //force smoothing if scaled down
 
-            var destRect = new Rectangle(destx + margin, desty + margin, (int)(Width * scalex), (int)(Height * scaley));
             var srcRect = new Rectangle(srcx, srcy, Width, Height);
+            var destRect = new Rectangle(destx + margin, desty + margin, (int)(Width * scalex), (int)(Height * scaley));
+            var destPoints = ToPoints(destRect);
 
-            gr.DrawImage(graphicsBitmap.Bitmap, destRect, srcRect, GraphicsUnit.Pixel);
+            gr.DrawImage(graphicsBitmap.Bitmap, destPoints, srcRect, GraphicsUnit.Pixel, ImageAttributes);
 
+        }
+
+        protected PointF[] ToPoints(Rectangle rectangle)
+        {
+            var points = new PointF[3]
+            {
+                new PointF( rectangle.Left,rectangle.Top),
+                new PointF( rectangle.Right,rectangle.Top),
+                new PointF(rectangle.Left,rectangle.Bottom),
+            };
+            return points;
         }
     }
 }

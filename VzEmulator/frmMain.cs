@@ -4,7 +4,6 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
 using VzEmulator.Debug;
 using VzEmulator.Peripherals;
 using VzEmulator.Screen;
@@ -85,7 +84,7 @@ namespace VzEmulator
             if (!cpuIsSetup)
             {
 
-                graphicsPainter = new GraphicsPainter(pictureBox1, videoMemory.Content, outputLatch, 0, 15);
+                graphicsPainter = new GraphicsPainter(pictureBox1, videoMemory.Content, outputLatch, 0, 33);
 
                 mem = new MemUtils(memory);
                 tracer = new InstructionTracer(cpu);
@@ -95,6 +94,7 @@ namespace VzEmulator
 
                 //set events
                 cpu.AfterInstructionExecution += Z80OnAfterInstructionExecution;
+                cpu.BeforeInstructionExecution += CpuOnBeforeInstructionExecution;
 
                 cpu.MemoryAccess += OnCpuBusAccess;
                 cpu.PortAccess += OnCpuBusAccess;
@@ -141,7 +141,7 @@ namespace VzEmulator
                     if (!txtMCStart.Focused)
                     {
                         var value = mem.GetWordAtAddress(VzConstants.UserExecWordPtr);
-                        txtMCStart.Text = string.Format("0x{0:X}", value);
+                        txtMCStart.Text = $"0x{value:X}";
                     }
                     if (!txtMCEnd.Focused)
                     {
@@ -155,6 +155,8 @@ namespace VzEmulator
             btnPause.Enabled = true;
             btnContinue.Enabled = true;
         }
+
+
 
         private string GetTextModeText()
         {
@@ -238,6 +240,12 @@ namespace VzEmulator
             if (isTrace)
                 tracer.TraceNextInstruction();
 
+
+        }
+
+        private void CpuOnBeforeInstructionExecution(object sender, InstructionEventArgs e)
+        {
+            
         }
 
         private HashSet<int> addresses = new HashSet<int>();
@@ -477,13 +485,22 @@ namespace VzEmulator
 
         private void btnSmooth_Click(object sender, EventArgs e)
         {
-            graphicsPainter.UseSmoothing = !graphicsPainter.UseSmoothing;
+            if (graphicsPainter!=null)
+                graphicsPainter.UseSmoothing = !graphicsPainter.UseSmoothing;
         }
 
         private void btnScale_Click(object sender, EventArgs e)
         {
-            graphicsPainter.UseFixedScale = !graphicsPainter.UseFixedScale;
-            graphicsPainter.FixedScale = 2;
+            if (graphicsPainter != null)
+            {
+                graphicsPainter.UseFixedScale = !graphicsPainter.UseFixedScale;
+                graphicsPainter.FixedScale = 2;
+            }
+        }
+        private void btnColour_Click(object sender, EventArgs e)
+        {
+            if (graphicsPainter != null)
+                graphicsPainter.GrayScale = !graphicsPainter.GrayScale;
         }
 
         private void btnSaveDisk_Click(object sender, EventArgs e)
@@ -503,5 +520,7 @@ namespace VzEmulator
                 drive.LoadDiskImage(openFileDialog.FileName);
             }
         }
+
+
     }
 }
