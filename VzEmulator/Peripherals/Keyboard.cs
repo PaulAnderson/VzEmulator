@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
@@ -11,8 +7,7 @@ namespace VzEmulator.Peripherals
     class Keyboard : IPeripheral
     {
         public Tuple<ushort, ushort> PortRange => null;
-
-        public Tuple<ushort, ushort> MemoryRange => new Tuple<ushort, ushort>(VzConstants.OutputLatchAndKbStart , VzConstants.OutputLatchAndKbEnd);
+        public Tuple<ushort, ushort> MemoryRange { get; } = new Tuple<ushort, ushort>(VzConstants.OutputLatchAndKbStart, VzConstants.OutputLatchAndKbEnd);
 
         public bool DebugEnabled { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
@@ -28,18 +23,21 @@ namespace VzEmulator.Peripherals
 
         public byte? HandleMemoryRead(ushort address)
         {
-            byte value;
-
+            //Get lower 8 Bytes of address
             var addr = address & 0xff;
+            //Invert address - key scanning is active low
             addr = 0xff - addr;
-            value = 0b10111111;
+            //Default value is 111111, pressed keys are active low
+            byte value = 0b10111111;
 
             if (currentKey.HasValue || currentKeyCode != Keys.None)
             {
                 var keyCode = currentKeyCode & Keys.KeyCode;
 
+                //Convert upper case keys to lowercase
                 if (currentKey >= 97 && currentKey <= 122)
                     currentKey -= 32;
+
                 var c = '\0';
                 c = currentKey.HasValue ? (char)currentKey.Value : '\0';
 
@@ -175,7 +173,7 @@ namespace VzEmulator.Peripherals
             else
             {
                 //keys scanned but no key pressed. Good place for a small delay to reduce host cpu use when then guest process is just waiting for input
-                System.Threading.Thread.Sleep(TimeSpan.Zero); //Do any other work waiting
+                //System.Threading.Thread.Sleep(TimeSpan.Zero); //Do any other work waiting
             }
 
             if (intSource.IsEnabled)

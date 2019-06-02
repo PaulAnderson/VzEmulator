@@ -42,8 +42,18 @@ namespace VzEmulator
             _cpu.RegisterInterruptSource(intSource);
 
             _cpu.AfterInstructionExecution += OnCpuAfterInstructionExecution;
+            _cpu.BeforeInstructionExecution += CpuOnBeforeInstructionExecution;
             _cpu.MemoryAccess += OnCpuMemoryAccess;
 
+
+        }
+
+        private void CpuOnBeforeInstructionExecution(object sender, BeforeInstructionExecutionEventArgs e)
+        {
+            //map
+            var instructionEventArgs = new InstructionEventArgs(_cpu.Registers.PC, e.Opcode);
+
+            OnRaiseBeforeInstructionExecution(instructionEventArgs);
 
         }
 
@@ -63,10 +73,17 @@ namespace VzEmulator
         }
 
         public event EventHandler<InstructionEventArgs> AfterInstructionExecution;
-        
+        public event EventHandler<InstructionEventArgs> BeforeInstructionExecution;
+
+
         protected virtual void OnRaiseAfterInstructionExecution(InstructionEventArgs e)
         {
             AfterInstructionExecution?.Invoke(this, e);
+        }
+
+        protected virtual void OnRaiseBeforeInstructionExecution(InstructionEventArgs e)
+        {
+            BeforeInstructionExecution?.Invoke(this, e);
         }
 
         private void OnCpuMemoryAccess(object sender, MemoryAccessEventArgs args)

@@ -28,26 +28,33 @@ namespace VzEmulator.Screen
 
         private void renderTextMode(bool background)
         {
-            var gr = Graphics.FromImage(_GraphicsBitmap.Bitmap);
-            int charOffset = 0;
-            if (background) charOffset += 96;
-
-            var scale = 1;
-
-            for (int y = 0; y < 16; y++)
+            using (var gr = Graphics.FromImage(_GraphicsBitmap.Bitmap))
             {
-                for (int x = 0; x < 32; x++)
-                {
-                    var offset = 32 * y + x;
-                    var c = _Memory[_VideoMemoryStartAddress + offset];
-                    var row = c / 32;
-                    var col = c - row * 32;
-                    var srcx = col * 8;
-                    var srcy = charOffset + row * 12;
-                    var destx = x * (8 * scale);
-                    var desty = y * (12 * scale);
+                int charOffset = 0;
+                if (background) charOffset += 96;
 
-                    gr.DrawImage(_FontBitmap.Bitmap, new Rectangle(destx, desty, 8 * scale, 12 * scale), new Rectangle(srcx, srcy, 8, 12), GraphicsUnit.Pixel);
+                var scale = 1;
+
+                for (int y = 0; y < 16; y++)
+                {
+                    for (int x = 0; x < 32; x++)
+                    {
+                        var offset = 32 * y + x;
+                        var c = _Memory[_VideoMemoryStartAddress + offset];
+                        var row = c / 32;
+                        var col = c - row * 32;
+                        var srcx = col * 8;
+                        var srcy = charOffset + row * 12;
+                        var destx = x * (8 * scale);
+                        var desty = y * (12 * scale);
+
+                        var srcRect = new Rectangle(srcx, srcy, 8, 12);
+
+                        var destRect = new Rectangle(destx, desty, 8 * scale, 12 * scale);
+                        var destPoints = ToPoints(destRect);
+
+                        gr.DrawImage(_FontBitmap.Bitmap, destPoints, srcRect, GraphicsUnit.Pixel, ImageAttributes);
+                    }
                 }
             }
         }

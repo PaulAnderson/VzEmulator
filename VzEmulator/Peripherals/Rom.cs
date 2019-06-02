@@ -10,16 +10,14 @@ namespace VzEmulator.Peripherals
     class Rom : IPeripheral
     {
         public Tuple<ushort, ushort> PortRange => null;
-
-        public Tuple<ushort, ushort> MemoryRange => new Tuple<ushort, ushort>(0, VzConstants.TopOfRom);
+        public Tuple<ushort, ushort> MemoryRange { get; } = new Tuple<ushort, ushort>(0, VzConstants.TopOfRom);
 
         public bool DebugEnabled { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public byte? HandleMemoryRead(ushort address)
-        {
-            return null;
-        }
+        //Value returned from elsewhere
+        public byte? HandleMemoryRead(ushort address) => null;
 
+        //Block write if in memory range
         public bool HandleMemoryWrite(ushort address, byte value)
         {
             return (MemoryRange.Item1 <= address & address <= MemoryRange.Item2);

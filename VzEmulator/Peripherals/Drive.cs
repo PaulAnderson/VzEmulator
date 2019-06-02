@@ -10,7 +10,7 @@ namespace VzEmulator.Peripherals
     public class Drive : IPeripheral
     {
         const ushort DosInitRoutineAddress = 0x4b08;
-        byte lastVal = 0;
+        byte lastVal;
         int diskCurrentTrack = 5;
         int diskLocationOntrack = 0;
         int lastStepNo;
@@ -25,12 +25,17 @@ namespace VzEmulator.Peripherals
         bool inDosInitRoutine = false;
         Disk diskContent = new Disk();
 
-        public Tuple<ushort, ushort> PortRange => new Tuple<ushort, ushort>(0x10, 0x1f);
+        public Tuple<ushort, ushort> PortRange { get; set; }
 
-        public Tuple<ushort, ushort> MemoryRange => new Tuple<ushort, ushort>(0x4b08, 0x4b08);
+        public Tuple<ushort, ushort> MemoryRange { get; set; }
 
-        private bool _debugEnabled = false ;
-        public bool DebugEnabled { get => _debugEnabled; set => _debugEnabled = value; }
+        public bool DebugEnabled { get; set; } = false;
+
+        public Drive()
+        {
+            PortRange = new Tuple<ushort, ushort>(0x10, 0x1f);
+            MemoryRange = new Tuple<ushort, ushort>(DosInitRoutineAddress, DosInitRoutineAddress);
+        }
 
         public byte? HandleMemoryRead(ushort address)
         {
@@ -70,13 +75,13 @@ namespace VzEmulator.Peripherals
                         if (diskReadsDebugged >= 15)
                         {
                             diskReadsDebugged = 0;
-                                if (_debugEnabled) Console.WriteLine();
+                                if (DebugEnabled) Console.WriteLine();
                         }
-                        if (_debugEnabled) Console.Write("Disk Read : {0:X4}: {1:X2} ", fileIndex, value);
+                        if (DebugEnabled) Console.Write("Disk Read : {0:X4}: {1:X2} ", fileIndex, value);
                     }
                     else
                     {
-                        if (_debugEnabled) Console.Write("{0:X2} ", value);
+                        if (DebugEnabled) Console.Write("{0:X2} ", value);
                         diskReadsDebugged++;
                     }
                 }
@@ -168,7 +173,7 @@ namespace VzEmulator.Peripherals
                         //write byte
                         diskContent[fileIndex] = currentWritingByte;
 
-                        if (_debugEnabled)
+                        if (DebugEnabled)
                         {
                             if ((bytesWritten & 0x0F) == 0x0)
                             {
@@ -226,7 +231,7 @@ namespace VzEmulator.Peripherals
             {
                 diskCurrentTrack += 1;
                 if (diskCurrentTrack > 40) diskCurrentTrack = 40;
-                if (_debugEnabled) Console.WriteLine("Disk Track: {0}", diskCurrentTrack);
+                if (DebugEnabled) Console.WriteLine("Disk Track: {0}", diskCurrentTrack);
 
             }
             if ((stepNo == 8 && lastStepNo == 9 && lastStepNo2 == 1) |
@@ -234,7 +239,7 @@ namespace VzEmulator.Peripherals
             {
                 diskCurrentTrack -= 1;
                 if (diskCurrentTrack < 0) diskCurrentTrack = 0;
-                if (_debugEnabled) Console.WriteLine("Disk Track: {0}", diskCurrentTrack);
+                if (DebugEnabled) Console.WriteLine("Disk Track: {0}", diskCurrentTrack);
 
             }
             lastStepNo2 = lastStepNo;

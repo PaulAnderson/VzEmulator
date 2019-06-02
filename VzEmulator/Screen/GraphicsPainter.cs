@@ -64,6 +64,27 @@ namespace VzEmulator.Screen
         public GraphicsMode GraphicsMode { get; set; }
         public BackgroundColour BackgroundColour { get; set; }
 
+         
+        private bool _grayScale;
+        public bool GrayScale
+        {
+            get => _grayScale;
+            set
+            {
+                _grayScale = value;
+                if (value)
+                {
+                    textModeRenderer.SetGrayScaleImageAttributes();
+                    graphicsModeRenderer.SetGrayScaleImageAttributes();
+                }
+                else
+                {
+                    textModeRenderer.SetDefaultImageAttributes();
+                    graphicsModeRenderer.SetDefaultImageAttributes();
+                }
+            }
+        }
+
         public GraphicsPainter(Control ctrl, Byte[] VideoMemory, OutputLatch outputLatch, int RenderStartAddress, int RefreshIntervalMS)
         {
             this.outputLatch = outputLatch;

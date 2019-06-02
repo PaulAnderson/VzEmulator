@@ -19,6 +19,7 @@ namespace VzEmulator
         event EventHandler<BusEventArgs> MemoryAccess;
         event EventHandler<BusEventArgs> PortAccess;
         event EventHandler<InstructionEventArgs> AfterInstructionExecution;
+        event EventHandler<InstructionEventArgs> BeforeInstructionExecution;
 
         void ExecuteCall(ushort Address);
         void Continue();
