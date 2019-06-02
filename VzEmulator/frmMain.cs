@@ -13,34 +13,35 @@ namespace VzEmulator
 {
     public partial class frmMain : Form
     {
-        private ICpu cpu = new Z80dotNetCpuAdapter();
-        bool cpuIsSetup = false;
-        Timer interruptTimer;
-        Timer watchTimer;
-        Timer debugTimer;
-        bool resetting;
-        bool savingImage;
-        bool loadingImage;
-        string ImageFilename;
-        string placeHolderRomFilename = "Roms/Placeholder.Rom";
-        string romFilename = "Roms/ROM-FULL.DBG";
-        const string quickSaveFilename = "QuickSave1.img";
-        bool isTrace;
-        long instructionsPerSecond;
+        private readonly ICpu cpu = new Z80dotNetCpuAdapter();
+        private bool cpuIsSetup = false;
+        private Timer interruptTimer;
+        private Timer watchTimer;
+        private Timer debugTimer;
+        private bool resetting;
+        private bool savingImage;
+        private bool loadingImage;
+        private string imageFilename;
+        private const string PlaceHolderRomFilename = "Roms/Placeholder.Rom";
+        private string romFilename = "Roms/ROM-FULL.DBG";
+        private const string QuickSaveFilename = "QuickSave1.img";
+        private bool isTrace;
+        private long instructionsPerSecond;
         private MemUtils mem;
-        IInterruptEnableFlag intSource;
-        InstructionTracer tracer;
-        ushort EndMCProgram;
-        GraphicsPainter graphicsPainter;
-        PeripheralRouter router = new PeripheralRouter();
-        Drive drive = new Drive();
-        Keyboard keyboard;
-        OutputLatch outputLatch = new OutputLatch();
-        Rom rom = new Rom();
+        private IInterruptEnableFlag intSource;
+        private InstructionTracer tracer;
+        private ushort endMCProgram;
+        private GraphicsPainter graphicsPainter;
+        private readonly PeripheralRouter router = new PeripheralRouter();
+        private readonly Drive drive = new Drive();
+        private Keyboard keyboard;
+        private readonly OutputLatch outputLatch = new OutputLatch();
+        private readonly Rom rom = new Rom();
         private VideoMemory videoMemory;
-        IMemoryAccessor memory;
-        FileIO fileIo;
-        FileHandler fileHandler;
+        private IMemoryAccessor memory;
+        private FileIO fileIo;
+        private FileHandler fileHandler;
+        private Sound sound;
 
         public frmMain()
         {
@@ -66,7 +67,7 @@ namespace VzEmulator
             router.Add(drive).Add(keyboard).Add(outputLatch).Add(rom).Add(videoMemory);
             fileIo = FileIO.GetDefaultImplementation();
             fileHandler = new FileHandler(fileIo, memory, videoMemory);
-
+            sound = new Sound(outputLatch, cpu);
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -78,7 +79,7 @@ namespace VzEmulator
                 fileName = romFilename;
             } else
             {
-                fileName = placeHolderRomFilename;
+                fileName = PlaceHolderRomFilename;
             }
 
             if (!cpuIsSetup)
@@ -116,8 +117,7 @@ namespace VzEmulator
 
             if (interruptTimer == null)
             {
-                var timer = new Timer();
-                timer.Interval = 10; //ms
+                var timer = new Timer {Interval = 10};
                 timer.Tick += (v, a) => intSource.IsEnabled = true;
                 timer.Start();
                 interruptTimer = timer;
@@ -125,8 +125,7 @@ namespace VzEmulator
 
             if (watchTimer == null)
             {
-                watchTimer = new Timer();
-                watchTimer.Interval = 500; //ms
+                watchTimer = new Timer {Interval = 500};
                 watchTimer.Tick += (s, a) => {
                     lblFps.Text = graphicsPainter.CurrentFps;
                     lblInstructionsPerSecond.Text = (instructionsPerSecond / (watchTimer.Interval / 1000.0)).ToString();
@@ -137,8 +136,7 @@ namespace VzEmulator
 
             if (debugTimer == null)
             {
-                debugTimer = new Timer();
-                debugTimer.Interval = 500; //ms
+                debugTimer = new Timer {Interval = 500};
                 debugTimer.Tick += (s, a) => {
                     if (!txtMCStart.Focused)
                     {
@@ -147,7 +145,7 @@ namespace VzEmulator
                     }
                     if (!txtMCEnd.Focused)
                     {
-                        txtMCEnd.Text = string.Format("0x{0:X}", EndMCProgram);
+                        txtMCEnd.Text = string.Format("0x{0:X}", endMCProgram);
                     }
                 };
                 debugTimer.Start();
@@ -226,7 +224,7 @@ namespace VzEmulator
 
             if (savingImage)
             {
-                SaveImage(ImageFilename);
+                SaveImage(imageFilename);
                 savingImage = false;
             }
 
@@ -242,7 +240,7 @@ namespace VzEmulator
 
         }
 
-        HashSet<int> addresses = new HashSet<int>();
+        private HashSet<int> addresses = new HashSet<int>();
         private void OnCpuBusAccess(object sender, BusEventArgs args)
         {
             if (args.IsMemoryAccess)
@@ -341,7 +339,7 @@ namespace VzEmulator
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 var StartAddr = mem.GetWordAtAddress(VzConstants.UserExecWordPtr);
-                var EndAddr = EndMCProgram;
+                var EndAddr = endMCProgram;
                 fileHandler.SaveFile(VzConstants.FileTypeMC, dlg.FileName, StartAddr, EndAddr);
             }
         }
@@ -375,7 +373,7 @@ namespace VzEmulator
             e.Cancel = ValidateDebugTextbox(sender as Control);
         }
 
-        bool ValidateDebugTextbox(Control ctrl)
+        private bool ValidateDebugTextbox(Control ctrl)
         {
             if (ctrl != null)
             {
@@ -399,7 +397,7 @@ namespace VzEmulator
 
         private void txtMCEnd_Leave(object sender, EventArgs e)
         {
-            EndMCProgram = MemUtils.StringToUShort(txtMCEnd.Text);
+            endMCProgram = MemUtils.StringToUShort(txtMCEnd.Text);
         }
         
         private void button3_Click(object sender, EventArgs e)
@@ -407,14 +405,14 @@ namespace VzEmulator
             var dlg = new SaveFileDialog();
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                ImageFilename = dlg.FileName;
+                imageFilename = dlg.FileName;
                 savingImage = true;
             }
         }
 
         private void btnQuickSave_Click(object sender, EventArgs e)
         {
-            ImageFilename = quickSaveFilename;
+            imageFilename = QuickSaveFilename;
             savingImage = true;
         }
 
@@ -428,7 +426,7 @@ namespace VzEmulator
         }
         private void btnQuickLoad_Click(object sender, EventArgs e)
         {
-            LoadImage(quickSaveFilename);
+            LoadImage(QuickSaveFilename);
         }
 
         private void LoadImage(string fileName)
@@ -465,7 +463,7 @@ namespace VzEmulator
             LoadRegistersFromMemory(cpu);
 
             //Write memory to file
-            fileIo.WriteFile(ImageFilename, memory.GetContents(0, 0xFFFF));
+            fileIo.WriteFile(imageFilename, memory.GetContents(0, 0xFFFF));
 
              //re-read rom file to replace locations written with register values
             var rom = fileIo.ReadFile(romFilename);
