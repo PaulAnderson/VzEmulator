@@ -61,6 +61,9 @@
     <Compile Include="FileHandler.cs" />
     <Compile Include="Peripherals\Sound.cs" />
     <Compile Include="Peripherals\QueuedSoundPlayer.cs" />
+    <Compile Include="Peripherals\SoundPlayerWrapper.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="SystemTime.cs" />
     <Compile Include="Z80dotNetCpuAdapter.cs" />
     <Compile Include="Z80dotNetMemoryAccessor.cs" />

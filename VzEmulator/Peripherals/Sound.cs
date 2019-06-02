@@ -1,22 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Media;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace VzEmulator.Peripherals
 {
-    class Sound { 
-  
-        OutputLatch outputLatch;
-        ICpu cpu;
-        SystemTime systemTime;
+    class Sound {
+        private readonly OutputLatch outputLatch;
+        private readonly ICpu cpu;
+        private readonly SystemTime systemTime;
 
-        const int speakerBit = 1; //1,32 = speaker. 2,4 = tape out
-        private const int z80targetKips = 478; //540/4*3.5469
+        const int SpeakerBit = 1; //1,32 = speaker. 2,4 = tape out
+        private const int Z80TargetKips = 478; //540/4*3.5469
 
         private int targetCycleLengthMs = 50;
         int instructionCount = 0;
@@ -35,12 +30,12 @@ namespace VzEmulator.Peripherals
         private int prevValue;
         private void Cpu_AfterInstructionExecution(object sender, InstructionEventArgs e)
         {
-            if (cycleStartTime == null && prevValue == (outputLatch.Value & speakerBit))
+            if (cycleStartTime == null && prevValue == (outputLatch.Value & SpeakerBit))
             {
-                prevValue = outputLatch.Value & speakerBit;
+                prevValue = outputLatch.Value & SpeakerBit;
                 return;
             }
-            prevValue = outputLatch.Value & speakerBit;
+            prevValue = outputLatch.Value & SpeakerBit;
 
             if (cycleStartTime == null) StartCycle();
 
@@ -69,7 +64,7 @@ namespace VzEmulator.Peripherals
             //queue the sound play the sound on a new thread
             //check queue length, if >.5 sec then cull 
 
-            double cpuSpeedRatio = latchData.Count / (z80targetKips * elapsedMs);
+            double cpuSpeedRatio = latchData.Count / (Z80TargetKips * elapsedMs);
             double simulatedMs = elapsedMs * cpuSpeedRatio;
 
             int samplesPerSecond = 96000;
@@ -117,7 +112,7 @@ namespace VzEmulator.Peripherals
                 for (double i = 0; i < latchData.Count; i += totalRatio)
                 {
                     short s;
-                    s = (short) ((latchData[(int) i] & speakerBit) / speakerBit * 1000);
+                    s = (short) ((latchData[(int) i] & SpeakerBit) / SpeakerBit * 1000);
                     writer.Write(s);
                 }
             }
@@ -127,7 +122,7 @@ namespace VzEmulator.Peripherals
                 for (double i = 0; i < samples; i += 1)
                 {
                     short s;
-                    s = (short)((latchData[(int)(i*totalRatio)] & speakerBit) / speakerBit * 1000);
+                    s = (short)((latchData[(int)(i*totalRatio)] & SpeakerBit) / SpeakerBit * 1000);
                     writer.Write(s);
                 }
             }
