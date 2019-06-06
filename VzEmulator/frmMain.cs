@@ -255,6 +255,13 @@ namespace VzEmulator
             {
                 if (args.IsRead)
                 {
+#if DEBUG_KEYBOARD
+                    if (args.Address == 26624)
+                    {
+                        Console.Write("KEYB:");
+                        tracer.TraceNextInstruction();
+                    }
+#endif 
                     byte? value = router.HandleMemoryRead(args.Address);
                     if (value.HasValue)
                     {
@@ -301,8 +308,7 @@ namespace VzEmulator
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            keyboard.currentKey = e.KeyValue;
-            keyboard.currentKeyCode = e.KeyData;
+            keyboard.SetKeyState(new Keyboard.KeyState(e.KeyValue, e.KeyData));
             e.Handled = true;
 
             //trigger interrupt early to handle keys fast
@@ -310,8 +316,7 @@ namespace VzEmulator
         }
         private void frmMain_KeyUp(object sender, KeyEventArgs e)
         {
-            keyboard.currentKey = null;
-            keyboard.currentKeyCode = e.KeyCode ^ e.KeyData;
+            keyboard.SetKeyState(new Keyboard.KeyState(null, e.KeyCode ^ e.KeyData));
             e.Handled = true;
         }
 
