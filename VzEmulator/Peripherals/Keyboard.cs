@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 
@@ -13,8 +14,36 @@ namespace VzEmulator.Peripherals
 
         IInterruptEnableFlag intSource;
 
-        public int? currentKey;
-        public Keys? currentKeyCode = Keys.None;
+        internal KeyState CurrentKeyState { get; set; }
+
+        //public bool UseKeyQueue;
+        public bool UseKeyQueue = true;
+
+        private Queue<KeyState> KeyQueue = new Queue<KeyState>();
+
+        public class KeyState {
+            public int? Key;
+            public Keys? KeyCode = Keys.None;
+            public int TimesRead { get; set; }
+
+            public KeyState(int? keyValue, Keys keyData)
+            {
+                Key = keyValue;
+                KeyCode = keyData;
+            }
+
+            public bool IsKeyPressed => Key.HasValue || KeyCode != Keys.None;
+            public char ToLower()
+            {
+                var key = Key;
+                //Convert upper case keys to lowercase
+                if (key >= 97 && key <= 122)
+                    key -= 32;
+                var keyChar = '\0';
+                keyChar = key.HasValue ? (char)key.Value : '\0';
+                return keyChar;
+            }
+        }
 
         public Keyboard(IInterruptEnableFlag interruptSource)
         {
@@ -23,24 +52,25 @@ namespace VzEmulator.Peripherals
 
         public byte? HandleMemoryRead(ushort address)
         {
+            //Get value from queue if in queue mode
+            var keyState = CurrentKeyState;
+            if (UseKeyQueue && KeyQueue?.Count > 0)
+                keyState = KeyQueue.Peek();
+
             //Get lower 8 Bytes of address
             var addr = address & 0xff;
             //Invert address - key scanning is active low
             addr = 0xff - addr;
             //Default value is 111111, pressed keys are active low
+            const byte keyMask= 63;
             byte value = 0b10111111;
 
-            if (currentKey.HasValue || currentKeyCode != Keys.None)
+            if (keyState?.IsKeyPressed ?? false)
             {
-                var keyCode = currentKeyCode & Keys.KeyCode;
-
-                //Convert upper case keys to lowercase
-                if (currentKey >= 97 && currentKey <= 122)
-                    currentKey -= 32;
-
-                var c = '\0';
-                c = currentKey.HasValue ? (char)currentKey.Value : '\0';
-
+                var keyCode = keyState.KeyCode & Keys.KeyCode;
+                var c = keyState.ToLower();
+                
+                //These are scanned in order by the ROM
                 if ((addr & 1) > 0)
                 {
                     if (c == 'R')
@@ -56,6 +86,7 @@ namespace VzEmulator.Peripherals
                     if (c == 'T')
                         value &= 0b11111110;
                 }
+
                 if ((addr & 2) > 0)
                 {
                     if (c == 'F')
@@ -64,7 +95,7 @@ namespace VzEmulator.Peripherals
                         value &= 0b11101111;
                     if (c == 'D')
                         value &= 0b11110111;
-                    if ((currentKeyCode & Keys.Control) == Keys.Control
+                    if ((keyState.KeyCode & Keys.Control) == Keys.Control
                         || keyCode == Keys.Left || keyCode == Keys.Back
                         || keyCode == Keys.Right || keyCode == Keys.Up
                         || keyCode == Keys.Down || keyCode == Keys.Insert
@@ -83,8 +114,8 @@ namespace VzEmulator.Peripherals
                         value &= 0b11101111;
                     if (c == 'C')
                         value &= 0b11110111;
-                    if ((currentKeyCode & Keys.Shift) == Keys.Shift ||
-                        ((currentKeyCode & Keys.Control) != Keys.Control && (currentKeyCode & Keys.Shift) != Keys.Shift && (currentKeyCode & Keys.KeyCode) == Keys.Oemplus))
+                    if ((keyState.KeyCode & Keys.Shift) == Keys.Shift ||
+                        ((keyState.KeyCode & Keys.Control) != Keys.Control && (keyState.KeyCode & Keys.Shift) != Keys.Shift && (keyState.KeyCode & Keys.KeyCode) == Keys.Oemplus))
                         value &= 0b11111011;
                     if (c == 'X')
                         value &= 0b11111101;
@@ -99,7 +130,7 @@ namespace VzEmulator.Peripherals
                         value &= 0b11101111;
                     if (c == '3')
                         value &= 0b11110111;
-                    if ((currentKeyCode & Keys.Alt) == Keys.Alt)
+                    if ((keyState.KeyCode & Keys.Alt) == Keys.Alt)
                         value &= 0b11111011;
                     if (c == '2')
                         value &= 0b11111101;
@@ -131,7 +162,7 @@ namespace VzEmulator.Peripherals
                         value &= 0b11101111;
                     if (c == '8')
                         value &= 0b11110111;
-                    if (c == '-' || (currentKeyCode & Keys.KeyCode) == Keys.OemMinus || ((currentKeyCode & Keys.Shift) != Keys.Shift & (currentKeyCode & Keys.KeyCode) == Keys.Oemplus))
+                    if (c == '-' || (keyState.KeyCode & Keys.KeyCode) == Keys.OemMinus || ((keyState.KeyCode & Keys.Shift) != Keys.Shift & (keyState.KeyCode & Keys.KeyCode) == Keys.Oemplus))
                         value &= 0b11111011;
                     if (c == '9')
                         value &= 0b11111101;
@@ -158,7 +189,7 @@ namespace VzEmulator.Peripherals
                     if (c == 'J')
                         value &= 0b11011111;
                     if (c == ';' || keyCode == Keys.Delete || keyCode == Keys.Oem1 ||
-                        ((currentKeyCode & Keys.Shift) == Keys.Shift && (currentKeyCode & Keys.KeyCode) == Keys.Oemplus))
+                        ((keyState.KeyCode & Keys.Shift) == Keys.Shift && (keyState.KeyCode & Keys.KeyCode) == Keys.Oemplus))
                         value &= 0b11101111;
                     if (c == 'K')
                         value &= 0b11110111;
@@ -178,10 +209,17 @@ namespace VzEmulator.Peripherals
 
             if (intSource.IsEnabled)
             {
-                value &= 0x7f;
+                value &= keyMask;
                 intSource.IsEnabled = false;
             }
 
+            //track key presses and de-queue key if in queue mode if it has been read more than once
+            if (UseKeyQueue && KeyQueue?.Count > 0 && (value & keyMask)!=keyMask)
+            {
+                KeyQueue.Peek().TimesRead++;
+                if (KeyQueue.Peek().TimesRead > 4) KeyQueue.Dequeue();
+            }
+            
             return value;
         }
 
@@ -198,6 +236,15 @@ namespace VzEmulator.Peripherals
         public void HandlePortWrite(ushort address, byte value)
         {
             //do nothing
+        }
+
+        internal void SetKeyState(KeyState keyState)
+        {
+            if (UseKeyQueue)
+                if (keyState.IsKeyPressed)
+                    KeyQueue.Enqueue(keyState);
+            else
+                CurrentKeyState = keyState;
         }
     }
 }
