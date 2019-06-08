@@ -84,6 +84,9 @@ namespace VzEmulator.Peripherals
             int waveSize = 4;
             int data = 0x61746164;
             int samples = (int)(samplesPerSecond/(1000/ simulatedMs));
+
+            if (samples < 1000) return;
+
             int dataChunkSize = samples * frameSize;
             int fileSize = waveSize + headerSize + formatChunkSize + headerSize + dataChunkSize;
             writer.Write(RIFF);
