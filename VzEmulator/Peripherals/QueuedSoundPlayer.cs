@@ -43,7 +43,9 @@ namespace VzEmulator.Peripherals
                         var player = new SoundPlayer();
                         while (StreamQueue.Count > 0)
                         {
+#if DEBUG_SOUND
                             Console.WriteLine(StreamQueue.Count);
+#endif
                             var soundStream = StreamQueue.Dequeue();
                             soundStream.Player.PlayOnThread();
                             //todo skip if created date too far in the past
@@ -55,8 +57,9 @@ namespace VzEmulator.Peripherals
 
                             }
                         }
-
+#if DEBUG_SOUND
                         Console.WriteLine("Sound queue empty.");
+#endif 
                     } finally
                     {
                         isRunning = false;

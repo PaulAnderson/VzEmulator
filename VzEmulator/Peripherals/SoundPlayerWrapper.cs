@@ -38,14 +38,16 @@ namespace VzEmulator.Peripherals
                     {
                         this.Stream.Close();
                     }
-                    catch (Exception ignore)
-                    {
+                    catch (Exception)
+                    { //do nothing
                     }
 
                     Stopped = DateTime.Now;
                     IsPlayComplete = true;
                     IsPlaying = false;
+#if DEBUG_SOUND
                     Console.WriteLine($"Started: {Started} Stopped: {Stopped} Duration: {(Stopped-Started).TotalMilliseconds}");
+#endif 
                 }
                 catch (Exception ex)
                 {
@@ -53,7 +55,9 @@ namespace VzEmulator.Peripherals
                     IsPlayComplete = true;
                     IsPlaying = false;
                     PlayException = ex;
+#if DEBUG_SOUND
                     Console.WriteLine($"Error: {ex}");
+#endif 
                 }
             }) ;
             thread.Start();
