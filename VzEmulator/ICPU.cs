@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Konamiman.Z80dotNet;
 
 namespace VzEmulator
 {
@@ -21,7 +16,7 @@ namespace VzEmulator
         event EventHandler<InstructionEventArgs> AfterInstructionExecution;
         event EventHandler<InstructionEventArgs> BeforeInstructionExecution;
 
-        void ExecuteCall(ushort Address);
+        void ExecuteCall(ushort address);
         void Continue();
         void Pause();
     }

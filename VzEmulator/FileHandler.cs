@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using VzEmulator.Peripherals;
+﻿using VzEmulator.Peripherals;
 
 namespace VzEmulator
 {
@@ -20,7 +15,12 @@ namespace VzEmulator
             this.videoMemory = videoMemory;
         }
 
-        public void LoadFile(string Filename)
+        /// <summary>
+        /// Loads a file into memory and sets address pointers
+        /// </summary>
+        /// <param name="Filename"></param>
+        /// <returns>The address range of the </returns>
+        public AddressRange LoadFile(string Filename)
         {
             var file = reader.LoadFile(Filename);
             if (file.header == 0x2020 | file.header == 0x30465a56)
@@ -55,8 +55,6 @@ namespace VzEmulator
                     //Machinecode file
                     memory[VzConstants.UserExecWordPtr] = file.startaddr_l;
                     memory[VzConstants.UserExecWordPtr + 1] = file.startaddr_h;
-
-                    // cpu.ExecuteCall(addr);
                 }
                 else
                 {
@@ -73,15 +71,16 @@ namespace VzEmulator
                     memory[0x78FD] = (byte)(addrEnd & 0x00FF);
                     memory[0x78FE] = (byte)((addrEnd & 0xFF00) >> 8);
                 }
+
+                //Refresh video memory in case the loaded file overlapped with video memory.
+                videoMemory.UpdateVideoMemoryFromMainMemory();
+                return new AddressRange(addr, addrEnd);
             }
             else
             {
                 //invalid file
+                return null;
             }
-
-            //Refresh video memory in case the loaded file overlapped with video memory.
-            videoMemory.UpdateVideoMemoryFromMainMemory();
-
         }
 
         public void SaveFile(byte FileType, string Filename, ushort StartAddress, ushort EndAddress)

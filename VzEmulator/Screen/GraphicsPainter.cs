@@ -25,10 +25,10 @@ namespace VzEmulator.Screen
         Timer screenRefreshTimer;
         Timer fpsCalculateTimer;
 
-        OutputLatch outputLatch;
+        readonly OutputLatch outputLatch;
 
         int fps;
-        public String CurrentFps;
+        public int CurrentFps;
 
         public bool UseFixedScale {
             set {
@@ -103,18 +103,17 @@ namespace VzEmulator.Screen
 
         private void SetupRefreshTimer(int RefreshIntervalMS)
         {
-            screenRefreshTimer = new Timer();
-            screenRefreshTimer.Interval = RefreshIntervalMS;
+            screenRefreshTimer = new Timer {Interval = RefreshIntervalMS};
             screenRefreshTimer.Tick += (v, a) => RenderScreen();
             screenRefreshTimer.Start();
         }
         private void SetupFpsCalculator(int RefreshIntervalMS)
         {
-            fpsCalculateTimer = new Timer();
-            fpsCalculateTimer.Interval = RefreshIntervalMS; //ms
+            fpsCalculateTimer = new Timer {Interval = RefreshIntervalMS};
+            //ms
             fpsCalculateTimer.Tick += (v, a) =>
             {
-                CurrentFps = (fps / (fpsCalculateTimer.Interval / (decimal)RefreshIntervalMS)).ToString();
+                CurrentFps = (int)(fps / (fpsCalculateTimer.Interval / (decimal)RefreshIntervalMS));
                 fps = 0;
             };
             fpsCalculateTimer.Start();

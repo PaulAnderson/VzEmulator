@@ -13,7 +13,10 @@ namespace VzEmulator
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmMain());
+            var form = new frmMain();
+            var presenter = new MachinePresenter(new Machine(), form);
+            form.Presenter = presenter;
+            Application.Run(form);
         }
     }
 }
