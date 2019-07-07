@@ -25,6 +25,8 @@ namespace VzEmulator.Peripherals
             public int? Key;
             public Keys? KeyCode = Keys.None;
             public int TimesRead { get; set; }
+            public byte KeyScanMask { get; set; }
+
 
             public KeyState(int? keyValue, Keys keyData)
             {
@@ -207,19 +209,30 @@ namespace VzEmulator.Peripherals
                 //System.Threading.Thread.Sleep(TimeSpan.Zero); //Do any other work waiting
             }
 
-            if (intSource.IsEnabled)
+            if (intSource.IsEnabled || KeyQueue?.Count > 0)
             {
                 value &= keyMask;
                 intSource.IsEnabled = false;
             }
 
             //track key presses and de-queue key if in queue mode if it has been read more than once
-            if (UseKeyQueue && KeyQueue?.Count > 0 && (value & keyMask)!=keyMask)
+            if (UseKeyQueue && KeyQueue?.Count > 0 && (value & keyMask) != keyMask)
             {
                 KeyQueue.Peek().TimesRead++;
                 if (KeyQueue.Peek().TimesRead > 4) KeyQueue.Dequeue();
             }
-            
+            //de-queue key if it has been read on all address lines and not inputted
+            if (UseKeyQueue && KeyQueue?.Count > 0 && value == keyMask)
+            {
+                if (addr < 0xff)
+                    KeyQueue.Peek().KeyScanMask |= (byte) (addr);
+                else
+                    KeyQueue.Peek().TimesRead++;
+                if (KeyQueue.Peek().KeyScanMask == 0xff && KeyQueue.Peek().Key.Value != 13)
+                    KeyQueue.Dequeue();
+                if (KeyQueue.Peek().TimesRead > 10)
+                    KeyQueue.Dequeue();
+            }
             return value;
         }
 
