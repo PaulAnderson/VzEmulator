@@ -74,8 +74,8 @@ namespace VzEmulator
 
         private void Z80OnAfterInstructionExecution(object sender, InstructionEventArgs args)
         {
-
-            var z80 = (ICpu)sender;
+            
+            //var z80 = (ICpu)sender;
 
             InstructionCount += 1;
 
@@ -86,7 +86,8 @@ namespace VzEmulator
             }
 
             //reset INT on EI (enable interrupts)
-            if (memory[z80.Registers.PC] == 0xFB)
+            //if (memory[z80.Registers.PC] == 0xFB)
+            if (args.OpCode[0] == 0xFB)
             {
                 IntSource.IsEnabled = false;
             }
