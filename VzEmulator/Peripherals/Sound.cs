@@ -10,6 +10,7 @@ using CSCore.Codecs.RAW;
 using CSCore.CoreAudioAPI;
 using CSCore.SoundOut;
 using CSCore.Streams;
+using CSCore.XAudio2;
 
 namespace VzEmulator.Peripherals
 {
@@ -23,7 +24,7 @@ namespace VzEmulator.Peripherals
         const int SpeakerBit1 = 1; //1,32 = speaker. 2,4 = tape out
         const int SpeakerBit2 = 32; //1,32 = speaker. 2,4 = tape out
 
-        const int samplesPerSecond = 16000;
+        const int samplesPerSecond = 8000;
         private const int Z80TargetKips = 478; //540/4*3.5469
 
         DateTime? cycleStartTime;
@@ -32,6 +33,10 @@ namespace VzEmulator.Peripherals
         TimeSpan targetTicks;
         int instructionCount;
         int targetInstructionCount;
+
+        XAudio2 xaudio2;
+        XAudio2MasteringVoice masteringVoice;
+        StreamingSourceVoice streamingSourceVoice;
 
         public Sound(OutputLatch outputLatch, ICpu cpu, SystemTime systemTime = null)
         {
@@ -43,21 +48,23 @@ namespace VzEmulator.Peripherals
             this.cpu = cpu;
             cpu.AfterInstructionExecution += Cpu_AfterInstructionExecution;
 
-            stream = new MemoryStream(16000);
+            stream = new MemoryStream(samplesPerSecond/10);
             writer = new BinaryWriter(stream);
 
             for (var x = 0; x<1000;x++)
-                writer.Write(0);
+                writer.Write((x % 2) * 255);
 
             IWaveSource soundSource = GetSoundSource(stream);
             LoopStream loopStream = new LoopStream(soundSource);
             loopStream.EnableLoop = true;
             loopStream.StreamFinished += LoopStream_StreamFinished;
             soundSource = loopStream;
+            xaudio2 = XAudio2.CreateXAudio2();
+            masteringVoice = xaudio2.CreateMasteringVoice(1, samplesPerSecond);
+            streamingSourceVoice = new StreamingSourceVoice(xaudio2, soundSource);
 
-            ISoundOut soundOut = GetSoundOut();
-            soundOut.Initialize(soundSource);
-            soundOut.Play();
+            StreamingSourceVoiceListener.Default.Add(streamingSourceVoice);
+            streamingSourceVoice.Start();
          }
 
         private IWaveSource GetSoundSource(Stream stream)
@@ -84,6 +91,7 @@ namespace VzEmulator.Peripherals
             }
             TimeSpan ticks = (systemTime.Now - cycleStartTime).Value;
 
+
             if (ticks > targetTicks || instructionCount> targetInstructionCount)
             {
                 if (instructionCount > targetInstructionCount)
@@ -101,10 +109,10 @@ namespace VzEmulator.Peripherals
             
                 writer.Write(value);
 
+                float ratio = (float)(ticks.Ticks/ targetTicks.Ticks);
+
+                
             }
-
-
-
         }
 
         private void StartCycle()
@@ -115,7 +123,8 @@ namespace VzEmulator.Peripherals
 
         private void LoopStream_StreamFinished(object sender, EventArgs e)
         {
-            writer.Seek(0,SeekOrigin.Begin);
+           writer.Seek(0,SeekOrigin.Begin);
+           //streamingSourceVoice.SetFrequencyRatio(1, 0);
         }
     }
 }
