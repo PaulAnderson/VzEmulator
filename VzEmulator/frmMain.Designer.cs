@@ -60,13 +60,13 @@
             this.smoothingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toggleGraphicsModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colourToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.soundEnabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showRegistersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showMemoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.developmentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showFontToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.traceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.soundEnabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pnlTop.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -381,6 +381,14 @@
             this.colourToolStripMenuItem.Text = "Colour";
             this.colourToolStripMenuItem.Click += new System.EventHandler(this.colourToolStripMenuItem_Click);
             // 
+            // soundEnabledToolStripMenuItem
+            // 
+            this.soundEnabledToolStripMenuItem.CheckOnClick = true;
+            this.soundEnabledToolStripMenuItem.Name = "soundEnabledToolStripMenuItem";
+            this.soundEnabledToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.soundEnabledToolStripMenuItem.Text = "Sound (Experimental)";
+            this.soundEnabledToolStripMenuItem.Click += new System.EventHandler(this.soundEnabledToolStripMenuItem_Click);
+            // 
             // debugToolStripMenuItem
             // 
             this.debugToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -393,14 +401,14 @@
             // showRegistersToolStripMenuItem
             // 
             this.showRegistersToolStripMenuItem.Name = "showRegistersToolStripMenuItem";
-            this.showRegistersToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.showRegistersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.showRegistersToolStripMenuItem.Text = "Show Registers";
             this.showRegistersToolStripMenuItem.Click += new System.EventHandler(this.showRegistersToolStripMenuItem_Click);
             // 
             // showMemoryToolStripMenuItem
             // 
             this.showMemoryToolStripMenuItem.Name = "showMemoryToolStripMenuItem";
-            this.showMemoryToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.showMemoryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.showMemoryToolStripMenuItem.Text = "Show Memory";
             // 
             // developmentToolStripMenuItem
@@ -426,16 +434,6 @@
             this.traceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.traceToolStripMenuItem.Text = "Trace";
             this.traceToolStripMenuItem.Click += new System.EventHandler(this.traceToolStripMenuItem_Click);
-            // 
-            // soundEnabledToolStripMenuItem
-            // 
-            this.soundEnabledToolStripMenuItem.Checked = true;
-            this.soundEnabledToolStripMenuItem.CheckOnClick = true;
-            this.soundEnabledToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.soundEnabledToolStripMenuItem.Name = "soundEnabledToolStripMenuItem";
-            this.soundEnabledToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
-            this.soundEnabledToolStripMenuItem.Text = "Sound Enabled";
-            this.soundEnabledToolStripMenuItem.Click += new System.EventHandler(this.soundEnabledToolStripMenuItem_Click);
             // 
             // frmMain
             // 
