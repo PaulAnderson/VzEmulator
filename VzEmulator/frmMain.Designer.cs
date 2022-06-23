@@ -33,23 +33,15 @@
             this.lblInstructionsPerSecond = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.btnGrMode = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pnlTop = new System.Windows.Forms.Panel();
-            this.btnScale = new System.Windows.Forms.Button();
-            this.btnSmooth = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.txtMCEnd = new System.Windows.Forms.TextBox();
             this.txtMCStart = new System.Windows.Forms.TextBox();
             this.btnQuickLoad = new System.Windows.Forms.Button();
             this.btnQuickSave = new System.Windows.Forms.Button();
-            this.btnColour = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.emulationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.displayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.developmentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDiskImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveDiskImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openvzFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,16 +50,20 @@
             this.openMemoryImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveMemoryImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.emulationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unPauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.execMachinecodeProgramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.displayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.integerScalingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.smoothingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toggleGraphicsModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colourToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showRegistersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showMemoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.developmentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showFontToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.traceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -81,7 +77,7 @@
             this.textBox1.Font = new System.Drawing.Font("Consolas", 10.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox1.ForeColor = System.Drawing.Color.Lime;
             this.textBox1.Location = new System.Drawing.Point(477, 91);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
@@ -132,22 +128,12 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "IPS";
             // 
-            // btnGrMode
-            // 
-            this.btnGrMode.Location = new System.Drawing.Point(116, 37);
-            this.btnGrMode.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.btnGrMode.Name = "btnGrMode";
-            this.btnGrMode.Size = new System.Drawing.Size(46, 24);
-            this.btnGrMode.TabIndex = 3;
-            this.btnGrMode.Text = "Mode";
-            this.btnGrMode.UseVisualStyleBackColor = true;
-            // 
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Black;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.pictureBox1.Location = new System.Drawing.Point(0, 93);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(902, 383);
             this.pictureBox1.TabIndex = 4;
@@ -155,45 +141,21 @@
             // 
             // pnlTop
             // 
-            this.pnlTop.Controls.Add(this.btnScale);
-            this.pnlTop.Controls.Add(this.btnSmooth);
             this.pnlTop.Controls.Add(this.label3);
             this.pnlTop.Controls.Add(this.txtMCEnd);
             this.pnlTop.Controls.Add(this.txtMCStart);
             this.pnlTop.Controls.Add(this.btnQuickLoad);
             this.pnlTop.Controls.Add(this.btnQuickSave);
             this.pnlTop.Controls.Add(this.lblFps);
-            this.pnlTop.Controls.Add(this.btnColour);
-            this.pnlTop.Controls.Add(this.btnGrMode);
             this.pnlTop.Controls.Add(this.lblInstructionsPerSecond);
             this.pnlTop.Controls.Add(this.label1);
             this.pnlTop.Controls.Add(this.label2);
             this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTop.Location = new System.Drawing.Point(0, 24);
-            this.pnlTop.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pnlTop.Margin = new System.Windows.Forms.Padding(2);
             this.pnlTop.Name = "pnlTop";
             this.pnlTop.Size = new System.Drawing.Size(902, 69);
             this.pnlTop.TabIndex = 8;
-            // 
-            // btnScale
-            // 
-            this.btnScale.Location = new System.Drawing.Point(16, 37);
-            this.btnScale.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.btnScale.Name = "btnScale";
-            this.btnScale.Size = new System.Drawing.Size(48, 24);
-            this.btnScale.TabIndex = 10;
-            this.btnScale.Text = "Scale";
-            this.btnScale.UseVisualStyleBackColor = true;
-            // 
-            // btnSmooth
-            // 
-            this.btnSmooth.Location = new System.Drawing.Point(66, 37);
-            this.btnSmooth.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.btnSmooth.Name = "btnSmooth";
-            this.btnSmooth.Size = new System.Drawing.Size(48, 24);
-            this.btnSmooth.TabIndex = 10;
-            this.btnSmooth.Text = "Smooth";
-            this.btnSmooth.UseVisualStyleBackColor = true;
             // 
             // label3
             // 
@@ -209,7 +171,7 @@
             // 
             this.txtMCEnd.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMCEnd.Location = new System.Drawing.Point(568, 41);
-            this.txtMCEnd.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtMCEnd.Margin = new System.Windows.Forms.Padding(2);
             this.txtMCEnd.Name = "txtMCEnd";
             this.txtMCEnd.Size = new System.Drawing.Size(70, 23);
             this.txtMCEnd.TabIndex = 8;
@@ -220,7 +182,7 @@
             // 
             this.txtMCStart.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMCStart.Location = new System.Drawing.Point(486, 41);
-            this.txtMCStart.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtMCStart.Margin = new System.Windows.Forms.Padding(2);
             this.txtMCStart.Name = "txtMCStart";
             this.txtMCStart.Size = new System.Drawing.Size(70, 23);
             this.txtMCStart.TabIndex = 8;
@@ -230,7 +192,7 @@
             // btnQuickLoad
             // 
             this.btnQuickLoad.Location = new System.Drawing.Point(652, 37);
-            this.btnQuickLoad.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnQuickLoad.Margin = new System.Windows.Forms.Padding(2);
             this.btnQuickLoad.Name = "btnQuickLoad";
             this.btnQuickLoad.Size = new System.Drawing.Size(66, 24);
             this.btnQuickLoad.TabIndex = 5;
@@ -241,23 +203,13 @@
             // btnQuickSave
             // 
             this.btnQuickSave.Location = new System.Drawing.Point(652, 10);
-            this.btnQuickSave.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnQuickSave.Margin = new System.Windows.Forms.Padding(2);
             this.btnQuickSave.Name = "btnQuickSave";
             this.btnQuickSave.Size = new System.Drawing.Size(66, 24);
             this.btnQuickSave.TabIndex = 5;
             this.btnQuickSave.Text = "Quicksave";
             this.btnQuickSave.UseVisualStyleBackColor = true;
             this.btnQuickSave.Click += new System.EventHandler(this.btnQuickSave_Click);
-            // 
-            // btnColour
-            // 
-            this.btnColour.Location = new System.Drawing.Point(166, 37);
-            this.btnColour.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.btnColour.Name = "btnColour";
-            this.btnColour.Size = new System.Drawing.Size(46, 24);
-            this.btnColour.TabIndex = 3;
-            this.btnColour.Text = "Colour";
-            this.btnColour.UseVisualStyleBackColor = true;
             // 
             // menuStrip1
             // 
@@ -287,46 +239,6 @@
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
-            // 
-            // emulationToolStripMenuItem
-            // 
-            this.emulationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.startToolStripMenuItem,
-            this.pauseToolStripMenuItem,
-            this.unPauseToolStripMenuItem,
-            this.execMachinecodeProgramToolStripMenuItem});
-            this.emulationToolStripMenuItem.Name = "emulationToolStripMenuItem";
-            this.emulationToolStripMenuItem.Size = new System.Drawing.Size(73, 20);
-            this.emulationToolStripMenuItem.Text = "Emulation";
-            // 
-            // displayToolStripMenuItem
-            // 
-            this.displayToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.integerScalingToolStripMenuItem,
-            this.smoothingToolStripMenuItem,
-            this.toggleGraphicsModeToolStripMenuItem,
-            this.colourToolStripMenuItem});
-            this.displayToolStripMenuItem.Name = "displayToolStripMenuItem";
-            this.displayToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
-            this.displayToolStripMenuItem.Text = "Display";
-            // 
-            // debugToolStripMenuItem
-            // 
-            this.debugToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.showRegistersToolStripMenuItem,
-            this.showMemoryToolStripMenuItem});
-            this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
-            this.debugToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
-            this.debugToolStripMenuItem.Text = "Debug";
-            // 
-            // developmentToolStripMenuItem
-            // 
-            this.developmentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.showFontToolStripMenuItem,
-            this.traceToolStripMenuItem});
-            this.developmentToolStripMenuItem.Name = "developmentToolStripMenuItem";
-            this.developmentToolStripMenuItem.Size = new System.Drawing.Size(90, 20);
-            this.developmentToolStripMenuItem.Text = "Development";
             // 
             // openDiskImageToolStripMenuItem
             // 
@@ -383,6 +295,17 @@
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             // 
+            // emulationToolStripMenuItem
+            // 
+            this.emulationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.startToolStripMenuItem,
+            this.pauseToolStripMenuItem,
+            this.unPauseToolStripMenuItem,
+            this.execMachinecodeProgramToolStripMenuItem});
+            this.emulationToolStripMenuItem.Name = "emulationToolStripMenuItem";
+            this.emulationToolStripMenuItem.Size = new System.Drawing.Size(73, 20);
+            this.emulationToolStripMenuItem.Text = "Emulation";
+            // 
             // startToolStripMenuItem
             // 
             this.startToolStripMenuItem.Name = "startToolStripMenuItem";
@@ -412,6 +335,17 @@
             this.execMachinecodeProgramToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.execMachinecodeProgramToolStripMenuItem.Text = "Exec machine-code program";
             this.execMachinecodeProgramToolStripMenuItem.Click += new System.EventHandler(this.execMachinecodeProgramToolStripMenuItem_Click);
+            // 
+            // displayToolStripMenuItem
+            // 
+            this.displayToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.integerScalingToolStripMenuItem,
+            this.smoothingToolStripMenuItem,
+            this.toggleGraphicsModeToolStripMenuItem,
+            this.colourToolStripMenuItem});
+            this.displayToolStripMenuItem.Name = "displayToolStripMenuItem";
+            this.displayToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+            this.displayToolStripMenuItem.Text = "Display";
             // 
             // integerScalingToolStripMenuItem
             // 
@@ -445,24 +379,43 @@
             this.colourToolStripMenuItem.Text = "Colour";
             this.colourToolStripMenuItem.Click += new System.EventHandler(this.colourToolStripMenuItem_Click);
             // 
+            // debugToolStripMenuItem
+            // 
+            this.debugToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showRegistersToolStripMenuItem,
+            this.showMemoryToolStripMenuItem});
+            this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
+            this.debugToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
+            this.debugToolStripMenuItem.Text = "Debug";
+            // 
             // showRegistersToolStripMenuItem
             // 
             this.showRegistersToolStripMenuItem.Name = "showRegistersToolStripMenuItem";
-            this.showRegistersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.showRegistersToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.showRegistersToolStripMenuItem.Text = "Show Registers";
             this.showRegistersToolStripMenuItem.Click += new System.EventHandler(this.showRegistersToolStripMenuItem_Click);
             // 
             // showMemoryToolStripMenuItem
             // 
             this.showMemoryToolStripMenuItem.Name = "showMemoryToolStripMenuItem";
-            this.showMemoryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.showMemoryToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.showMemoryToolStripMenuItem.Text = "Show Memory";
+            // 
+            // developmentToolStripMenuItem
+            // 
+            this.developmentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showFontToolStripMenuItem,
+            this.traceToolStripMenuItem});
+            this.developmentToolStripMenuItem.Name = "developmentToolStripMenuItem";
+            this.developmentToolStripMenuItem.Size = new System.Drawing.Size(90, 20);
+            this.developmentToolStripMenuItem.Text = "Development";
             // 
             // showFontToolStripMenuItem
             // 
             this.showFontToolStripMenuItem.Name = "showFontToolStripMenuItem";
             this.showFontToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.showFontToolStripMenuItem.Text = "Show Font";
+            this.showFontToolStripMenuItem.Click += new System.EventHandler(this.showFontToolStripMenuItem_Click);
             // 
             // traceToolStripMenuItem
             // 
@@ -483,7 +436,7 @@
             this.Controls.Add(this.menuStrip1);
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "frmMain";
             this.Text = "VZ300 Emulator";
             this.Load += new System.EventHandler(this.frmMain_Load);
@@ -505,7 +458,6 @@
         private System.Windows.Forms.Label lblInstructionsPerSecond;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btnGrMode;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel pnlTop;
         private System.Windows.Forms.Label label3;
@@ -513,9 +465,6 @@
         private System.Windows.Forms.TextBox txtMCStart;
         private System.Windows.Forms.Button btnQuickSave;
         private System.Windows.Forms.Button btnQuickLoad;
-        private System.Windows.Forms.Button btnScale;
-        private System.Windows.Forms.Button btnSmooth;
-        private System.Windows.Forms.Button btnColour;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem emulationToolStripMenuItem;

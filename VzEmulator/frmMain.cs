@@ -243,5 +243,9 @@ namespace VzEmulator
             Presenter.ToggleColour();
         }
 
+        private void showFontToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Presenter.DevelopmentShowFont();
+        }
     }
 }

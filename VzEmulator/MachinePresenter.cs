@@ -237,5 +237,14 @@ namespace VzEmulator
             if (graphicsPainter != null)
                 graphicsPainter.GrayScale = !graphicsPainter.GrayScale;
         }
+
+        internal void DevelopmentShowFont()
+        {
+            var imageForm = new Form();
+            imageForm.Text = "Font Tile Viewer";
+            imageForm.BackgroundImage = ((TextModeRenderer)graphicsPainter.TextModeRenderer)._FontBitmap.Bitmap;
+            imageForm.BackgroundImageLayout = ImageLayout.None;
+            imageForm.Show();
+        }
     }
 }
