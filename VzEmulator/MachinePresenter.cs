@@ -20,7 +20,7 @@ namespace VzEmulator
 
         private FileIO fileIo;
         private FileHandler fileHandler;
-        private GraphicsPainter _graphicsPainter;
+        private GraphicsPainter graphicsPainter;
 
         public MachinePresenter(Machine machine, IMachineView view)
         {
@@ -28,7 +28,7 @@ namespace VzEmulator
             _view = view;
 
             fileIo = FileIO.GetDefaultImplementation();
-            fileHandler = new FileHandler(fileIo, _machine.Cpu.Memory, _machine.VideoMemory);
+            fileHandler = new FileHandler(fileIo, machine.Cpu.Memory, machine.VideoMemory);
         }
 
         public void EnableTrace(bool value)
@@ -50,7 +50,7 @@ namespace VzEmulator
                 fileName = PlaceHolderRomFilename;
             }
 
-            _graphicsPainter = new GraphicsPainter(_view.RenderControl, _machine.VideoMemory.Content, _machine.OutputLatch, 0, 33);
+            graphicsPainter = new GraphicsPainter(_view.RenderControl, _machine.VideoMemory.Content, _machine.OutputLatch, 0, 33);
             var program = fileIo.ReadFile(fileName);
             _machine.Setup(program);
 
@@ -69,7 +69,7 @@ namespace VzEmulator
                     var stats = new MachineStats()
                     {
                         InstructionsPerSecond = (int)(_machine.InstructionCount / (watchTimer.Interval / 1000.0)),
-                        FramesPerSecond = _graphicsPainter.CurrentFps
+                        FramesPerSecond = graphicsPainter.CurrentFps
                     };
                     _machine.InstructionCount = 0;
 
@@ -214,22 +214,28 @@ namespace VzEmulator
 
         internal void ToggleUseFixedScaling()
         {
-            throw new NotImplementedException();
+            if (graphicsPainter != null)
+            {
+                graphicsPainter.UseFixedScale = !graphicsPainter.UseFixedScale;
+                graphicsPainter.FixedScale = 2;
+            }
         }
 
         internal void ToggleDisplaySmothing()
         {
-            throw new NotImplementedException();
+            if (graphicsPainter != null)
+                graphicsPainter.UseSmoothing = !graphicsPainter.UseSmoothing;
         }
 
         internal void ToggleGrahpicsMode()
         {
-            throw new NotImplementedException();
+            _machine.OutputLatch.Value ^= (byte)VzConstants.OutputLatchBits.GraphicsMode; //toggle graphics mode
         }
 
         internal void ToggleColour()
         {
-            throw new NotImplementedException();
+            if (graphicsPainter != null)
+                graphicsPainter.GrayScale = !graphicsPainter.GrayScale;
         }
     }
 }

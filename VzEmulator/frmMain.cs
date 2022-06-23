@@ -337,27 +337,20 @@ namespace VzEmulator
 
         private void btnGR_Click(object sender, EventArgs e)
         {
-            //outputLatch.Value ^= (byte)VzConstants.OutputLatchBits.GraphicsMode; //toggle graphics mode
         }
 
         private void btnSmooth_Click(object sender, EventArgs e)
         {
-            //if (graphicsPainter != null)
-            //    graphicsPainter.UseSmoothing = !graphicsPainter.UseSmoothing;
+            
         }
 
         private void btnScale_Click(object sender, EventArgs e)
         {
-            //if (graphicsPainter != null)
-            //{
-            //    graphicsPainter.UseFixedScale = !graphicsPainter.UseFixedScale;
-            //    graphicsPainter.FixedScale = 2;
-            //}
+            
         }
         private void btnColour_Click(object sender, EventArgs e)
         {
-            //if (graphicsPainter != null)
-            //    graphicsPainter.GrayScale = !graphicsPainter.GrayScale;
+ 
         }
     }
 }
