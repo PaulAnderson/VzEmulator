@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Text;
 using VzEmulator.Screen;
 
 namespace VzEmulator.Screen
@@ -58,5 +59,43 @@ namespace VzEmulator.Screen
                 }
             }
         }
+
+        public string GetText()
+        {
+
+            var sb = new StringBuilder();
+            var offset = 0;
+            for (var y = 0; y < 16; y++)
+            {
+                for (var x = 0; x < 32; x++)
+                {
+                    //get value
+                    ushort pos;
+                    unchecked
+                    {
+                        pos = (ushort)(offset + y * 32 + x);
+                    }
+                    var value = _Memory[_VideoMemoryStartAddress + pos];
+
+                    //create string
+                    if (value < 0x20) value += 0x40;
+                    if (value >= 0x60 && value < 0x80) value -= 0x40;
+                    if (value > 32 && value <= 128)
+                    {
+                        sb.Append((char)value);
+                    }
+                    else if (value == 32 && _Memory[_VideoMemoryStartAddress + pos] == 32) //inverted space, cursor
+                    {
+                        sb.Append('#');
+                    }
+                    {
+                        sb.Append(' ');
+                    }
+                }
+                sb.AppendLine("");
+            }
+
+            return sb.ToString();
+        }   
     }
 }

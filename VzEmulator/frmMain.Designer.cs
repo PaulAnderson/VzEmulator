@@ -141,7 +141,6 @@
             this.btnGrMode.TabIndex = 3;
             this.btnGrMode.Text = "Mode";
             this.btnGrMode.UseVisualStyleBackColor = true;
-            this.btnGrMode.Click += new System.EventHandler(this.btnGR_Click);
             // 
             // pictureBox1
             // 
@@ -185,7 +184,6 @@
             this.btnScale.TabIndex = 10;
             this.btnScale.Text = "Scale";
             this.btnScale.UseVisualStyleBackColor = true;
-            this.btnScale.Click += new System.EventHandler(this.btnScale_Click);
             // 
             // btnSmooth
             // 
@@ -196,7 +194,6 @@
             this.btnSmooth.TabIndex = 10;
             this.btnSmooth.Text = "Smooth";
             this.btnSmooth.UseVisualStyleBackColor = true;
-            this.btnSmooth.Click += new System.EventHandler(this.btnSmooth_Click);
             // 
             // label3
             // 
@@ -261,7 +258,6 @@
             this.btnColour.TabIndex = 3;
             this.btnColour.Text = "Colour";
             this.btnColour.UseVisualStyleBackColor = true;
-            this.btnColour.Click += new System.EventHandler(this.btnColour_Click);
             // 
             // menuStrip1
             // 
@@ -467,7 +463,6 @@
             this.showFontToolStripMenuItem.Name = "showFontToolStripMenuItem";
             this.showFontToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.showFontToolStripMenuItem.Text = "Show Font";
-            this.showFontToolStripMenuItem.Click += new System.EventHandler(this.showFontToolStripMenuItem_Click);
             // 
             // traceToolStripMenuItem
             // 
