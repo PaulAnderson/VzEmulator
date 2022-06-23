@@ -273,6 +273,14 @@ namespace VzEmulator
             }
         }
 
+        private void colourToolStripMenuItem_Click(object sender, EventArgs e)
+        {
 
+        }
+
+        private void showFontToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
