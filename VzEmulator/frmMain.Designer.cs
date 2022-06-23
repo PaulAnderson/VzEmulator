@@ -66,6 +66,7 @@
             this.developmentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showFontToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.traceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.soundEnabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pnlTop.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -342,7 +343,8 @@
             this.integerScalingToolStripMenuItem,
             this.smoothingToolStripMenuItem,
             this.toggleGraphicsModeToolStripMenuItem,
-            this.colourToolStripMenuItem});
+            this.colourToolStripMenuItem,
+            this.soundEnabledToolStripMenuItem});
             this.displayToolStripMenuItem.Name = "displayToolStripMenuItem";
             this.displayToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.displayToolStripMenuItem.Text = "Display";
@@ -425,6 +427,16 @@
             this.traceToolStripMenuItem.Text = "Trace";
             this.traceToolStripMenuItem.Click += new System.EventHandler(this.traceToolStripMenuItem_Click);
             // 
+            // soundEnabledToolStripMenuItem
+            // 
+            this.soundEnabledToolStripMenuItem.Checked = true;
+            this.soundEnabledToolStripMenuItem.CheckOnClick = true;
+            this.soundEnabledToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.soundEnabledToolStripMenuItem.Name = "soundEnabledToolStripMenuItem";
+            this.soundEnabledToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.soundEnabledToolStripMenuItem.Text = "Sound Enabled";
+            this.soundEnabledToolStripMenuItem.Click += new System.EventHandler(this.soundEnabledToolStripMenuItem_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -491,6 +503,7 @@
         private System.Windows.Forms.ToolStripMenuItem showMemoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showFontToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem traceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem soundEnabledToolStripMenuItem;
     }
 }
 

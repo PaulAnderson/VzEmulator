@@ -7,11 +7,9 @@ namespace VzEmulator
 {
     public class Machine
     {
-        private readonly ICpu cpu = new Z80dotNetCpuAdapter();
-        public ICpu Cpu { get => cpu; }
+        public ICpu Cpu { get; } = new Z80dotNetCpuAdapter();
 
-        private MemUtils mem;
-        internal MemUtils Memory { get => mem; }
+        internal MemUtils Memory { get; private set; }
         internal VideoMemory VideoMemory { get; set; }
         internal Keyboard Keyboard;
         internal IInterruptEnableFlag IntSource;
@@ -24,7 +22,11 @@ namespace VzEmulator
         private readonly OutputLatch _OutputLatch = new OutputLatch();
         private readonly Rom rom = new Rom();
         private IMemoryAccessor memory;
+
         private Sound sound;
+        public bool SoundEnabled { set {
+                sound.SoundEnabled = value;
+            } }
 
         public OutputLatch OutputLatch => _OutputLatch;
         public double InstructionCount { get; set; }
@@ -38,29 +40,29 @@ namespace VzEmulator
 
         private void SetupDevices()
         {
-            IntSource = cpu.InterruptEnableFlag;
+            IntSource = Cpu.InterruptEnableFlag;
             Keyboard = new Keyboard(IntSource);
-            memory = cpu.Memory;
+            memory = Cpu.Memory;
             VideoMemory = new VideoMemory(memory);
             router.Add(drive).Add(Keyboard).Add(_OutputLatch).Add(rom).Add(VideoMemory);
-            sound = new Sound(_OutputLatch, cpu);
+            sound = new Sound(_OutputLatch, Cpu);
         }
 
         internal void StartCpuTask()
         {
-            if (cpu != null)
-                Task.Run(() => cpu.Continue());
+            if (Cpu != null)
+                Task.Run(() => Cpu.Continue());
         }
 
         public void SaveRegistersToMemory(ICpu z80)
         {
-            ushort nextAddress = mem.SaveRegistersToMemory(z80.Registers, 0);
+            ushort nextAddress = Memory.SaveRegistersToMemory(z80.Registers, 0);
             z80.Memory[nextAddress] = OutputLatch.Value;
         }
 
         public void LoadRegistersFromMemory(ICpu z80)
         {
-            ushort nextAddress = mem.LoadRegistersFromMemory(z80.Registers, 0);
+            ushort nextAddress = Memory.LoadRegistersFromMemory(z80.Registers, 0);
             OutputLatch.Value = z80.Memory[nextAddress];
         }
 
@@ -81,7 +83,7 @@ namespace VzEmulator
 
             if (resetting)
             {
-                cpu.Reset();
+                Cpu.Reset();
                 resetting = false;
             }
 
@@ -157,19 +159,19 @@ namespace VzEmulator
 
         internal void WaitForCpuStop()
         {
-            while (cpu.State == CpuState.Running)
+            while (Cpu.State == CpuState.Running)
                 System.Threading.Thread.Sleep(0);
         }
 
         internal void JumpToUsrExec()
         {
-            var addr = mem.GetWordAtAddress(VzConstants.UserExecWordPtr);
-            cpu.ExecuteCall(addr);
+            var addr = Memory.GetWordAtAddress(VzConstants.UserExecWordPtr);
+            Cpu.ExecuteCall(addr);
         }
 
         internal void Pause()
         {
-            cpu.Pause();
+            Cpu.Pause();
         }
 
 
@@ -177,19 +179,19 @@ namespace VzEmulator
         {
             if (!cpuIsSetup)
             {
-                mem = new MemUtils(memory);
-                tracer = new InstructionTracer(cpu);
+                Memory = new MemUtils(memory);
+                tracer = new InstructionTracer(Cpu);
 
                 memory.SetContents(0, program);
 
                 //set events
-                cpu.AfterInstructionExecution += Z80OnAfterInstructionExecution;
-                cpu.BeforeInstructionExecution += CpuOnBeforeInstructionExecution;
+                Cpu.AfterInstructionExecution += Z80OnAfterInstructionExecution;
+                Cpu.BeforeInstructionExecution += CpuOnBeforeInstructionExecution;
 
-                cpu.MemoryAccess += OnCpuBusAccess;
-                cpu.PortAccess += OnCpuBusAccess;
+                Cpu.MemoryAccess += OnCpuBusAccess;
+                Cpu.PortAccess += OnCpuBusAccess;
 
-                cpu.Reset();
+                Cpu.Reset();
                 StartCpuTask();
 
                 cpuIsSetup = true;
@@ -199,8 +201,8 @@ namespace VzEmulator
             {
                 memory.SetContents(0, program);
 
-                if (cpu.IsHalted)
-                    cpu.Reset();
+                if (Cpu.IsHalted)
+                    Cpu.Reset();
                 else
                     resetting = true;
             }

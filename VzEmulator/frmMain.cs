@@ -247,5 +247,10 @@ namespace VzEmulator
         {
             Presenter.DevelopmentShowFont();
         }
+
+        private void soundEnabledToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Presenter.SoundEnabled = soundEnabledToolStripMenuItem.Checked;
+        }
     }
 }

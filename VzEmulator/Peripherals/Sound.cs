@@ -6,6 +6,8 @@ using System.Threading;
 namespace VzEmulator.Peripherals
 {
     class Sound {
+        public bool SoundEnabled { get; set; } = true;
+
         private readonly OutputLatch outputLatch;
         private readonly ICpu cpu;
         private readonly SystemTime systemTime;
@@ -30,6 +32,8 @@ namespace VzEmulator.Peripherals
         private int prevValue;
         private void Cpu_AfterInstructionExecution(object sender, InstructionEventArgs e)
         {
+            if (!SoundEnabled) return;
+
             if (cycleStartTime == null && prevValue == (outputLatch.Value & SpeakerBit))
             {
                 prevValue = outputLatch.Value & SpeakerBit;
@@ -58,6 +62,12 @@ namespace VzEmulator.Peripherals
         }
         private void GenerateSound(double elapsedMs, List<byte> latchData)
         {
+            if (!SoundEnabled)
+            {
+                outputLatchHistory.Clear();
+                return;
+            }
+
             //todo:
             //scale history to sampleRate / (1s / elapsedMs)
             //Create a wav fie in memory

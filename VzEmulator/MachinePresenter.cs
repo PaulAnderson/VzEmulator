@@ -194,6 +194,10 @@ namespace VzEmulator
             }
         }
 
+        public bool SoundEnabled { set {
+                _machine.SoundEnabled = value;
+            } }
+
         public AddressRange LoadFile(string fileName)
         {
             var addressRange = fileHandler.LoadFile(fileName);
