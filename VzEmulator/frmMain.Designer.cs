@@ -28,34 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnStart = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.btnPause = new System.Windows.Forms.Button();
-            this.btnContinue = new System.Windows.Forms.Button();
             this.lblFps = new System.Windows.Forms.Label();
             this.lblInstructionsPerSecond = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.btnTrace = new System.Windows.Forms.Button();
-            this.btnLoad = new System.Windows.Forms.Button();
-            this.btnExec = new System.Windows.Forms.Button();
             this.btnGrMode = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btnSaveBasic = new System.Windows.Forms.Button();
-            this.btnSaveMC = new System.Windows.Forms.Button();
-            this.btnDebug = new System.Windows.Forms.Button();
             this.pnlTop = new System.Windows.Forms.Panel();
-            this.btnLoadDisk = new System.Windows.Forms.Button();
-            this.btnSaveDisk = new System.Windows.Forms.Button();
             this.btnScale = new System.Windows.Forms.Button();
             this.btnSmooth = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.txtMCEnd = new System.Windows.Forms.TextBox();
             this.txtMCStart = new System.Windows.Forms.TextBox();
-            this.button4 = new System.Windows.Forms.Button();
             this.btnQuickLoad = new System.Windows.Forms.Button();
             this.btnQuickSave = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.btnColour = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -82,21 +69,11 @@
             this.showRegistersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showMemoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showFontToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.traceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pnlTop.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // btnStart
-            // 
-            this.btnStart.Location = new System.Drawing.Point(6, 8);
-            this.btnStart.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(90, 24);
-            this.btnStart.TabIndex = 0;
-            this.btnStart.Text = "Start";
-            this.btnStart.UseVisualStyleBackColor = true;
-            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // textBox1
             // 
@@ -110,30 +87,6 @@
             this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(921, 385);
             this.textBox1.TabIndex = 1;
-            // 
-            // btnPause
-            // 
-            this.btnPause.Enabled = false;
-            this.btnPause.Location = new System.Drawing.Point(98, 8);
-            this.btnPause.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.btnPause.Name = "btnPause";
-            this.btnPause.Size = new System.Drawing.Size(90, 24);
-            this.btnPause.TabIndex = 0;
-            this.btnPause.Text = "Pause";
-            this.btnPause.UseVisualStyleBackColor = true;
-            this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
-            // 
-            // btnContinue
-            // 
-            this.btnContinue.Enabled = false;
-            this.btnContinue.Location = new System.Drawing.Point(190, 8);
-            this.btnContinue.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.btnContinue.Name = "btnContinue";
-            this.btnContinue.Size = new System.Drawing.Size(90, 24);
-            this.btnContinue.TabIndex = 0;
-            this.btnContinue.Text = "Continue";
-            this.btnContinue.UseVisualStyleBackColor = true;
-            this.btnContinue.Click += new System.EventHandler(this.btnContinue_Click);
             // 
             // lblFps
             // 
@@ -179,39 +132,6 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "IPS";
             // 
-            // btnTrace
-            // 
-            this.btnTrace.Location = new System.Drawing.Point(284, 8);
-            this.btnTrace.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.btnTrace.Name = "btnTrace";
-            this.btnTrace.Size = new System.Drawing.Size(50, 24);
-            this.btnTrace.TabIndex = 0;
-            this.btnTrace.Text = "Trace";
-            this.btnTrace.UseVisualStyleBackColor = true;
-            this.btnTrace.Click += new System.EventHandler(this.btnTrace_Click);
-            // 
-            // btnLoad
-            // 
-            this.btnLoad.Location = new System.Drawing.Point(340, 10);
-            this.btnLoad.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.btnLoad.Name = "btnLoad";
-            this.btnLoad.Size = new System.Drawing.Size(66, 24);
-            this.btnLoad.TabIndex = 3;
-            this.btnLoad.Text = "Load";
-            this.btnLoad.UseVisualStyleBackColor = true;
-            this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
-            // 
-            // btnExec
-            // 
-            this.btnExec.Location = new System.Drawing.Point(340, 37);
-            this.btnExec.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.btnExec.Name = "btnExec";
-            this.btnExec.Size = new System.Drawing.Size(66, 24);
-            this.btnExec.TabIndex = 3;
-            this.btnExec.Text = "Exec";
-            this.btnExec.UseVisualStyleBackColor = true;
-            this.btnExec.Click += new System.EventHandler(this.btnExec_Click);
-            // 
             // btnGrMode
             // 
             this.btnGrMode.Location = new System.Drawing.Point(116, 37);
@@ -234,66 +154,20 @@
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
             // 
-            // btnSaveBasic
-            // 
-            this.btnSaveBasic.Location = new System.Drawing.Point(410, 10);
-            this.btnSaveBasic.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.btnSaveBasic.Name = "btnSaveBasic";
-            this.btnSaveBasic.Size = new System.Drawing.Size(66, 24);
-            this.btnSaveBasic.TabIndex = 5;
-            this.btnSaveBasic.Text = "Save Basic";
-            this.btnSaveBasic.UseVisualStyleBackColor = true;
-            this.btnSaveBasic.Click += new System.EventHandler(this.btnSaveBasic_Click);
-            // 
-            // btnSaveMC
-            // 
-            this.btnSaveMC.Location = new System.Drawing.Point(410, 37);
-            this.btnSaveMC.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.btnSaveMC.Name = "btnSaveMC";
-            this.btnSaveMC.Size = new System.Drawing.Size(66, 24);
-            this.btnSaveMC.TabIndex = 6;
-            this.btnSaveMC.Text = "Save MC";
-            this.btnSaveMC.UseVisualStyleBackColor = true;
-            this.btnSaveMC.Click += new System.EventHandler(this.btnSaveMC_Click);
-            // 
-            // btnDebug
-            // 
-            this.btnDebug.Location = new System.Drawing.Point(290, 41);
-            this.btnDebug.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.btnDebug.Name = "btnDebug";
-            this.btnDebug.Size = new System.Drawing.Size(44, 22);
-            this.btnDebug.TabIndex = 7;
-            this.btnDebug.Text = "Debug";
-            this.btnDebug.UseVisualStyleBackColor = true;
-            this.btnDebug.Click += new System.EventHandler(this.button2_Click);
-            // 
             // pnlTop
             // 
-            this.pnlTop.Controls.Add(this.btnLoadDisk);
-            this.pnlTop.Controls.Add(this.btnSaveDisk);
             this.pnlTop.Controls.Add(this.btnScale);
             this.pnlTop.Controls.Add(this.btnSmooth);
             this.pnlTop.Controls.Add(this.label3);
             this.pnlTop.Controls.Add(this.txtMCEnd);
             this.pnlTop.Controls.Add(this.txtMCStart);
-            this.pnlTop.Controls.Add(this.button4);
-            this.pnlTop.Controls.Add(this.btnStart);
-            this.pnlTop.Controls.Add(this.btnDebug);
-            this.pnlTop.Controls.Add(this.btnPause);
-            this.pnlTop.Controls.Add(this.btnSaveMC);
-            this.pnlTop.Controls.Add(this.btnContinue);
             this.pnlTop.Controls.Add(this.btnQuickLoad);
             this.pnlTop.Controls.Add(this.btnQuickSave);
-            this.pnlTop.Controls.Add(this.button3);
-            this.pnlTop.Controls.Add(this.btnSaveBasic);
-            this.pnlTop.Controls.Add(this.btnTrace);
             this.pnlTop.Controls.Add(this.lblFps);
             this.pnlTop.Controls.Add(this.btnColour);
             this.pnlTop.Controls.Add(this.btnGrMode);
             this.pnlTop.Controls.Add(this.lblInstructionsPerSecond);
-            this.pnlTop.Controls.Add(this.btnExec);
             this.pnlTop.Controls.Add(this.label1);
-            this.pnlTop.Controls.Add(this.btnLoad);
             this.pnlTop.Controls.Add(this.label2);
             this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTop.Location = new System.Drawing.Point(0, 24);
@@ -301,28 +175,6 @@
             this.pnlTop.Name = "pnlTop";
             this.pnlTop.Size = new System.Drawing.Size(902, 69);
             this.pnlTop.TabIndex = 8;
-            // 
-            // btnLoadDisk
-            // 
-            this.btnLoadDisk.Location = new System.Drawing.Point(740, 39);
-            this.btnLoadDisk.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
-            this.btnLoadDisk.Name = "btnLoadDisk";
-            this.btnLoadDisk.Size = new System.Drawing.Size(86, 24);
-            this.btnLoadDisk.TabIndex = 12;
-            this.btnLoadDisk.Text = "Load Disk";
-            this.btnLoadDisk.UseVisualStyleBackColor = true;
-            this.btnLoadDisk.Click += new System.EventHandler(this.btnLoadDisk_Click);
-            // 
-            // btnSaveDisk
-            // 
-            this.btnSaveDisk.Location = new System.Drawing.Point(740, 8);
-            this.btnSaveDisk.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
-            this.btnSaveDisk.Name = "btnSaveDisk";
-            this.btnSaveDisk.Size = new System.Drawing.Size(86, 24);
-            this.btnSaveDisk.TabIndex = 11;
-            this.btnSaveDisk.Text = "Save Disk";
-            this.btnSaveDisk.UseVisualStyleBackColor = true;
-            this.btnSaveDisk.Click += new System.EventHandler(this.btnSaveDisk_Click);
             // 
             // btnScale
             // 
@@ -378,17 +230,6 @@
             this.txtMCStart.Leave += new System.EventHandler(this.txtMCStart_Leave);
             this.txtMCStart.Validating += new System.ComponentModel.CancelEventHandler(this.txtMCStart_Validating);
             // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(558, 10);
-            this.button4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(78, 24);
-            this.button4.TabIndex = 0;
-            this.button4.Text = "Load Image";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
             // btnQuickLoad
             // 
             this.btnQuickLoad.Location = new System.Drawing.Point(652, 37);
@@ -410,17 +251,6 @@
             this.btnQuickSave.Text = "Quicksave";
             this.btnQuickSave.UseVisualStyleBackColor = true;
             this.btnQuickSave.Click += new System.EventHandler(this.btnQuickSave_Click);
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(486, 10);
-            this.button3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(66, 24);
-            this.button3.TabIndex = 5;
-            this.button3.Text = "Save Image";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // btnColour
             // 
@@ -496,7 +326,8 @@
             // developmentToolStripMenuItem
             // 
             this.developmentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.showFontToolStripMenuItem});
+            this.showFontToolStripMenuItem,
+            this.traceToolStripMenuItem});
             this.developmentToolStripMenuItem.Name = "developmentToolStripMenuItem";
             this.developmentToolStripMenuItem.Size = new System.Drawing.Size(90, 20);
             this.developmentToolStripMenuItem.Text = "Development";
@@ -506,42 +337,49 @@
             this.openDiskImageToolStripMenuItem.Name = "openDiskImageToolStripMenuItem";
             this.openDiskImageToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.openDiskImageToolStripMenuItem.Text = "Open Disk Image";
+            this.openDiskImageToolStripMenuItem.Click += new System.EventHandler(this.openDiskImageToolStripMenuItem_Click);
             // 
             // saveDiskImageToolStripMenuItem
             // 
             this.saveDiskImageToolStripMenuItem.Name = "saveDiskImageToolStripMenuItem";
             this.saveDiskImageToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.saveDiskImageToolStripMenuItem.Text = "Save Disk Image";
+            this.saveDiskImageToolStripMenuItem.Click += new System.EventHandler(this.saveDiskImageToolStripMenuItem_Click);
             // 
             // openvzFileToolStripMenuItem
             // 
             this.openvzFileToolStripMenuItem.Name = "openvzFileToolStripMenuItem";
             this.openvzFileToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.openvzFileToolStripMenuItem.Text = "Open .vz File";
+            this.openvzFileToolStripMenuItem.Click += new System.EventHandler(this.openvzFileToolStripMenuItem_Click);
             // 
             // saveBasicProgramToolStripMenuItem
             // 
             this.saveBasicProgramToolStripMenuItem.Name = "saveBasicProgramToolStripMenuItem";
             this.saveBasicProgramToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.saveBasicProgramToolStripMenuItem.Text = "Save Basic Program";
+            this.saveBasicProgramToolStripMenuItem.Click += new System.EventHandler(this.saveBasicProgramToolStripMenuItem_Click);
             // 
             // saveMachinecodeProgramToolStripMenuItem
             // 
             this.saveMachinecodeProgramToolStripMenuItem.Name = "saveMachinecodeProgramToolStripMenuItem";
             this.saveMachinecodeProgramToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.saveMachinecodeProgramToolStripMenuItem.Text = "Save Machine-code program";
+            this.saveMachinecodeProgramToolStripMenuItem.Click += new System.EventHandler(this.saveMachinecodeProgramToolStripMenuItem_Click);
             // 
             // openMemoryImageToolStripMenuItem
             // 
             this.openMemoryImageToolStripMenuItem.Name = "openMemoryImageToolStripMenuItem";
             this.openMemoryImageToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.openMemoryImageToolStripMenuItem.Text = "Open Memory Image";
+            this.openMemoryImageToolStripMenuItem.Click += new System.EventHandler(this.openMemoryImageToolStripMenuItem_Click);
             // 
             // saveMemoryImageToolStripMenuItem
             // 
             this.saveMemoryImageToolStripMenuItem.Name = "saveMemoryImageToolStripMenuItem";
             this.saveMemoryImageToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.saveMemoryImageToolStripMenuItem.Text = "Save Memory Image";
+            this.saveMemoryImageToolStripMenuItem.Click += new System.EventHandler(this.saveMemoryImageToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
@@ -554,45 +392,58 @@
             this.startToolStripMenuItem.Name = "startToolStripMenuItem";
             this.startToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.startToolStripMenuItem.Text = "Start";
+            this.startToolStripMenuItem.Click += new System.EventHandler(this.startToolStripMenuItem_Click);
             // 
             // pauseToolStripMenuItem
             // 
+            this.pauseToolStripMenuItem.Enabled = false;
             this.pauseToolStripMenuItem.Name = "pauseToolStripMenuItem";
             this.pauseToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.pauseToolStripMenuItem.Text = "Pause";
+            this.pauseToolStripMenuItem.Click += new System.EventHandler(this.pauseToolStripMenuItem_Click);
             // 
             // unPauseToolStripMenuItem
             // 
+            this.unPauseToolStripMenuItem.Enabled = false;
             this.unPauseToolStripMenuItem.Name = "unPauseToolStripMenuItem";
             this.unPauseToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.unPauseToolStripMenuItem.Text = "Un-Pause";
+            this.unPauseToolStripMenuItem.Click += new System.EventHandler(this.unPauseToolStripMenuItem_Click);
             // 
             // execMachinecodeProgramToolStripMenuItem
             // 
             this.execMachinecodeProgramToolStripMenuItem.Name = "execMachinecodeProgramToolStripMenuItem";
             this.execMachinecodeProgramToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.execMachinecodeProgramToolStripMenuItem.Text = "Exec machine-code program";
+            this.execMachinecodeProgramToolStripMenuItem.Click += new System.EventHandler(this.execMachinecodeProgramToolStripMenuItem_Click);
             // 
             // integerScalingToolStripMenuItem
             // 
+            this.integerScalingToolStripMenuItem.CheckOnClick = true;
             this.integerScalingToolStripMenuItem.Name = "integerScalingToolStripMenuItem";
             this.integerScalingToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
             this.integerScalingToolStripMenuItem.Text = "Integer Scaling";
+            this.integerScalingToolStripMenuItem.Click += new System.EventHandler(this.integerScalingToolStripMenuItem_Click);
             // 
             // smoothingToolStripMenuItem
             // 
+            this.smoothingToolStripMenuItem.CheckOnClick = true;
             this.smoothingToolStripMenuItem.Name = "smoothingToolStripMenuItem";
             this.smoothingToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
             this.smoothingToolStripMenuItem.Text = "Smoothing";
+            this.smoothingToolStripMenuItem.Click += new System.EventHandler(this.smoothingToolStripMenuItem_Click);
             // 
             // toggleGraphicsModeToolStripMenuItem
             // 
+            this.toggleGraphicsModeToolStripMenuItem.CheckOnClick = true;
             this.toggleGraphicsModeToolStripMenuItem.Name = "toggleGraphicsModeToolStripMenuItem";
             this.toggleGraphicsModeToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
             this.toggleGraphicsModeToolStripMenuItem.Text = "Toggle graphics mode";
+            this.toggleGraphicsModeToolStripMenuItem.Click += new System.EventHandler(this.toggleGraphicsModeToolStripMenuItem_Click);
             // 
             // colourToolStripMenuItem
             // 
+            this.colourToolStripMenuItem.CheckOnClick = true;
             this.colourToolStripMenuItem.Name = "colourToolStripMenuItem";
             this.colourToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
             this.colourToolStripMenuItem.Text = "Colour";
@@ -603,6 +454,7 @@
             this.showRegistersToolStripMenuItem.Name = "showRegistersToolStripMenuItem";
             this.showRegistersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.showRegistersToolStripMenuItem.Text = "Show Registers";
+            this.showRegistersToolStripMenuItem.Click += new System.EventHandler(this.showRegistersToolStripMenuItem_Click);
             // 
             // showMemoryToolStripMenuItem
             // 
@@ -616,6 +468,14 @@
             this.showFontToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.showFontToolStripMenuItem.Text = "Show Font";
             this.showFontToolStripMenuItem.Click += new System.EventHandler(this.showFontToolStripMenuItem_Click);
+            // 
+            // traceToolStripMenuItem
+            // 
+            this.traceToolStripMenuItem.CheckOnClick = true;
+            this.traceToolStripMenuItem.Name = "traceToolStripMenuItem";
+            this.traceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.traceToolStripMenuItem.Text = "Trace";
+            this.traceToolStripMenuItem.Click += new System.EventHandler(this.traceToolStripMenuItem_Click);
             // 
             // frmMain
             // 
@@ -645,35 +505,21 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button btnPause;
-        private System.Windows.Forms.Button btnContinue;
         private System.Windows.Forms.Label lblFps;
         private System.Windows.Forms.Label lblInstructionsPerSecond;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btnTrace;
-        private System.Windows.Forms.Button btnLoad;
-        private System.Windows.Forms.Button btnExec;
         private System.Windows.Forms.Button btnGrMode;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button btnSaveBasic;
-        private System.Windows.Forms.Button btnSaveMC;
-        private System.Windows.Forms.Button btnDebug;
         private System.Windows.Forms.Panel pnlTop;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtMCEnd;
         private System.Windows.Forms.TextBox txtMCStart;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button btnQuickSave;
         private System.Windows.Forms.Button btnQuickLoad;
         private System.Windows.Forms.Button btnScale;
         private System.Windows.Forms.Button btnSmooth;
-        private System.Windows.Forms.Button btnSaveDisk;
-        private System.Windows.Forms.Button btnLoadDisk;
         private System.Windows.Forms.Button btnColour;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
@@ -700,6 +546,7 @@
         private System.Windows.Forms.ToolStripMenuItem showRegistersToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showMemoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showFontToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem traceToolStripMenuItem;
     }
 }
 

@@ -19,8 +19,8 @@ namespace VzEmulator.Screen
     {
         Control paintControl;
 
-        Renderer textModeRenderer;
-        Renderer graphicsModeRenderer;
+        public Renderer TextModeRenderer { get; private set; }
+        public Renderer GraphicsModeRenderer { get; private set; }
 
         Timer screenRefreshTimer;
         Timer fpsCalculateTimer;
@@ -32,32 +32,32 @@ namespace VzEmulator.Screen
 
         public bool UseFixedScale {
             set {
-                textModeRenderer.UseFixedScale = value;
-                graphicsModeRenderer.UseFixedScale = value;
+                TextModeRenderer.UseFixedScale = value;
+                GraphicsModeRenderer.UseFixedScale = value;
             }
             get
             {
-                return graphicsModeRenderer.UseFixedScale;
+                return GraphicsModeRenderer.UseFixedScale;
             }
         }
         public int FixedScale {
             set {
-                textModeRenderer.FixedScale = value;
-                graphicsModeRenderer.FixedScale = value;
+                TextModeRenderer.FixedScale = value;
+                GraphicsModeRenderer.FixedScale = value;
             }
             get
             {
-                return graphicsModeRenderer.FixedScale;
+                return GraphicsModeRenderer.FixedScale;
             }
         }
         public bool UseSmoothing {
             set {
-                textModeRenderer.UseSmoothing = value;
-                graphicsModeRenderer.UseSmoothing = value;
+                TextModeRenderer.UseSmoothing = value;
+                GraphicsModeRenderer.UseSmoothing = value;
             }
             get
             {
-                return graphicsModeRenderer.UseSmoothing;
+                return GraphicsModeRenderer.UseSmoothing;
             }
         }
 
@@ -74,13 +74,13 @@ namespace VzEmulator.Screen
                 _grayScale = value;
                 if (value)
                 {
-                    textModeRenderer.SetGrayScaleImageAttributes();
-                    graphicsModeRenderer.SetGrayScaleImageAttributes();
+                    TextModeRenderer.SetGrayScaleImageAttributes();
+                    GraphicsModeRenderer.SetGrayScaleImageAttributes();
                 }
                 else
                 {
-                    textModeRenderer.SetDefaultImageAttributes();
-                    graphicsModeRenderer.SetDefaultImageAttributes();
+                    TextModeRenderer.SetDefaultImageAttributes();
+                    GraphicsModeRenderer.SetDefaultImageAttributes();
                 }
             }
         }
@@ -88,8 +88,8 @@ namespace VzEmulator.Screen
         public GraphicsPainter(Control ctrl, Byte[] VideoMemory, OutputLatch outputLatch, int RenderStartAddress, int RefreshIntervalMS)
         {
             this.outputLatch = outputLatch;
-            textModeRenderer = new TextModeRenderer(VideoMemory, 0);
-            graphicsModeRenderer = new GraphicsModeRenderer(VideoMemory, 0);
+            TextModeRenderer = new TextModeRenderer(VideoMemory, 0);
+            GraphicsModeRenderer = new GraphicsModeRenderer(VideoMemory, 0);
 
             if (ctrl != null)
             {
@@ -150,9 +150,9 @@ namespace VzEmulator.Screen
             bool isGraphicsMode = GraphicsMode == GraphicsMode.Graphics;
 
             if (isGraphicsMode)
-                    graphicsModeRenderer?.Render(gr, BackgroundColour == BackgroundColour.Orange);
+                    GraphicsModeRenderer?.Render(gr, BackgroundColour == BackgroundColour.Orange);
             else
-               textModeRenderer?.Render(gr, BackgroundColour == BackgroundColour.Orange);
+               TextModeRenderer?.Render(gr, BackgroundColour == BackgroundColour.Orange);
         }
     }
 }

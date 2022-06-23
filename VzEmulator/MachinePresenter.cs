@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Windows.Forms;
 using VzEmulator.Peripherals;
 using VzEmulator.Screen;
@@ -209,6 +210,26 @@ namespace VzEmulator
         public void LoadDiskImage(string fileName)
         {
             _machine.Drive.LoadDiskImage(fileName);
+        }
+
+        internal void ToggleUseFixedScaling()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void ToggleDisplaySmothing()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void ToggleGrahpicsMode()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void ToggleColour()
+        {
+            throw new NotImplementedException();
         }
     }
 }

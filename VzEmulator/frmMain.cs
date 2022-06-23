@@ -45,15 +45,13 @@ namespace VzEmulator
             {
                 ctrl.PreviewKeyDown += Button_PreviewKeyDown;
             }
+
+            StartEmulation();
         }
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            Presenter.Start();
 
-            btnStart.Text = "Reset";
-            btnPause.Enabled = true;
-            btnContinue.Enabled = true;
         }
 
 
@@ -97,12 +95,10 @@ namespace VzEmulator
 
         private void btnPause_Click(object sender, EventArgs e)
         {
-            Presenter.Pause();
         }
 
         private void btnContinue_Click(object sender, EventArgs e)
         {
-            Presenter.UnPause();
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -123,47 +119,29 @@ namespace VzEmulator
 
         private void btnTrace_Click(object sender, EventArgs e)
         {
-            _isTrace = !_isTrace;
-            Presenter.EnableTrace(_isTrace);
+
         }
 
         private void btnExec_Click(object sender, EventArgs e)
         {
-            Presenter.JumpToUsrExec();
         }
 
         private void btnSaveBasic_Click(object sender, EventArgs e)
         {
-            var dlg = new SaveFileDialog();
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                Presenter.SaveBasicFile(dlg.FileName);
-            }
+        
         }
         private void btnSaveMC_Click(object sender, EventArgs e)
         {
-            var dlg = new SaveFileDialog();
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                Presenter.SaveMcFile(dlg.FileName);
-            }
+         
         }
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
-            var dlg = new OpenFileDialog();
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                var addressRange = Presenter.LoadFile(dlg.FileName);
-                ((IMachineView) this).UpdateMCStart(addressRange.Start);
-                ((IMachineView) this).UpdateMcEnd(addressRange.End);
-
-            }
+      
         }
         
         private void button2_Click(object sender, EventArgs e)
         {
-            Presenter.StartDebug();
         }
 
         private void txtMCStart_Validating(object sender, System.ComponentModel.CancelEventArgs e)
@@ -205,11 +183,7 @@ namespace VzEmulator
         
         private void button3_Click(object sender, EventArgs e)
         {
-            var dlg = new SaveFileDialog();
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                Presenter.SaveImage(dlg.FileName);
-            }
+        
         }
 
         private void btnQuickSave_Click(object sender, EventArgs e)
@@ -219,15 +193,146 @@ namespace VzEmulator
 
         private void button4_Click(object sender, EventArgs e)
         {
+          
+        }
+        private void btnQuickLoad_Click(object sender, EventArgs e)
+        {
+            Presenter.LoadImage(QuickSaveFilename);
+        }
+
+    
+ 
+
+
+        private void startToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StartEmulation();
+        }
+
+        private void StartEmulation()
+        {
+            Presenter.Start();
+
+            startToolStripMenuItem.Text = "Reset";
+            pauseToolStripMenuItem.Enabled = true;
+            unPauseToolStripMenuItem.Enabled = true;
+        }
+
+        private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Presenter.Pause();
+        }
+
+        private void unPauseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Presenter.UnPause();
+        }
+
+        private void execMachinecodeProgramToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Presenter.JumpToUsrExec();
+        }
+
+        private void openDiskImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                Presenter.LoadDiskImage(openFileDialog.FileName);
+            }
+        }
+
+        private void saveDiskImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var saveFileDialog = new SaveFileDialog();
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                Presenter.SaveDiskImage(saveFileDialog.FileName);
+            }
+        }
+
+        private void openMemoryImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
             var dlg = new OpenFileDialog();
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 Presenter.LoadImage(dlg.FileName);
             }
         }
-        private void btnQuickLoad_Click(object sender, EventArgs e)
+
+        private void saveMemoryImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Presenter.LoadImage(QuickSaveFilename);
+            var dlg = new SaveFileDialog();
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                Presenter.SaveImage(dlg.FileName);
+            }
+        }
+
+        private void openvzFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var dlg = new OpenFileDialog();
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                var addressRange = Presenter.LoadFile(dlg.FileName);
+                ((IMachineView)this).UpdateMCStart(addressRange.Start);
+                ((IMachineView)this).UpdateMcEnd(addressRange.End);
+
+            }
+        }
+
+        private void saveBasicProgramToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var dlg = new SaveFileDialog();
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                Presenter.SaveBasicFile(dlg.FileName);
+            }
+        }
+
+        private void saveMachinecodeProgramToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var dlg = new SaveFileDialog();
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                Presenter.SaveMcFile(dlg.FileName);
+            }
+        }
+
+        private void traceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _isTrace = !_isTrace;
+            Presenter.EnableTrace(_isTrace);
+        }
+
+        private void showRegistersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Presenter.StartDebug();
+        }
+
+        private void integerScalingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Presenter.ToggleUseFixedScaling();
+        }
+
+        private void smoothingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Presenter.ToggleDisplaySmothing();
+        }
+
+        private void toggleGraphicsModeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Presenter.ToggleGrahpicsMode();
+        }
+
+        private void colourToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Presenter.ToggleColour();
+        }
+
+        private void showFontToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void btnGR_Click(object sender, EventArgs e)
@@ -253,34 +358,6 @@ namespace VzEmulator
         {
             //if (graphicsPainter != null)
             //    graphicsPainter.GrayScale = !graphicsPainter.GrayScale;
-        }
-
-        private void btnSaveDisk_Click(object sender, EventArgs e)
-        {
-            var saveFileDialog = new SaveFileDialog();
-            if (saveFileDialog.ShowDialog()==DialogResult.OK)
-            {
-                Presenter.SaveDiskImage(saveFileDialog.FileName);
-            }
-        }
-
-        private void btnLoadDisk_Click(object sender, EventArgs e)
-        {
-            var openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                Presenter.LoadDiskImage(openFileDialog.FileName);
-            }
-        }
-
-        private void colourToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void showFontToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
