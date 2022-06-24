@@ -28,10 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblFps = new System.Windows.Forms.Label();
-            this.lblInstructionsPerSecond = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pnlTop = new System.Windows.Forms.Panel();
             this.txtMCEnd = new System.Windows.Forms.TextBox();
@@ -72,55 +68,11 @@
             this.basicProgramListingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StatusLabel = new System.Windows.Forms.Label();
             this.showStatsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.overlayPanel1 = new VzEmulatorControls.OverlayPanel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pnlTop.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // lblFps
-            // 
-            this.lblFps.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblFps.AutoSize = true;
-            this.lblFps.Location = new System.Drawing.Point(558, 39);
-            this.lblFps.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblFps.Name = "lblFps";
-            this.lblFps.Size = new System.Drawing.Size(27, 13);
-            this.lblFps.TabIndex = 2;
-            this.lblFps.Text = "FPS";
-            // 
-            // lblInstructionsPerSecond
-            // 
-            this.lblInstructionsPerSecond.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblInstructionsPerSecond.AutoSize = true;
-            this.lblInstructionsPerSecond.Location = new System.Drawing.Point(671, 38);
-            this.lblInstructionsPerSecond.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblInstructionsPerSecond.Name = "lblInstructionsPerSecond";
-            this.lblInstructionsPerSecond.Size = new System.Drawing.Size(24, 13);
-            this.lblInstructionsPerSecond.TabIndex = 2;
-            this.lblInstructionsPerSecond.Text = "IPS";
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(526, 39);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(27, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "FPS";
-            // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(639, 38);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(24, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "IPS";
             // 
             // pictureBox1
             // 
@@ -142,10 +94,6 @@
             this.pnlTop.Controls.Add(this.txtMCStart);
             this.pnlTop.Controls.Add(this.btnQuickLoad);
             this.pnlTop.Controls.Add(this.btnQuickSave);
-            this.pnlTop.Controls.Add(this.lblFps);
-            this.pnlTop.Controls.Add(this.lblInstructionsPerSecond);
-            this.pnlTop.Controls.Add(this.label1);
-            this.pnlTop.Controls.Add(this.label2);
             this.pnlTop.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlTop.Location = new System.Drawing.Point(0, 632);
             this.pnlTop.Margin = new System.Windows.Forms.Padding(2);
@@ -479,24 +427,25 @@
             // 
             // showStatsToolStripMenuItem
             // 
+            this.showStatsToolStripMenuItem.CheckOnClick = true;
             this.showStatsToolStripMenuItem.Name = "showStatsToolStripMenuItem";
             this.showStatsToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
             this.showStatsToolStripMenuItem.Text = "Show Stats";
+            this.showStatsToolStripMenuItem.Click += new System.EventHandler(this.showStatsToolStripMenuItem_Click);
             // 
-            // panel1
+            // overlayPanel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.Transparent;
-            this.panel1.Location = new System.Drawing.Point(491, 187);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(200, 100);
-            this.panel1.TabIndex = 10;
+            this.overlayPanel1.Location = new System.Drawing.Point(561, 42);
+            this.overlayPanel1.Name = "overlayPanel1";
+            this.overlayPanel1.Size = new System.Drawing.Size(200, 100);
+            this.overlayPanel1.TabIndex = 10;
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 692);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.overlayPanel1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.pnlTop);
             this.Controls.Add(this.menuStrip1);
@@ -520,10 +469,6 @@
         }
 
         #endregion
-        private System.Windows.Forms.Label lblFps;
-        private System.Windows.Forms.Label lblInstructionsPerSecond;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel pnlTop;
         private System.Windows.Forms.TextBox txtMCEnd;
@@ -564,7 +509,7 @@
         private System.Windows.Forms.ToolStripMenuItem basicProgramListingToolStripMenuItem;
         private System.Windows.Forms.Label StatusLabel;
         private System.Windows.Forms.ToolStripMenuItem showStatsToolStripMenuItem;
-        private System.Windows.Forms.Panel panel1;
+        private VzEmulatorControls.OverlayPanel overlayPanel1;
     }
 }
 

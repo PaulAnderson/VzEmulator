@@ -17,6 +17,13 @@ namespace VzEmulator.Screen
     }
     public class GraphicsPainter
     {
+        public delegate void RefreshedEventHandler(object sender);
+        public event RefreshedEventHandler RefreshedEvent;
+        protected virtual void RaiseRefreshedEvent()
+        {
+            RefreshedEvent?.Invoke(this);
+        }
+
         Control paintControl;
 
         public Renderer TextModeRenderer { get; private set; }
@@ -139,6 +146,7 @@ namespace VzEmulator.Screen
         {
             var gr = e.Graphics;
             PaintGraphics(gr);
+            RaiseRefreshedEvent();
         }
 
         internal void PaintGraphics(System.Drawing.Graphics gr)

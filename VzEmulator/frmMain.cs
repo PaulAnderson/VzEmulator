@@ -32,10 +32,22 @@ namespace VzEmulator
 
         void IMachineView.UpdateStats(MachineStats stats)
         {
-            lblInstructionsPerSecond.Text = stats.InstructionsPerSecond.ToString();
-            lblFps.Text = stats.FramesPerSecond.ToString();
+            if (showStatsToolStripMenuItem.Checked)
+            {
+                overlayPanel1.TextElements.Add(("IPS", stats.InstructionsPerSecond.ToString()));
+                overlayPanel1.TextElements.Add(("FPS", stats.FramesPerSecond.ToString()));
+                if (overlayPanel1.TextElements.Count > 2)
+                {
+                    overlayPanel1.TextElements.RemoveRange(0, 2);
+                }
+            }
         }
-
+        void IMachineView.RenderComplete()
+        {
+            //The main display has been rendered/painted so paint the overlay too
+            if (showStatsToolStripMenuItem.Checked)
+                overlayPanel1.Invalidate();
+        }
         public frmMain()
         {
             InitializeComponent();
@@ -279,5 +291,9 @@ namespace VzEmulator
             Application.Exit();
         }
 
+        private void showStatsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            overlayPanel1.Visible = showStatsToolStripMenuItem.Checked;
+        }
     }
 }

@@ -13,5 +13,6 @@ namespace VzEmulator
         void UpdateMCStart(ushort value);
         void UpdateMcEnd(ushort value);
         void UpdateStats(MachineStats stats);
+        void RenderComplete();
     }
 }

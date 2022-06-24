@@ -51,6 +51,8 @@ namespace VzEmulator
             }
 
             graphicsPainter = new GraphicsPainter(_view.RenderControl, _machine.VideoMemory.Content, _machine.OutputLatch, 0, 33);
+            graphicsPainter.RefreshedEvent += GraphicsPainter_RefreshedEvent;
+
             var program = fileIo.ReadFile(fileName);
             _machine.Setup(program);
 
@@ -87,6 +89,11 @@ namespace VzEmulator
                 };
                 debugTimer.Start();
             }
+        }
+
+        private void GraphicsPainter_RefreshedEvent(object sender)
+        {
+            _view.RenderComplete();
         }
 
         internal void Pause()

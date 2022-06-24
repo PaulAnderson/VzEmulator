@@ -103,6 +103,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddressRange.cs" />
+    <Compile Include="Controls\OverlayPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\OverlayPanelBase.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Debugger\InstructionTracer.cs" />
     <Compile Include="ICpu.cs" />
     <Compile Include="IInterruptEnableFlag.cs" />
