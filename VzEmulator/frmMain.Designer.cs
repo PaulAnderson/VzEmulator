@@ -69,6 +69,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.diskStatusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.numberConversionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.basicProgramListingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.StatusLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pnlTop.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -78,7 +80,7 @@
             // 
             this.lblFps.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblFps.AutoSize = true;
-            this.lblFps.Location = new System.Drawing.Point(558, 13);
+            this.lblFps.Location = new System.Drawing.Point(558, 39);
             this.lblFps.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblFps.Name = "lblFps";
             this.lblFps.Size = new System.Drawing.Size(27, 13);
@@ -89,7 +91,7 @@
             // 
             this.lblInstructionsPerSecond.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblInstructionsPerSecond.AutoSize = true;
-            this.lblInstructionsPerSecond.Location = new System.Drawing.Point(671, 12);
+            this.lblInstructionsPerSecond.Location = new System.Drawing.Point(671, 38);
             this.lblInstructionsPerSecond.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblInstructionsPerSecond.Name = "lblInstructionsPerSecond";
             this.lblInstructionsPerSecond.Size = new System.Drawing.Size(24, 13);
@@ -100,7 +102,7 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(526, 13);
+            this.label1.Location = new System.Drawing.Point(526, 39);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(27, 13);
@@ -111,7 +113,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(639, 12);
+            this.label2.Location = new System.Drawing.Point(639, 38);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(24, 13);
@@ -125,12 +127,13 @@
             this.pictureBox1.Location = new System.Drawing.Point(0, 24);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(902, 393);
+            this.pictureBox1.Size = new System.Drawing.Size(865, 463);
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
             // 
             // pnlTop
             // 
+            this.pnlTop.Controls.Add(this.StatusLabel);
             this.pnlTop.Controls.Add(this.label5);
             this.pnlTop.Controls.Add(this.label4);
             this.pnlTop.Controls.Add(this.txtMCEnd);
@@ -142,17 +145,17 @@
             this.pnlTop.Controls.Add(this.label1);
             this.pnlTop.Controls.Add(this.label2);
             this.pnlTop.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlTop.Location = new System.Drawing.Point(0, 417);
+            this.pnlTop.Location = new System.Drawing.Point(0, 487);
             this.pnlTop.Margin = new System.Windows.Forms.Padding(2);
             this.pnlTop.Name = "pnlTop";
-            this.pnlTop.Size = new System.Drawing.Size(902, 34);
+            this.pnlTop.Size = new System.Drawing.Size(865, 60);
             this.pnlTop.TabIndex = 8;
             // 
             // txtMCEnd
             // 
             this.txtMCEnd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txtMCEnd.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMCEnd.Location = new System.Drawing.Point(419, 8);
+            this.txtMCEnd.Location = new System.Drawing.Point(419, 34);
             this.txtMCEnd.Margin = new System.Windows.Forms.Padding(2);
             this.txtMCEnd.Name = "txtMCEnd";
             this.txtMCEnd.Size = new System.Drawing.Size(70, 23);
@@ -164,7 +167,7 @@
             // 
             this.txtMCStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txtMCStart.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMCStart.Location = new System.Drawing.Point(312, 8);
+            this.txtMCStart.Location = new System.Drawing.Point(312, 34);
             this.txtMCStart.Margin = new System.Windows.Forms.Padding(2);
             this.txtMCStart.Name = "txtMCStart";
             this.txtMCStart.Size = new System.Drawing.Size(70, 23);
@@ -175,7 +178,7 @@
             // btnQuickLoad
             // 
             this.btnQuickLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnQuickLoad.Location = new System.Drawing.Point(72, 8);
+            this.btnQuickLoad.Location = new System.Drawing.Point(72, 34);
             this.btnQuickLoad.Margin = new System.Windows.Forms.Padding(2);
             this.btnQuickLoad.Name = "btnQuickLoad";
             this.btnQuickLoad.Size = new System.Drawing.Size(66, 24);
@@ -187,7 +190,7 @@
             // btnQuickSave
             // 
             this.btnQuickSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnQuickSave.Location = new System.Drawing.Point(2, 8);
+            this.btnQuickSave.Location = new System.Drawing.Point(2, 34);
             this.btnQuickSave.Margin = new System.Windows.Forms.Padding(2);
             this.btnQuickSave.Name = "btnQuickSave";
             this.btnQuickSave.Size = new System.Drawing.Size(66, 24);
@@ -206,7 +209,7 @@
             this.developmentToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(902, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(865, 24);
             this.menuStrip1.TabIndex = 9;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -402,7 +405,8 @@
             this.showFontToolStripMenuItem,
             this.traceToolStripMenuItem,
             this.diskStatusToolStripMenuItem,
-            this.numberConversionToolStripMenuItem});
+            this.numberConversionToolStripMenuItem,
+            this.basicProgramListingToolStripMenuItem});
             this.developmentToolStripMenuItem.Name = "developmentToolStripMenuItem";
             this.developmentToolStripMenuItem.Size = new System.Drawing.Size(90, 20);
             this.developmentToolStripMenuItem.Text = "Development";
@@ -410,7 +414,7 @@
             // showFontToolStripMenuItem
             // 
             this.showFontToolStripMenuItem.Name = "showFontToolStripMenuItem";
-            this.showFontToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.showFontToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
             this.showFontToolStripMenuItem.Text = "Show Font";
             this.showFontToolStripMenuItem.Click += new System.EventHandler(this.showFontToolStripMenuItem_Click);
             // 
@@ -418,7 +422,7 @@
             // 
             this.traceToolStripMenuItem.CheckOnClick = true;
             this.traceToolStripMenuItem.Name = "traceToolStripMenuItem";
-            this.traceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.traceToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
             this.traceToolStripMenuItem.Text = "Trace";
             this.traceToolStripMenuItem.Click += new System.EventHandler(this.traceToolStripMenuItem_Click);
             // 
@@ -426,7 +430,7 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(166, 14);
+            this.label4.Location = new System.Drawing.Point(166, 40);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(141, 13);
             this.label4.TabIndex = 10;
@@ -436,7 +440,7 @@
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(388, 13);
+            this.label5.Location = new System.Drawing.Point(388, 39);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(26, 13);
             this.label5.TabIndex = 11;
@@ -445,20 +449,34 @@
             // diskStatusToolStripMenuItem
             // 
             this.diskStatusToolStripMenuItem.Name = "diskStatusToolStripMenuItem";
-            this.diskStatusToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.diskStatusToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
             this.diskStatusToolStripMenuItem.Text = "Disk Status";
             // 
             // numberConversionToolStripMenuItem
             // 
             this.numberConversionToolStripMenuItem.Name = "numberConversionToolStripMenuItem";
-            this.numberConversionToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.numberConversionToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
             this.numberConversionToolStripMenuItem.Text = "Number Conversion";
+            // 
+            // basicProgramListingToolStripMenuItem
+            // 
+            this.basicProgramListingToolStripMenuItem.Name = "basicProgramListingToolStripMenuItem";
+            this.basicProgramListingToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.basicProgramListingToolStripMenuItem.Text = "Basic Program Listing";
+            // 
+            // StatusLabel
+            // 
+            this.StatusLabel.AutoSize = true;
+            this.StatusLabel.Location = new System.Drawing.Point(4, 6);
+            this.StatusLabel.Name = "StatusLabel";
+            this.StatusLabel.Size = new System.Drawing.Size(0, 13);
+            this.StatusLabel.TabIndex = 12;
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(902, 451);
+            this.ClientSize = new System.Drawing.Size(865, 547);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.pnlTop);
             this.Controls.Add(this.menuStrip1);
@@ -470,6 +488,7 @@
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.frmMain_KeyUp);
+            this.Resize += new System.EventHandler(this.frmMain_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.pnlTop.ResumeLayout(false);
             this.pnlTop.PerformLayout();
@@ -522,6 +541,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ToolStripMenuItem diskStatusToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem numberConversionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem basicProgramListingToolStripMenuItem;
+        private System.Windows.Forms.Label StatusLabel;
     }
 }
 

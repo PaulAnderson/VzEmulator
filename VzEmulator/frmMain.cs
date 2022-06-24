@@ -41,6 +41,10 @@ namespace VzEmulator
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+            //todo remember previous
+            Width = 815;
+            Height = 730;
+
             foreach (Control ctrl in pnlTop.Controls)
             {
                 ctrl.PreviewKeyDown += Button_PreviewKeyDown;
@@ -114,7 +118,18 @@ namespace VzEmulator
 
         private void btnQuickLoad_Click(object sender, EventArgs e)
         {
-            Presenter.LoadImage(QuickSaveFilename);
+            try
+            {
+                Presenter.LoadImage(QuickSaveFilename);
+            } catch (Exception ex)
+            {
+                Toast(ex.Message);
+            }
+         }
+
+        private void Toast(string message)
+        {
+            StatusLabel.Text = message;
         }
 
         private void startToolStripMenuItem_Click(object sender, EventArgs e)
@@ -257,6 +272,9 @@ namespace VzEmulator
             Presenter.SoundEnabled = soundEnabledToolStripMenuItem.Checked;
         }
 
-
+        private void frmMain_Resize(object sender, EventArgs e)
+        {
+            StatusLabel.Text = $"Width: {Width}, Height: {Height}";
+        }
     }
 }
