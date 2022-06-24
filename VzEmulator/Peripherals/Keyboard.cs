@@ -16,7 +16,6 @@ namespace VzEmulator.Peripherals
 
         internal KeyState CurrentKeyState { get; set; }
 
-        //public bool UseKeyQueue;
         public bool UseKeyQueue = true;
 
         private Queue<KeyState> KeyQueue = new Queue<KeyState>();

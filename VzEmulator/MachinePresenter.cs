@@ -91,7 +91,7 @@ namespace VzEmulator
             }
         }
 
-        private void GraphicsPainter_RefreshedEvent(object sender)
+        private void GraphicsPainter_RefreshedEvent(object sender, EventArgs e)
         {
             _view.RenderComplete();
         }
@@ -259,6 +259,10 @@ namespace VzEmulator
             imageForm.BackgroundImage = ((TextModeRenderer)graphicsPainter.TextModeRenderer)._FontBitmap.Bitmap;
             imageForm.BackgroundImageLayout = ImageLayout.None;
             imageForm.Show();
+        }
+        internal void AttachDriveWatcher(IDriveWatcher watcher )
+        {
+            _machine.AttachDriveWatcher(watcher);
         }
     }
 }

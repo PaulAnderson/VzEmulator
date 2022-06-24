@@ -17,11 +17,10 @@ namespace VzEmulator.Screen
     }
     public class GraphicsPainter
     {
-        public delegate void RefreshedEventHandler(object sender);
-        public event RefreshedEventHandler RefreshedEvent;
+        public event EventHandler RefreshedEvent;
         protected virtual void RaiseRefreshedEvent()
         {
-            RefreshedEvent?.Invoke(this);
+            RefreshedEvent?.Invoke(this, EventArgs.Empty);
         }
 
         Control paintControl;

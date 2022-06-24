@@ -23,7 +23,9 @@ namespace VzEmulator.Peripherals
         byte currentWritingByte = 0;
         int bytesWritten = 0;
         bool inDosInitRoutine = false;
+        bool writeProtect = false;
         Disk diskContent = new Disk();
+
 
         public Tuple<ushort, ushort> PortRange { get; set; }
 
@@ -110,6 +112,13 @@ namespace VzEmulator.Peripherals
 
                 }
                 return value;
+            }
+            if (address==0x13)
+            {
+                if (writeProtect)
+                    return 0x80; 
+                else
+                    return 0x00;
             }
 
             return null;
@@ -231,20 +240,17 @@ namespace VzEmulator.Peripherals
             {
                 diskCurrentTrack += 1;
                 if (diskCurrentTrack > 40) diskCurrentTrack = 40;
-                if (DebugEnabled) Console.WriteLine("Disk Track: {0}", diskCurrentTrack);
-
+                OnTrackUpdated();
             }
             if ((stepNo == 8 && lastStepNo == 9 && lastStepNo2 == 1) |
                     (stepNo == 2 && lastStepNo == 6 && lastStepNo2 == 4))
             {
                 diskCurrentTrack -= 1;
                 if (diskCurrentTrack < 0) diskCurrentTrack = 0;
-                if (DebugEnabled) Console.WriteLine("Disk Track: {0}", diskCurrentTrack);
-
+                OnTrackUpdated();
             }
             lastStepNo2 = lastStepNo;
             lastStepNo = stepNo;
-            //end stepper motor logic
         }
 
         public void LoadDiskImage(string fileName)
@@ -254,6 +260,23 @@ namespace VzEmulator.Peripherals
         public void SaveDiskImage(string fileName)
         {
             diskContent.SaveDiskImage(fileName);
+        }
+
+        protected void OnTrackUpdated()
+        {
+            if (DebugEnabled) Console.WriteLine("Disk Track: {0}", diskCurrentTrack);
+
+            OnDriveStatusChangeEvent(new DriveStatusChange
+            {
+                ChangeType = DriveStatusChangeType.Control,
+                CurrentTrack = diskCurrentTrack
+            });
+        }
+        internal event EventHandler<DriveStatusChange> DriveStatusChangeEvent;
+
+        internal void OnDriveStatusChangeEvent(DriveStatusChange e)
+        {
+            DriveStatusChangeEvent?.Invoke(this, e);
         }
     }
 }

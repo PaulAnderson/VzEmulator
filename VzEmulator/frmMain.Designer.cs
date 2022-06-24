@@ -404,6 +404,7 @@
             this.diskStatusToolStripMenuItem.Name = "diskStatusToolStripMenuItem";
             this.diskStatusToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
             this.diskStatusToolStripMenuItem.Text = "Disk Status";
+            this.diskStatusToolStripMenuItem.Click += new System.EventHandler(this.diskStatusToolStripMenuItem_Click);
             // 
             // numberConversionToolStripMenuItem
             // 

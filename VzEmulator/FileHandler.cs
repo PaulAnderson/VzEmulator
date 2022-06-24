@@ -64,12 +64,12 @@ namespace VzEmulator
                 if (file.fileType == 0xF0)
                 {
                     //basic file
-                    memory[0x78F9] = (byte)(addrEnd & 0x00FF);
-                    memory[0x78FA] = (byte)((addrEnd & 0xFF00) >> 8);
-                    memory[0x78FB] = (byte)(addrEnd & 0x00FF);
-                    memory[0x78FC] = (byte)((addrEnd & 0xFF00) >> 8);
-                    memory[0x78FD] = (byte)(addrEnd & 0x00FF);
-                    memory[0x78FE] = (byte)((addrEnd & 0xFF00) >> 8);
+                    memory[VzConstants.EndBasicProgramPtr] = (byte)(addrEnd & 0x00FF);
+                    memory[VzConstants.EndBasicProgramPtr + 1] = (byte)((addrEnd & 0xFF00) >> 8);
+                    memory[VzConstants.DimVariablesPtr] = (byte)(addrEnd & 0x00FF);
+                    memory[VzConstants.DimVariablesPtr + 1] = (byte)((addrEnd & 0xFF00) >> 8);
+                    memory[VzConstants.InterruptHookPtr] = (byte)(addrEnd & 0x00FF);
+                    memory[VzConstants.InterruptHookPtr + 1] = (byte)((addrEnd & 0xFF00) >> 8);
                 }
 
                 //Refresh video memory in case the loaded file overlapped with video memory.

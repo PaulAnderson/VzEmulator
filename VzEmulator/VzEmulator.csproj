@@ -109,6 +109,13 @@
     <Compile Include="Controls\OverlayPanelBase.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Debugger\frmDriveWatcher.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Debugger\frmDriveWatcher.Designer.cs">
+      <DependentUpon>frmDriveWatcher.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IDriveWatcher.cs" />
     <Compile Include="Debugger\InstructionTracer.cs" />
     <Compile Include="ICpu.cs" />
     <Compile Include="IInterruptEnableFlag.cs" />
@@ -118,6 +125,9 @@
     <Compile Include="Machine.cs" />
     <Compile Include="MachinePresenter.cs" />
     <Compile Include="MachineStats.cs" />
+    <Compile Include="Peripherals\DriveStatusChange.cs" />
+    <Compile Include="Peripherals\Joystick.cs" />
+    <Compile Include="Peripherals\Printer.cs" />
     <Compile Include="Peripherals\Sound.cs" />
     <Compile Include="Peripherals\QueuedSoundPlayer.cs" />
     <Compile Include="Peripherals\SoundPlayerWrapper.cs">
@@ -167,6 +177,9 @@
     <Compile Include="VzFile.cs" />
     <Compile Include="FileIO.cs" />
     <Compile Include="Screen\TextModeRenderer.cs" />
+    <EmbeddedResource Include="Debugger\frmDriveWatcher.resx">
+      <DependentUpon>frmDriveWatcher.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>

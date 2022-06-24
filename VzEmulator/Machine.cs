@@ -212,5 +212,10 @@ namespace VzEmulator
         {
             _stopAfterNext = true;
         }
+
+        internal void AttachDriveWatcher(IDriveWatcher watcher)
+        {
+            drive.DriveStatusChangeEvent += (object sender, DriveStatusChange e) => watcher.NotifyDriveStatusChange(e);
+        }
     }
 }

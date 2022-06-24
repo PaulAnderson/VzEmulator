@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using VzEmulator.Debugger;
 
 namespace VzEmulator
 {
@@ -294,6 +295,13 @@ namespace VzEmulator
         private void showStatsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             overlayPanel1.Visible = showStatsToolStripMenuItem.Checked;
+        }
+
+        private void diskStatusToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var frm = new frmDriveWatcher();
+            Presenter.AttachDriveWatcher(frm);
+            frm.Show();
         }
     }
 }
