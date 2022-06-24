@@ -28,14 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.lblFps = new System.Windows.Forms.Label();
             this.lblInstructionsPerSecond = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pnlTop = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
             this.txtMCEnd = new System.Windows.Forms.TextBox();
             this.txtMCStart = new System.Windows.Forms.TextBox();
             this.btnQuickLoad = new System.Windows.Forms.Button();
@@ -67,29 +65,20 @@
             this.developmentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showFontToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.traceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.diskStatusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.numberConversionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pnlTop.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // textBox1
-            // 
-            this.textBox1.BackColor = System.Drawing.Color.Green;
-            this.textBox1.Font = new System.Drawing.Font("Consolas", 10.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.ForeColor = System.Drawing.Color.Lime;
-            this.textBox1.Location = new System.Drawing.Point(477, 91);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(921, 385);
-            this.textBox1.TabIndex = 1;
-            // 
             // lblFps
             // 
-            this.lblFps.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblFps.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblFps.AutoSize = true;
-            this.lblFps.Location = new System.Drawing.Point(858, 7);
+            this.lblFps.Location = new System.Drawing.Point(558, 13);
             this.lblFps.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblFps.Name = "lblFps";
             this.lblFps.Size = new System.Drawing.Size(27, 13);
@@ -98,9 +87,9 @@
             // 
             // lblInstructionsPerSecond
             // 
-            this.lblInstructionsPerSecond.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblInstructionsPerSecond.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblInstructionsPerSecond.AutoSize = true;
-            this.lblInstructionsPerSecond.Location = new System.Drawing.Point(858, 27);
+            this.lblInstructionsPerSecond.Location = new System.Drawing.Point(671, 12);
             this.lblInstructionsPerSecond.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblInstructionsPerSecond.Name = "lblInstructionsPerSecond";
             this.lblInstructionsPerSecond.Size = new System.Drawing.Size(24, 13);
@@ -109,9 +98,9 @@
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(826, 7);
+            this.label1.Location = new System.Drawing.Point(526, 13);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(27, 13);
@@ -120,9 +109,9 @@
             // 
             // label2
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(826, 27);
+            this.label2.Location = new System.Drawing.Point(639, 12);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(24, 13);
@@ -132,17 +121,18 @@
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Black;
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 93);
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 24);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(902, 383);
+            this.pictureBox1.Size = new System.Drawing.Size(902, 393);
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
             // 
             // pnlTop
             // 
-            this.pnlTop.Controls.Add(this.label3);
+            this.pnlTop.Controls.Add(this.label5);
+            this.pnlTop.Controls.Add(this.label4);
             this.pnlTop.Controls.Add(this.txtMCEnd);
             this.pnlTop.Controls.Add(this.txtMCStart);
             this.pnlTop.Controls.Add(this.btnQuickLoad);
@@ -151,27 +141,18 @@
             this.pnlTop.Controls.Add(this.lblInstructionsPerSecond);
             this.pnlTop.Controls.Add(this.label1);
             this.pnlTop.Controls.Add(this.label2);
-            this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlTop.Location = new System.Drawing.Point(0, 24);
+            this.pnlTop.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlTop.Location = new System.Drawing.Point(0, 417);
             this.pnlTop.Margin = new System.Windows.Forms.Padding(2);
             this.pnlTop.Name = "pnlTop";
-            this.pnlTop.Size = new System.Drawing.Size(902, 69);
+            this.pnlTop.Size = new System.Drawing.Size(902, 34);
             this.pnlTop.TabIndex = 8;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(556, 44);
-            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(10, 13);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "-";
             // 
             // txtMCEnd
             // 
+            this.txtMCEnd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txtMCEnd.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMCEnd.Location = new System.Drawing.Point(568, 41);
+            this.txtMCEnd.Location = new System.Drawing.Point(419, 8);
             this.txtMCEnd.Margin = new System.Windows.Forms.Padding(2);
             this.txtMCEnd.Name = "txtMCEnd";
             this.txtMCEnd.Size = new System.Drawing.Size(70, 23);
@@ -181,8 +162,9 @@
             // 
             // txtMCStart
             // 
+            this.txtMCStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txtMCStart.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMCStart.Location = new System.Drawing.Point(486, 41);
+            this.txtMCStart.Location = new System.Drawing.Point(312, 8);
             this.txtMCStart.Margin = new System.Windows.Forms.Padding(2);
             this.txtMCStart.Name = "txtMCStart";
             this.txtMCStart.Size = new System.Drawing.Size(70, 23);
@@ -192,7 +174,8 @@
             // 
             // btnQuickLoad
             // 
-            this.btnQuickLoad.Location = new System.Drawing.Point(652, 37);
+            this.btnQuickLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnQuickLoad.Location = new System.Drawing.Point(72, 8);
             this.btnQuickLoad.Margin = new System.Windows.Forms.Padding(2);
             this.btnQuickLoad.Name = "btnQuickLoad";
             this.btnQuickLoad.Size = new System.Drawing.Size(66, 24);
@@ -203,7 +186,8 @@
             // 
             // btnQuickSave
             // 
-            this.btnQuickSave.Location = new System.Drawing.Point(652, 10);
+            this.btnQuickSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnQuickSave.Location = new System.Drawing.Point(2, 8);
             this.btnQuickSave.Margin = new System.Windows.Forms.Padding(2);
             this.btnQuickSave.Name = "btnQuickSave";
             this.btnQuickSave.Size = new System.Drawing.Size(66, 24);
@@ -410,12 +394,15 @@
             this.showMemoryToolStripMenuItem.Name = "showMemoryToolStripMenuItem";
             this.showMemoryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.showMemoryToolStripMenuItem.Text = "Show Memory";
+            this.showMemoryToolStripMenuItem.Click += new System.EventHandler(this.showMemoryToolStripMenuItem_Click);
             // 
             // developmentToolStripMenuItem
             // 
             this.developmentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.showFontToolStripMenuItem,
-            this.traceToolStripMenuItem});
+            this.traceToolStripMenuItem,
+            this.diskStatusToolStripMenuItem,
+            this.numberConversionToolStripMenuItem});
             this.developmentToolStripMenuItem.Name = "developmentToolStripMenuItem";
             this.developmentToolStripMenuItem.Size = new System.Drawing.Size(90, 20);
             this.developmentToolStripMenuItem.Text = "Development";
@@ -435,13 +422,44 @@
             this.traceToolStripMenuItem.Text = "Trace";
             this.traceToolStripMenuItem.Click += new System.EventHandler(this.traceToolStripMenuItem_Click);
             // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(166, 14);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(141, 13);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "Machine-code program Start";
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(388, 13);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(26, 13);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "End";
+            // 
+            // diskStatusToolStripMenuItem
+            // 
+            this.diskStatusToolStripMenuItem.Name = "diskStatusToolStripMenuItem";
+            this.diskStatusToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.diskStatusToolStripMenuItem.Text = "Disk Status";
+            // 
+            // numberConversionToolStripMenuItem
+            // 
+            this.numberConversionToolStripMenuItem.Name = "numberConversionToolStripMenuItem";
+            this.numberConversionToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.numberConversionToolStripMenuItem.Text = "Number Conversion";
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(902, 451);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.pnlTop);
             this.Controls.Add(this.menuStrip1);
             this.KeyPreview = true;
@@ -463,14 +481,12 @@
         }
 
         #endregion
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label lblFps;
         private System.Windows.Forms.Label lblInstructionsPerSecond;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel pnlTop;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtMCEnd;
         private System.Windows.Forms.TextBox txtMCStart;
         private System.Windows.Forms.Button btnQuickSave;
@@ -502,6 +518,10 @@
         private System.Windows.Forms.ToolStripMenuItem showFontToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem traceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem soundEnabledToolStripMenuItem;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ToolStripMenuItem diskStatusToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem numberConversionToolStripMenuItem;
     }
 }
 

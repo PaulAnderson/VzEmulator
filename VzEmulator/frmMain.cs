@@ -220,7 +220,11 @@ namespace VzEmulator
 
         private void showRegistersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Presenter.StartDebug();
+            Presenter.DebugRegisters();
+        }
+        private void showMemoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Presenter.DebugMemory();
         }
 
         private void integerScalingToolStripMenuItem_Click(object sender, EventArgs e)
@@ -252,5 +256,7 @@ namespace VzEmulator
         {
             Presenter.SoundEnabled = soundEnabledToolStripMenuItem.Checked;
         }
+
+
     }
 }

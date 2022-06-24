@@ -111,11 +111,14 @@ namespace VzEmulator
             _machine.JumpToUsrExec();
         }
 
-        internal void StartDebug()
+        internal void DebugRegisters()
         {
             var frm = new frmDebug(_machine.Cpu, _machine.Memory);
             frm.Show();
+        }
 
+        internal void DebugMemory()
+        {
             var frm2 = new frmMemoryView(_machine.Cpu);
             frm2.Show();
         }
