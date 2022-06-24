@@ -71,6 +71,8 @@
             this.numberConversionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.basicProgramListingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StatusLabel = new System.Windows.Forms.Label();
+            this.showStatsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pnlTop.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -127,7 +129,7 @@
             this.pictureBox1.Location = new System.Drawing.Point(0, 24);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(865, 463);
+            this.pictureBox1.Size = new System.Drawing.Size(800, 608);
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
             // 
@@ -145,10 +147,10 @@
             this.pnlTop.Controls.Add(this.label1);
             this.pnlTop.Controls.Add(this.label2);
             this.pnlTop.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlTop.Location = new System.Drawing.Point(0, 487);
+            this.pnlTop.Location = new System.Drawing.Point(0, 632);
             this.pnlTop.Margin = new System.Windows.Forms.Padding(2);
             this.pnlTop.Name = "pnlTop";
-            this.pnlTop.Size = new System.Drawing.Size(865, 60);
+            this.pnlTop.Size = new System.Drawing.Size(800, 60);
             this.pnlTop.TabIndex = 8;
             // 
             // txtMCEnd
@@ -209,7 +211,7 @@
             this.developmentToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(865, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
             this.menuStrip1.TabIndex = 9;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -237,6 +239,7 @@
             // 
             // saveDiskImageToolStripMenuItem
             // 
+            this.saveDiskImageToolStripMenuItem.BackColor = System.Drawing.SystemColors.Control;
             this.saveDiskImageToolStripMenuItem.Name = "saveDiskImageToolStripMenuItem";
             this.saveDiskImageToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.saveDiskImageToolStripMenuItem.Text = "Save Disk Image";
@@ -282,6 +285,7 @@
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // emulationToolStripMenuItem
             // 
@@ -406,7 +410,8 @@
             this.traceToolStripMenuItem,
             this.diskStatusToolStripMenuItem,
             this.numberConversionToolStripMenuItem,
-            this.basicProgramListingToolStripMenuItem});
+            this.basicProgramListingToolStripMenuItem,
+            this.showStatsToolStripMenuItem});
             this.developmentToolStripMenuItem.Name = "developmentToolStripMenuItem";
             this.developmentToolStripMenuItem.Size = new System.Drawing.Size(90, 20);
             this.developmentToolStripMenuItem.Text = "Development";
@@ -472,11 +477,26 @@
             this.StatusLabel.Size = new System.Drawing.Size(0, 13);
             this.StatusLabel.TabIndex = 12;
             // 
+            // showStatsToolStripMenuItem
+            // 
+            this.showStatsToolStripMenuItem.Name = "showStatsToolStripMenuItem";
+            this.showStatsToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.showStatsToolStripMenuItem.Text = "Show Stats";
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
+            this.panel1.Location = new System.Drawing.Point(491, 187);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(200, 100);
+            this.panel1.TabIndex = 10;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(865, 547);
+            this.ClientSize = new System.Drawing.Size(800, 692);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.pnlTop);
             this.Controls.Add(this.menuStrip1);
@@ -484,7 +504,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "frmMain";
-            this.Text = "VZ300 Emulator";
+            this.Text = "Paul\'s VZ-300 Emulator";
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.frmMain_KeyUp);
@@ -543,6 +563,8 @@
         private System.Windows.Forms.ToolStripMenuItem numberConversionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem basicProgramListingToolStripMenuItem;
         private System.Windows.Forms.Label StatusLabel;
+        private System.Windows.Forms.ToolStripMenuItem showStatsToolStripMenuItem;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 

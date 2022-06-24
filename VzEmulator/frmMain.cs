@@ -9,6 +9,8 @@ namespace VzEmulator
         public MachinePresenter Presenter;
         private bool _isTrace;
         private const string QuickSaveFilename = "QuickSave1.img";
+        private readonly int DefaultWidth = 816;
+        private readonly int DefaultHeight = 731;
 
         Control IMachineView.RenderControl { get => pictureBox1; }
 
@@ -42,8 +44,8 @@ namespace VzEmulator
         private void frmMain_Load(object sender, EventArgs e)
         {
             //todo remember previous
-            Width = 815;
-            Height = 730;
+            Width = DefaultWidth;
+            Height = DefaultHeight;
 
             foreach (Control ctrl in pnlTop.Controls)
             {
@@ -51,11 +53,6 @@ namespace VzEmulator
             }
 
             StartEmulation();
-        }
-
-        private void btnStart_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -276,5 +273,11 @@ namespace VzEmulator
         {
             StatusLabel.Text = $"Width: {Width}, Height: {Height}";
         }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
     }
 }
