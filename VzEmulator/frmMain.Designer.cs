@@ -30,6 +30,9 @@
         {
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pnlTop = new System.Windows.Forms.Panel();
+            this.StatusLabel = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.txtMCEnd = new System.Windows.Forms.TextBox();
             this.txtMCStart = new System.Windows.Forms.TextBox();
             this.btnQuickLoad = new System.Windows.Forms.Button();
@@ -61,14 +64,12 @@
             this.developmentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showFontToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.traceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.diskStatusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.numberConversionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.basicProgramListingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.StatusLabel = new System.Windows.Forms.Label();
             this.showStatsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.overlayPanel1 = new VzEmulatorControls.OverlayPanel();
+            this.printerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pnlTop.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -100,6 +101,34 @@
             this.pnlTop.Name = "pnlTop";
             this.pnlTop.Size = new System.Drawing.Size(800, 60);
             this.pnlTop.TabIndex = 8;
+            // 
+            // StatusLabel
+            // 
+            this.StatusLabel.AutoSize = true;
+            this.StatusLabel.Location = new System.Drawing.Point(4, 6);
+            this.StatusLabel.Name = "StatusLabel";
+            this.StatusLabel.Size = new System.Drawing.Size(0, 13);
+            this.StatusLabel.TabIndex = 12;
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(388, 39);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(26, 13);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "End";
+            // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(166, 40);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(141, 13);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "Machine-code program Start";
             // 
             // txtMCEnd
             // 
@@ -283,7 +312,8 @@
             this.smoothingToolStripMenuItem,
             this.toggleGraphicsModeToolStripMenuItem,
             this.colourToolStripMenuItem,
-            this.soundEnabledToolStripMenuItem});
+            this.soundEnabledToolStripMenuItem,
+            this.printerToolStripMenuItem});
             this.displayToolStripMenuItem.Name = "displayToolStripMenuItem";
             this.displayToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.displayToolStripMenuItem.Text = "Display";
@@ -379,26 +409,6 @@
             this.traceToolStripMenuItem.Text = "Trace";
             this.traceToolStripMenuItem.Click += new System.EventHandler(this.traceToolStripMenuItem_Click);
             // 
-            // label4
-            // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(166, 40);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(141, 13);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "Machine-code program Start";
-            // 
-            // label5
-            // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(388, 39);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(26, 13);
-            this.label5.TabIndex = 11;
-            this.label5.Text = "End";
-            // 
             // diskStatusToolStripMenuItem
             // 
             this.diskStatusToolStripMenuItem.Name = "diskStatusToolStripMenuItem";
@@ -418,14 +428,6 @@
             this.basicProgramListingToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
             this.basicProgramListingToolStripMenuItem.Text = "Basic Program Listing";
             // 
-            // StatusLabel
-            // 
-            this.StatusLabel.AutoSize = true;
-            this.StatusLabel.Location = new System.Drawing.Point(4, 6);
-            this.StatusLabel.Name = "StatusLabel";
-            this.StatusLabel.Size = new System.Drawing.Size(0, 13);
-            this.StatusLabel.TabIndex = 12;
-            // 
             // showStatsToolStripMenuItem
             // 
             this.showStatsToolStripMenuItem.CheckOnClick = true;
@@ -440,6 +442,13 @@
             this.overlayPanel1.Name = "overlayPanel1";
             this.overlayPanel1.Size = new System.Drawing.Size(200, 100);
             this.overlayPanel1.TabIndex = 10;
+            // 
+            // printerToolStripMenuItem
+            // 
+            this.printerToolStripMenuItem.Name = "printerToolStripMenuItem";
+            this.printerToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.printerToolStripMenuItem.Text = "Printer";
+            this.printerToolStripMenuItem.Click += new System.EventHandler(this.printerToolStripMenuItem_Click);
             // 
             // frmMain
             // 
@@ -511,6 +520,7 @@
         private System.Windows.Forms.Label StatusLabel;
         private System.Windows.Forms.ToolStripMenuItem showStatsToolStripMenuItem;
         private VzEmulatorControls.OverlayPanel overlayPanel1;
+        private System.Windows.Forms.ToolStripMenuItem printerToolStripMenuItem;
     }
 }
 

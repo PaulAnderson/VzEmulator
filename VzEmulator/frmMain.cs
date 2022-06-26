@@ -303,5 +303,12 @@ namespace VzEmulator
             Presenter.AttachDriveWatcher(frm);
             frm.Show();
         }
+
+        private void printerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var frm = new frmPrinterView();
+            frm.PrinterOutput = Presenter.GetPrinterOutput();
+            frm.Show();
+        }
     }
 }

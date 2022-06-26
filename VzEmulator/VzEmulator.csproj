@@ -115,6 +115,18 @@
     <Compile Include="Debugger\frmDriveWatcher.Designer.cs">
       <DependentUpon>frmDriveWatcher.cs</DependentUpon>
     </Compile>
+    <Compile Include="Debugger\frmProgramView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Debugger\frmProgramView.Designer.cs">
+      <DependentUpon>frmProgramView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPrinterView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPrinterView.Designer.cs">
+      <DependentUpon>frmPrinterView.cs</DependentUpon>
+    </Compile>
     <Compile Include="IDriveWatcher.cs" />
     <Compile Include="Debugger\InstructionTracer.cs" />
     <Compile Include="ICpu.cs" />
@@ -126,6 +138,7 @@
     <Compile Include="MachinePresenter.cs" />
     <Compile Include="MachineStats.cs" />
     <Compile Include="Peripherals\DriveStatusChange.cs" />
+    <Compile Include="Peripherals\IPrinterOutput.cs" />
     <Compile Include="Peripherals\Joystick.cs" />
     <Compile Include="Peripherals\Printer.cs" />
     <Compile Include="Peripherals\Sound.cs" />
@@ -188,6 +201,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Debugger\frmDebug.resx">
       <DependentUpon>frmDebug.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPrinterView.resx">
+      <DependentUpon>frmPrinterView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -264,5 +264,9 @@ namespace VzEmulator
         {
             _machine.AttachDriveWatcher(watcher);
         }
+        internal IPrinterOutput GetPrinterOutput()
+        {
+            return _machine.PrinterOutput;
+        }
     }
 }
