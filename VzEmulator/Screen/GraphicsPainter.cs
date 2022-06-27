@@ -31,7 +31,10 @@ namespace VzEmulator.Screen
         Timer screenRefreshTimer;
         Timer fpsCalculateTimer;
 
-        readonly OutputLatch outputLatch;
+        readonly ILatchValue outputLatch;
+
+        readonly ILatchValue extendedGraphicsLatch;
+        public bool ExtendedGraphicsEnabled { get; set; } = true;
 
         int fps;
         public int CurrentFps;
@@ -91,9 +94,11 @@ namespace VzEmulator.Screen
             }
         }
 
-        public GraphicsPainter(Control ctrl, Byte[] VideoMemory, OutputLatch outputLatch, int RenderStartAddress, int RefreshIntervalMS)
+        internal GraphicsPainter(Control ctrl, Byte[] VideoMemory, ILatchValue outputLatch, int RenderStartAddress, int RefreshIntervalMS, ILatchValue  extendedGraphicsLatch = null )
         {
             this.outputLatch = outputLatch;
+            this.extendedGraphicsLatch = extendedGraphicsLatch;
+
             TextModeRenderer = new TextModeRenderer(VideoMemory, 0);
             GraphicsModeRenderer = new GraphicsModeRenderer(VideoMemory, 0);
 

@@ -138,8 +138,10 @@
     <Compile Include="MachinePresenter.cs" />
     <Compile Include="MachineStats.cs" />
     <Compile Include="Peripherals\DriveStatusChange.cs" />
+    <Compile Include="Peripherals\ILatchValue.cs" />
     <Compile Include="Peripherals\IPrinterOutput.cs" />
     <Compile Include="Peripherals\Joystick.cs" />
+    <Compile Include="Peripherals\PortLatch.cs" />
     <Compile Include="Peripherals\Printer.cs" />
     <Compile Include="Peripherals\Sound.cs" />
     <Compile Include="Peripherals\QueuedSoundPlayer.cs" />
@@ -152,7 +154,7 @@
     <Compile Include="Peripherals\Disk.cs" />
     <Compile Include="Peripherals\Drive.cs" />
     <Compile Include="Peripherals\IPeripheral.cs" />
-    <Compile Include="Peripherals\OutputLatch.cs" />
+    <Compile Include="Peripherals\MemoryLatch.cs" />
     <Compile Include="Peripherals\Keyboard.cs" />
     <Compile Include="Peripherals\PeripheralRouter.cs" />
     <Compile Include="Peripherals\Rom.cs" />

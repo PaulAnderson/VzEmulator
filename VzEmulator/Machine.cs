@@ -19,7 +19,6 @@ namespace VzEmulator
         private InstructionTracer tracer;
         private readonly PeripheralRouter router = new PeripheralRouter();
         private readonly Drive drive = new Drive();
-        private readonly OutputLatch _OutputLatch = new OutputLatch();
         
         private readonly Rom rom = new Rom();
         private IMemoryAccessor memory;
@@ -32,7 +31,9 @@ namespace VzEmulator
                 sound.SoundEnabled = value;
             } }
 
-        public OutputLatch OutputLatch => _OutputLatch;
+        private readonly MemoryLatch _OutputLatch = new MemoryLatch();
+        public MemoryLatch OutputLatch => _OutputLatch;
+        public PortLatch ExtendedGraphicsLatch = new PortLatch(VzConstants.ExtendedGraphicsLatchPort);
         public double InstructionCount { get; set; }
         public Drive Drive => drive;
         public bool TraceEnabled { get; set; }
@@ -47,8 +48,8 @@ namespace VzEmulator
             IntSource = Cpu.InterruptEnableFlag;
             Keyboard = new Keyboard(IntSource);
             memory = Cpu.Memory;
-            VideoMemory = new VideoMemory(memory);
-            router.Add(drive).Add(Keyboard).Add(_OutputLatch).Add(rom).Add(VideoMemory).Add(printer);
+            VideoMemory = new VideoMemory(memory, ExtendedGraphicsLatch);
+            router.Add(drive).Add(Keyboard).Add(_OutputLatch).Add(rom).Add(VideoMemory).Add(printer).Add(ExtendedGraphicsLatch);
             sound = new Sound(_OutputLatch, Cpu);
         }
 
@@ -62,12 +63,14 @@ namespace VzEmulator
         {
             ushort nextAddress = Memory.SaveRegistersToMemory(z80.Registers, 0);
             z80.Memory[nextAddress] = OutputLatch.Value;
+            z80.Memory[nextAddress+1] = ExtendedGraphicsLatch.Value;
         }
 
         public void LoadRegistersFromMemory(ICpu z80)
         {
             ushort nextAddress = Memory.LoadRegistersFromMemory(z80.Registers, 0);
             OutputLatch.Value = z80.Memory[nextAddress];
+            ExtendedGraphicsLatch.Value = z80.Memory[nextAddress+1];
         }
 
         public void SetAfterInstructionExecutionCallback(Action action)

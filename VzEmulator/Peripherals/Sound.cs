@@ -15,7 +15,7 @@ namespace VzEmulator.Peripherals
 {
     class Sound
     {
-        private readonly OutputLatch outputLatch;
+        private readonly MemoryLatch outputLatch;
         private readonly ICpu cpu;
         private readonly SystemTime systemTime;
         BinaryWriter writer;
@@ -37,7 +37,7 @@ namespace VzEmulator.Peripherals
 
         public bool SoundEnabled { get; set; } = false;
 
-        public Sound(OutputLatch outputLatch, ICpu cpu, SystemTime systemTime = null)
+        public Sound(MemoryLatch outputLatch, ICpu cpu, SystemTime systemTime = null)
         {
             targetTicks = new TimeSpan(10000000 / samplesPerSecond); //10 million ticks in a second
             targetInstructionCount = Z80TargetKips * 1000 / samplesPerSecond; //instructions per sample

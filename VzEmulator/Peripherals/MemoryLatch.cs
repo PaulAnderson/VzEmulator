@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace VzEmulator.Peripherals
 {
-    public class OutputLatch : IPeripheral
+    public class MemoryLatch : IPeripheral, ILatchValue
     {
         public Tuple<ushort, ushort> PortRange => null;
 
@@ -16,7 +16,7 @@ namespace VzEmulator.Peripherals
 
         public bool DebugEnabled { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public byte Value=0;
+        public byte Value { get; set; }
 
         public byte? HandleMemoryRead(ushort address)
         {
