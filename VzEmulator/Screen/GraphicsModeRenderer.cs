@@ -31,6 +31,7 @@ namespace VzEmulator.Screen
         }
         private Color GetPixelColor(int value)
         {
+            //todo change colour palette based on background colour
             if (value == 0) return VzConstants.Colour.VZ_BR_GREEN;
             else if (value == 1) return VzConstants.Colour.VZ_YELLOW;
             else if (value == 2) return VzConstants.Colour.VZ_BLUE;
@@ -39,6 +40,7 @@ namespace VzEmulator.Screen
 
         private void RenderGraphicsMode()
         {
+            //todo change resolution based on mode select
             for (var y = 0; y < Height; y++)
             {
                 for (var x = 0; x < WidthInBytes; x++)

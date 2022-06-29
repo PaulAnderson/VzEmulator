@@ -72,7 +72,6 @@ namespace VzEmulator.Screen
 
         public GraphicsMode GraphicsMode { get; set; }
         public BackgroundColour BackgroundColour { get; set; }
-
          
         private bool _grayScale;
         public bool GrayScale
@@ -144,6 +143,28 @@ namespace VzEmulator.Screen
         {
             GraphicsMode = (OutputLatchValue & (byte)VzConstants.OutputLatchBits.GraphicsMode) > 0 ? GraphicsMode.Graphics : GraphicsMode.Text;
             BackgroundColour = (OutputLatchValue & (byte)VzConstants.OutputLatchBits.BackgroundColour) > 0 ? BackgroundColour.Orange : BackgroundColour.Green;
+
+            //TODO extended graphics
+            //extendedGraphicsLatch.value
+            //bits 0,1 are bank switching. Handled in VideoMemory.cs rather than here
+            //bit 2 (4)  => 6847 GM0
+            //bit 3 (8)  => 6847 GM1 (Held high in unmodified vz. For compatiblity with unmodified, this could be defaulted high) 
+            //bit 4 (16) => 6847 GM2
+            //bit 5 (32)=> /INT/EXT (0 for Internal chargen/Semigraphics 4, 1 for External chargen/Semigraphics 6)
+            //bit 6,7 unused
+            //
+            // GM0,1,2 Mode
+            //0,0,0 CG1 - 64x64 4 Colour. 3 scan lines per pixel
+            //0,0,1 RG1 - 128x64 2 Colour
+            //0,1,0 CG2 - 128x64 4 Colour
+            //0,1,1 RG2 - 128x96 2 Colour. 2 scan lines per pixel
+            //1,0,0 CG3 - 128x96 4 Colour
+            //1,0,1 RG3 - 128x192 2 Colour. 1 scan line per pixe
+            //1,1,0 CG6 - 128x192 4 Colour
+            //1,1,1 RG6 - 256x192 2 Colour
+
+            //shoud this change to draw one scan line at a time? And time the CPU and sound to the scanline?
+
         }
 
         private void Control_Paint(object sender, PaintEventArgs e)
@@ -162,7 +183,7 @@ namespace VzEmulator.Screen
             bool isGraphicsMode = GraphicsMode == GraphicsMode.Graphics;
 
             if (isGraphicsMode)
-                    GraphicsModeRenderer?.Render(gr, BackgroundColour == BackgroundColour.Orange);
+                GraphicsModeRenderer?.Render(gr, BackgroundColour == BackgroundColour.Orange);
             else
                TextModeRenderer?.Render(gr, BackgroundColour == BackgroundColour.Orange);
         }

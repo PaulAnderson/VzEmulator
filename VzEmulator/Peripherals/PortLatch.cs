@@ -20,12 +20,12 @@ namespace VzEmulator.Peripherals
         
         public byte Value { get; set; }
 
-        public PortLatch(Tuple<ushort, ushort> PortRange)
+        public PortLatch(byte PortRangeStart, byte PortRangeEnd)
         {
-            _portRange = PortRange;
+            _portRange = new Tuple<ushort, ushort>(PortRangeStart, PortRangeEnd);
         }
 
-        public PortLatch(ushort portAddress)
+        public PortLatch(byte portAddress)
         {
             _portRange = new Tuple<ushort, ushort>(portAddress, portAddress);
         }

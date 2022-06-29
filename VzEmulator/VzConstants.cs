@@ -30,7 +30,10 @@ namespace VzEmulator
         internal const byte FileTypeMC = 0xF1;
 
         internal const byte LightColorCharOffset = 0x40;
-        internal const ushort ExtendedGraphicsLatchPort = 32;
+        internal const byte ExtendedGraphicsLatchPortStart = 32;
+        internal const byte ExtendedGraphicsLatchPortEnd = 47;
+        internal const byte ExtendedGraphicsLatchDefault = 0x08; //6847.GM1 for 128x64 Color Graphics
+
 
         internal class Colour
         {

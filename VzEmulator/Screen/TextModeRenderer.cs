@@ -29,6 +29,7 @@ namespace VzEmulator.Screen
 
         private void renderTextMode(bool background)
         {
+            //todo render SG6 based if INT/EXT set (bit 5 of extendedGraphicsLatch)
             using (var gr = Graphics.FromImage(_GraphicsBitmap.Bitmap))
             {
                 int charOffset = 0;

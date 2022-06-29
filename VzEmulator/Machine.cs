@@ -33,7 +33,7 @@ namespace VzEmulator
 
         private readonly MemoryLatch _OutputLatch = new MemoryLatch();
         public MemoryLatch OutputLatch => _OutputLatch;
-        public PortLatch ExtendedGraphicsLatch = new PortLatch(VzConstants.ExtendedGraphicsLatchPort);
+        public PortLatch ExtendedGraphicsLatch = new PortLatch(VzConstants.ExtendedGraphicsLatchPortStart, VzConstants.ExtendedGraphicsLatchPortEnd) { Value = VzConstants.ExtendedGraphicsLatchDefault };
         public double InstructionCount { get; set; }
         public Drive Drive => drive;
         public bool TraceEnabled { get; set; }
