@@ -38,5 +38,10 @@ namespace VzEmulator.Peripherals
         public void HandlePortWrite(ushort address, byte value)
         {
         }
+
+        public void Reset()
+        {
+            this.Value = 0;
+        }
     }
 }

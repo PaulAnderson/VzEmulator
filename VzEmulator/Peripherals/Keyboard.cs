@@ -258,5 +258,10 @@ namespace VzEmulator.Peripherals
             else
                 CurrentKeyState = keyState;
         }
+
+        public void Reset()
+        {
+            KeyQueue?.Clear();
+        }
     }
 }

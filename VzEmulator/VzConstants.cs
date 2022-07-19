@@ -30,9 +30,14 @@ namespace VzEmulator
         internal const byte FileTypeMC = 0xF1;
 
         internal const byte LightColorCharOffset = 0x40;
-        internal const byte ExtendedGraphicsLatchPortStart = 32;
-        internal const byte ExtendedGraphicsLatchPortEnd = 47;
-        internal const byte ExtendedGraphicsLatchDefault = 0x08; //6847.GM1 for 128x64 Color Graphics
+        internal const byte AuExtendedGraphicsLatchPortStart = 0x20;
+        internal const byte AuExtendedGraphicsLatchPortEnd = 0x2f;
+        internal const byte AuExtendedGraphicsLatchDefault = 0x08; //6847.GM1 for 128x64 Color Graphics
+
+        internal const byte DeExtendedGraphicsLatchPortStart = 0xD0;
+        internal const byte DeExtendedGraphicsLatchPortEnd = 0xDF;
+
+        internal const byte VideoMemoryBankSwitchMask = 0b00000011; //1 Less than total number of video banks (power of 2).4 (8KB) to support graphics mod
 
 
         internal class Colour
@@ -55,6 +60,7 @@ namespace VzEmulator
         [Flags]
         internal enum OutputLatchBits : byte
         {
+            Spare_DeModGraphicsMode = 0x02,
             GraphicsMode=0x08,
             BackgroundColour=0x10,
         }

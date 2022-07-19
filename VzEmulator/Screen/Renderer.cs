@@ -50,7 +50,7 @@ namespace VzEmulator.Screen
 
         }
 
-        public abstract void Render(System.Drawing.Graphics gr, bool background);
+        public abstract void Render(System.Drawing.Graphics gr, ExtendedGraphicsModeFlags ModeFlags);
 
         protected void CopyGraphicsBitmap(Graphics gr, DirectBitmap graphicsBitmap, float aspectRatio)
         {

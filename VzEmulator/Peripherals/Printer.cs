@@ -58,5 +58,10 @@ namespace VzEmulator.Peripherals
         {
             LinePrinted?.Invoke(this, EventArgs.Empty);
         }
+
+        public void Reset()
+        {
+            //do nothing
+        }
     }
 }

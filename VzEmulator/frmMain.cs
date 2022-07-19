@@ -150,7 +150,7 @@ namespace VzEmulator
         private void StartEmulation()
         {
             Presenter.Start();
-
+            
             startToolStripMenuItem.Text = "Reset";
             pauseToolStripMenuItem.Enabled = true;
             unPauseToolStripMenuItem.Enabled = true;

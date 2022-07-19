@@ -32,5 +32,10 @@ namespace VzEmulator.Peripherals
         {
             //do nothing
         }
+
+        public void Reset()
+        {
+            //do nothing
+        }
     }
 }

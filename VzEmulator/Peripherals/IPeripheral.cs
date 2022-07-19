@@ -11,6 +11,6 @@ namespace VzEmulator.Peripherals
         void HandlePortWrite(ushort address,byte value);
         byte? HandleMemoryRead(ushort address);
         bool HandleMemoryWrite(ushort address, byte value);
-
+        void Reset();
     }
 }

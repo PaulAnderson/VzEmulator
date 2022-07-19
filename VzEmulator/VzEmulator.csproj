@@ -148,6 +148,7 @@
     <Compile Include="Peripherals\SoundPlayerWrapper.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Screen\ExtendedGraphicsModeFlags.cs" />
     <Compile Include="SystemTime.cs" />
     <Compile Include="Z80dotNetCpuAdapter.cs" />
     <Compile Include="Z80dotNetMemoryAccessor.cs" />

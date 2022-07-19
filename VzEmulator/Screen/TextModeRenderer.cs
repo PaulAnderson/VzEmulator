@@ -21,15 +21,14 @@ namespace VzEmulator.Screen
             _FontBitmap = fontLoader.LoadFont(FileName);
         }
 
-        public override void Render(Graphics gr, bool background)
+        public override void Render(Graphics gr, ExtendedGraphicsModeFlags ModeFlags)
         {
-            renderTextMode(background);
+            renderTextMode(ModeFlags.HasFlag(ExtendedGraphicsModeFlags.CSS_BackColour), ModeFlags.HasFlag(ExtendedGraphicsModeFlags.SG6));
             CopyGraphicsBitmap(gr, _GraphicsBitmap, AspectRatio);
         }
 
-        private void renderTextMode(bool background)
+        private void renderTextMode(bool background, bool extendedSG6)
         {
-            //todo render SG6 based if INT/EXT set (bit 5 of extendedGraphicsLatch)
             using (var gr = Graphics.FromImage(_GraphicsBitmap.Bitmap))
             {
                 int charOffset = 0;
@@ -43,19 +42,88 @@ namespace VzEmulator.Screen
                     {
                         var offset = 32 * y + x;
                         var c = _Memory[_VideoMemoryStartAddress + offset];
-                        var row = c / 32;
-                        var col = c - row * 32;
-                        var srcx = col * 8;
-                        var srcy = charOffset + row * 12;
+                        
                         var destx = x * (8 * scale);
                         var desty = y * (12 * scale);
-
-                        var srcRect = new Rectangle(srcx, srcy, 8, 12);
 
                         var destRect = new Rectangle(destx, desty, 8 * scale, 12 * scale);
                         var destPoints = ToPoints(destRect);
 
-                        gr.DrawImage(_FontBitmap.Bitmap, destPoints, srcRect, GraphicsUnit.Pixel, ImageAttributes);
+                        if (!extendedSG6)
+                        {
+                            //Internal chargen & SG4 semigraphics
+                            var row = c / 32;
+                            var col = c - row * 32;
+                            var srcx = col * 8;
+                            var srcy = charOffset + row * 12;
+                            var srcRect = new Rectangle(srcx, srcy, 8, 12);
+                            gr.DrawImage(_FontBitmap.Bitmap, destPoints, srcRect, GraphicsUnit.Pixel, ImageAttributes);
+                        }
+
+                        else
+                        {
+                            //External chargen & SG6 semigraphics
+                            //TODO
+                            if ((c & 0x80)==0)
+                            {
+                                //Render regular chars as normal for now. TODO allow pluggable font for external chargen
+                                c ^= 0x40;
+                                var row = c / 32;
+                                var col = c - row * 32;
+                                var srcx = col * 8;
+                                var srcy = charOffset + row * 12;
+                                var srcRect = new Rectangle(srcx, srcy, 8, 12);
+                                gr.DrawImage(_FontBitmap.Bitmap, destPoints, srcRect, GraphicsUnit.Pixel, ImageAttributes);
+                            } else
+                            {
+                                //Semigraphics. 
+                                //Todo render semigraphics char and paint to screen
+                                var color = c & 0xc0; //most significant 2 bits. 0x80 will always be set because G/A is wired to D7
+                                var blocks = c & 0x3f; //least significant 6 bits
+
+                                const int blockwidth = 4; // 8/2
+                                const int blockHeight = 4; // 12/3
+                                var blockSize = new Size(blockwidth * scale, blockHeight * scale); //Blocks are 2 pixels wide, 3 pixels high (8/2 and 12/3)
+
+                                //block layout
+                                //L5 L4
+                                //L3 L2
+                                //L1 L0
+                                Brush bgPen = new SolidBrush(VzConstants.Colour.VZ_BLACK); //todo check
+                                Brush cpen0 = background ? new SolidBrush(VzConstants.Colour.VZ_MAGENTA) : new SolidBrush(VzConstants.Colour.VZ_BLUE);  
+                                Brush cpen1 = background ? new SolidBrush(VzConstants.Colour.VZ_ORANGE) :new SolidBrush(VzConstants.Colour.VZ_RED); 
+                                Brush fgPen = (c & 0x40) == 0 ? cpen1 : cpen0;
+
+                                Point l5 = new Point(destx, desty);
+                                Point l4 = new Point(destx + blockwidth * scale, desty);
+                                Point l3 = new Point(destx, desty + blockHeight * scale);
+                                Point l2 = new Point(destx + blockwidth * scale, desty + blockHeight * scale);
+                                Point l1 = new Point(destx, desty + 2 * blockHeight * scale);
+                                Point l0 = new Point(destx + blockwidth * scale, desty + 2 * blockHeight * scale);
+
+                                var rect5 = new Rectangle(l5, blockSize);
+                                var rect4 = new Rectangle(l4, blockSize);
+                                var rect3 = new Rectangle(l3, blockSize);
+                                var rect2 = new Rectangle(l2, blockSize);
+                                var rect1 = new Rectangle(l1, blockSize);
+                                var rect0 = new Rectangle(l0, blockSize);
+
+                                var pen5 = (c & 0x20) == 0 ? bgPen : fgPen;
+                                var pen4 = (c & 0x10) == 0 ? bgPen : fgPen;
+                                var pen3 = (c & 0x08) == 0 ? bgPen : fgPen;
+                                var pen2 = (c & 0x04) == 0 ? bgPen : fgPen;
+                                var pen1 = (c & 0x02) == 0 ? bgPen : fgPen;
+                                var pen0 = (c & 0x01) == 0 ? bgPen : fgPen;
+
+                                gr.FillRectangle(pen5,rect5);
+                                gr.FillRectangle(pen4, rect4);
+                                gr.FillRectangle(pen3, rect3);
+                                gr.FillRectangle(pen2, rect2);
+                                gr.FillRectangle(pen1, rect1);
+                                gr.FillRectangle(pen0, rect0);
+
+                            }
+                        }
                     }
                 }
             }

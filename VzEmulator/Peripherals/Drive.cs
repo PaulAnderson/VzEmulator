@@ -278,5 +278,10 @@ namespace VzEmulator.Peripherals
         {
             DriveStatusChangeEvent?.Invoke(this, e);
         }
+
+        public void Reset()
+        {
+            //do nothing
+        }
     }
 }

@@ -15,15 +15,13 @@ namespace VzEmulator.Peripherals
 
         private IMemoryAccessor Memory;
 
-        private const byte VideoMemoryBankSwitchMask = 3; //1 Less than total number of video banks (power of 2).4 (8KB) to support graphics mod
-
         public ILatchValue BankSwitchLatch { get; }
-        public Byte BankSelect => (byte)(BankSwitchLatch.Value & VideoMemoryBankSwitchMask);
+        public Byte BankSelect => (byte)(BankSwitchLatch.Value & VzConstants.VideoMemoryBankSwitchMask);
         public bool ExtendedGraphicsEnabled { get; set; } = true;
 
         public VideoMemory(IMemoryAccessor memory, ILatchValue bankSwitchLatch)
         {
-            Content = new byte[(VzConstants.VideoRamSize + 1) * (VideoMemoryBankSwitchMask+1)];
+            Content = new byte[(VzConstants.VideoRamSize + 1) * (VzConstants.VideoMemoryBankSwitchMask+1)];
             this.Memory = memory;
             BankSwitchLatch = bankSwitchLatch;
         }
@@ -76,6 +74,11 @@ namespace VzEmulator.Peripherals
                 BankOffset = BankSelect * (VzConstants.VideoRamSize + 1);
             }
             return BankOffset;
+        }
+
+        public void Reset()
+        {
+            //Do nothing. Power on reset probably has the memory at all 00s, and a soft reset should leave the contents as-is
         }
     }
 }

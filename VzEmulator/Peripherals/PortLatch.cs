@@ -10,6 +10,9 @@ namespace VzEmulator.Peripherals
 {
     public class PortLatch : IPeripheral , ILatchValue
     {
+        public ILatchValue LinkedLatch;
+        public byte LinkedLatchCopyMask;
+
         public Tuple<ushort, ushort> PortRange => _portRange;
 
         public Tuple<ushort, ushort> MemoryRange => null;
@@ -48,7 +51,26 @@ namespace VzEmulator.Peripherals
         public void HandlePortWrite(ushort address, byte value)
         {
             if (_portRange.Item1 <= address & address <= _portRange.Item2)
-                this.Value = value;
+            {
+                SetValue(value);
+
+            }
+        }
+
+        private void SetValue(byte value)
+        {
+            this.Value = value;
+
+            if (LinkedLatch != null)
+            {
+                LinkedLatch.Value &= (byte)(LinkedLatchCopyMask ^ 0xFF); //Clear bits to copy
+                LinkedLatch.Value |= (byte)(value & LinkedLatchCopyMask); //Copy bits
+            }
+        }
+
+        public void Reset()
+        {
+            SetValue(0);
         }
     }
 }

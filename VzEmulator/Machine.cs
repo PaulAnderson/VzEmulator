@@ -33,7 +33,13 @@ namespace VzEmulator
 
         private readonly MemoryLatch _OutputLatch = new MemoryLatch();
         public MemoryLatch OutputLatch => _OutputLatch;
-        public PortLatch ExtendedGraphicsLatch = new PortLatch(VzConstants.ExtendedGraphicsLatchPortStart, VzConstants.ExtendedGraphicsLatchPortEnd) { Value = VzConstants.ExtendedGraphicsLatchDefault };
+        public PortLatch AuExtendedGraphicsLatch 
+            = new PortLatch(VzConstants.AuExtendedGraphicsLatchPortStart, VzConstants.AuExtendedGraphicsLatchPortEnd)
+            { Value = VzConstants.AuExtendedGraphicsLatchDefault };
+        public PortLatch DeExtendedGraphicsLatch =
+            new PortLatch(VzConstants.DeExtendedGraphicsLatchPortStart, VzConstants.DeExtendedGraphicsLatchPortEnd)
+            { LinkedLatchCopyMask = VzConstants.VideoMemoryBankSwitchMask };
+  
         public double InstructionCount { get; set; }
         public Drive Drive => drive;
         public bool TraceEnabled { get; set; }
@@ -48,8 +54,9 @@ namespace VzEmulator
             IntSource = Cpu.InterruptEnableFlag;
             Keyboard = new Keyboard(IntSource);
             memory = Cpu.Memory;
-            VideoMemory = new VideoMemory(memory, ExtendedGraphicsLatch);
-            router.Add(drive).Add(Keyboard).Add(_OutputLatch).Add(rom).Add(VideoMemory).Add(printer).Add(ExtendedGraphicsLatch);
+            VideoMemory = new VideoMemory(memory, AuExtendedGraphicsLatch);
+            DeExtendedGraphicsLatch.LinkedLatch = AuExtendedGraphicsLatch; //De Latch stores bits 0,1 value in Au latch
+            router.Add(drive).Add(Keyboard).Add(_OutputLatch).Add(rom).Add(VideoMemory).Add(printer).Add(AuExtendedGraphicsLatch).Add(DeExtendedGraphicsLatch);
             sound = new Sound(_OutputLatch, Cpu);
         }
 
@@ -63,14 +70,15 @@ namespace VzEmulator
         {
             ushort nextAddress = Memory.SaveRegistersToMemory(z80.Registers, 0);
             z80.Memory[nextAddress] = OutputLatch.Value;
-            z80.Memory[nextAddress+1] = ExtendedGraphicsLatch.Value;
+            z80.Memory[nextAddress + 1] = AuExtendedGraphicsLatch.Value;
+
         }
 
         public void LoadRegistersFromMemory(ICpu z80)
         {
             ushort nextAddress = Memory.LoadRegistersFromMemory(z80.Registers, 0);
             OutputLatch.Value = z80.Memory[nextAddress];
-            ExtendedGraphicsLatch.Value = z80.Memory[nextAddress+1];
+            AuExtendedGraphicsLatch.Value = z80.Memory[nextAddress + 1];
         }
 
         public void SetAfterInstructionExecutionCallback(Action action)
@@ -84,13 +92,12 @@ namespace VzEmulator
         private void Z80OnAfterInstructionExecution(object sender, InstructionEventArgs args)
         {
             
-            //var z80 = (ICpu)sender;
-
             InstructionCount += 1;
 
             if (resetting)
             {
                 Cpu.Reset();
+                router.Reset();
                 resetting = false;
             }
 

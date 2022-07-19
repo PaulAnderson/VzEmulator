@@ -64,5 +64,10 @@ namespace VzEmulator.Peripherals
             }
             return result;
         }
+
+        internal void Reset()
+        {
+            AttachedDevices.ForEach(x => x.Reset());
+        }
     }
 }
