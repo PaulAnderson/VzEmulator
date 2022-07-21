@@ -11,8 +11,8 @@ namespace VzEmulator.Screen
         protected ushort _VideoMemoryStartAddress;
         protected DirectBitmap _GraphicsBitmap;
 
-        protected virtual int Width { get; }
-        protected virtual int Height { get; }
+        protected virtual int Width { get; set; }
+        protected virtual int Height { get; set; }
         protected const float AspectRatio = 1;
 
         public bool UseFixedScale { get; set; }

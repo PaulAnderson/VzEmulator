@@ -1,4 +1,5 @@
-﻿using VzEmulator.Peripherals;
+﻿using System;
+using VzEmulator.Peripherals;
 
 namespace VzEmulator
 {
@@ -58,7 +59,7 @@ namespace VzEmulator
                 }
                 else
                 {
-                    //unknown file type
+                    throw new Exception($"Unknown File Header: 0x{file.header:X}");
                 }
                 //save end address pointer
                 if (file.fileType == 0xF0)
@@ -79,7 +80,7 @@ namespace VzEmulator
             else
             {
                 //invalid file
-                return null;
+                throw new Exception($"Invalid .vz file. Unknown File Header: 0x{file.header:X}");
             }
         }
 
