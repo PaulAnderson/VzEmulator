@@ -123,7 +123,7 @@ namespace VzEmulator.Screen
                     (Width, Height) = (256, 192);
                     PixelsPerByte = 8;
                     WidthInBytes = 32;
-                    AspectRatio = (float)1.5;
+                    AspectRatio = (float)1;
                     break;
             }
         }
@@ -145,7 +145,7 @@ namespace VzEmulator.Screen
                     var pos = (ushort)(y * WidthInBytes + x);
                     byte current = _Memory[_VideoMemoryStartAddress + pos];
 
-                    var StartGroupx = x << bitShift;
+                    var StartGroupx = x * PixelsPerByte;
 
                     for (int i = 0; i < PixelsPerByte; i++)
                     {
