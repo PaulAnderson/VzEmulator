@@ -49,9 +49,11 @@ namespace VzEmulator
             {
                 fileName = PlaceHolderRomFilename;
             }
-
-            graphicsPainter = new GraphicsPainter(_view.RenderControl, _machine.VideoMemory.Content, _machine.OutputLatch, 0, 33, _machine.AuExtendedGraphicsLatch);
-            graphicsPainter.RefreshedEvent += GraphicsPainter_RefreshedEvent;
+            if (graphicsPainter == null)
+            {
+                graphicsPainter = new GraphicsPainter(_view.RenderControl, _machine.VideoMemory.Content, _machine.OutputLatch, 0, 33, _machine.AuExtendedGraphicsLatch);
+                graphicsPainter.RefreshedEvent += GraphicsPainter_RefreshedEvent;
+            }
 
             var program = fileIo.ReadFile(fileName);
             _machine.Setup(program);
