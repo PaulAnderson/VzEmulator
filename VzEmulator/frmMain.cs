@@ -149,6 +149,8 @@ namespace VzEmulator
 
         private void StartEmulation()
         {
+            Presenter.SoundEnabled = soundEnabledToolStripMenuItem.Checked;
+
             Presenter.Start();
             
             startToolStripMenuItem.Text = "Reset";
@@ -282,6 +284,10 @@ namespace VzEmulator
             Presenter.SoundEnabled = soundEnabledToolStripMenuItem.Checked;
         }
 
+        private void soundTestToneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Presenter.SoundTestTone = soundTestToneToolStripMenuItem.Checked;
+        }
         private void frmMain_Resize(object sender, EventArgs e)
         {
             StatusLabel.Text = $"Width: {Width}, Height: {Height}";

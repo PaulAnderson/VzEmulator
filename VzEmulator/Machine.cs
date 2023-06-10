@@ -30,6 +30,10 @@ namespace VzEmulator
         public bool SoundEnabled { set {
                 sound.SoundEnabled = value;
             } }
+        public bool SoundTestTone { set
+            {
+                sound.TestTone = value;
+            } }
 
         private readonly MemoryLatch _OutputLatch = new MemoryLatch();
         public MemoryLatch OutputLatch => _OutputLatch;
@@ -56,7 +60,7 @@ namespace VzEmulator
             memory = Cpu.Memory;
             VideoMemory = new VideoMemory(memory, AuExtendedGraphicsLatch);
             DeExtendedGraphicsLatch.LinkedLatch = AuExtendedGraphicsLatch; //De Latch stores bits 0,1 value in Au latch
-            router.Add(drive).Add(Keyboard).Add(_OutputLatch).Add(rom).Add(VideoMemory).Add(printer).Add(AuExtendedGraphicsLatch).Add(DeExtendedGraphicsLatch);
+            router.Add(Keyboard).Add(_OutputLatch).Add(rom).Add(VideoMemory).Add(drive).Add(printer).Add(AuExtendedGraphicsLatch).Add(DeExtendedGraphicsLatch);
             sound = new Sound(_OutputLatch, Cpu);
         }
 

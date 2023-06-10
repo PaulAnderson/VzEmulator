@@ -209,7 +209,9 @@ namespace VzEmulator
         public bool SoundEnabled { set {
                 _machine.SoundEnabled = value;
             } }
-
+        public bool SoundTestTone { set {
+                _machine.SoundTestTone = value;
+            } }
         public AddressRange LoadFile(string fileName)
         {
             var addressRange = fileHandler.LoadFile(fileName);

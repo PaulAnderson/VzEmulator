@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using VzEmulator.Peripherals;
@@ -121,12 +122,15 @@ namespace VzEmulator.Screen
 
         private void RenderScreen()
         {
+            var s = Stopwatch.StartNew();
             //bitmap display, graphics and text modes
             paintControl?.Invalidate();
             paintControl?.Update();
 
             fps++;
+            s.Stop();
 
+            Console.WriteLine($"Screen render took {s.ElapsedMilliseconds} ms ({s.ElapsedTicks} ticks)");
         }
 
         /// <summary>
