@@ -68,139 +68,8 @@ namespace VzEmulator.Peripherals
 
             if (keyState?.IsKeyPressed ?? false)
             {
-                var keyCode = keyState.KeyCode & Keys.KeyCode;
-                var c = keyState.ToLower();
-                
-                //These are scanned in order by the ROM
-                if ((addr & 1) > 0)
-                {
-                    if (c == 'R')
-                        value &= 0b11011111;
-                    if (c == 'Q')
-                        value &= 0b11101111;
-                    if (c == 'E')
-                        value &= 0b11110111;
-                    if (c == ' ')
-                        value &= 0b11111011;
-                    if (c == 'W')
-                        value &= 0b11111101;
-                    if (c == 'T')
-                        value &= 0b11111110;
-                }
+                value = GetKeyMatrixValue(keyState, addr, value);
 
-                if ((addr & 2) > 0)
-                {
-                    if (c == 'F')
-                        value &= 0b11011111;
-                    if (c == 'A')
-                        value &= 0b11101111;
-                    if (c == 'D')
-                        value &= 0b11110111;
-                    if ((keyState.KeyCode & Keys.Control) == Keys.Control
-                        || keyCode == Keys.Left || keyCode == Keys.Back
-                        || keyCode == Keys.Right || keyCode == Keys.Up
-                        || keyCode == Keys.Down || keyCode == Keys.Insert
-                        || keyCode == Keys.Delete || keyCode == Keys.End)
-                        value &= 0b11111011;
-                    if (c == 'S')
-                        value &= 0b11111101;
-                    if (c == 'G')
-                        value &= 0b11111110;
-                }
-                if ((addr & 4) > 0)
-                {
-                    if (c == 'V')
-                        value &= 0b11011111;
-                    if (c == 'Z')
-                        value &= 0b11101111;
-                    if (c == 'C')
-                        value &= 0b11110111;
-                    if ((keyState.KeyCode & Keys.Shift) == Keys.Shift ||
-                        ((keyState.KeyCode & Keys.Control) != Keys.Control && (keyState.KeyCode & Keys.Shift) != Keys.Shift && (keyState.KeyCode & Keys.KeyCode) == Keys.Oemplus))
-                        value &= 0b11111011;
-                    if (c == 'X')
-                        value &= 0b11111101;
-                    if (c == 'B')
-                        value &= 0b11111110;
-                }
-                if ((addr & 8) > 0)
-                {
-                    if (c == '4')
-                        value &= 0b11011111;
-                    if (c == '1')
-                        value &= 0b11101111;
-                    if (c == '3')
-                        value &= 0b11110111;
-                    if ((keyState.KeyCode & Keys.Alt) == Keys.Alt)
-                        value &= 0b11111011;
-                    if (c == '2')
-                        value &= 0b11111101;
-                    if (c == '5')
-                        value &= 0b11111110;
-                }
-                if ((addr & 16) > 0)
-                {
-                    if (c == 'M' || keyCode == Keys.Left || keyCode == Keys.Back)
-                        value &= 0b11011111;
-                    if (c == ' ' || keyCode == Keys.Down)
-                        value &= 0b11101111;
-                    if (keyCode == Keys.Oemcomma
-                        || keyCode == Keys.Right)
-                        value &= 0b11110111;
-                    if (keyCode == Keys.F1)
-                        value &= 0b11111011;
-                    if (keyCode == Keys.OemPeriod
-                        || keyCode == Keys.Up)
-                        value &= 0b11111101;
-                    if (c == 'N')
-                        value &= 0b11111110;
-                }
-                if ((addr & 32) > 0)
-                {
-                    if (c == '7')
-                        value &= 0b11011111;
-                    if (c == '0')
-                        value &= 0b11101111;
-                    if (c == '8')
-                        value &= 0b11110111;
-                    if (c == '-' || (keyState.KeyCode & Keys.KeyCode) == Keys.OemMinus || ((keyState.KeyCode & Keys.Shift) != Keys.Shift & (keyState.KeyCode & Keys.KeyCode) == Keys.Oemplus))
-                        value &= 0b11111011;
-                    if (c == '9')
-                        value &= 0b11111101;
-                    if (c == '6')
-                        value &= 0b11111110;
-                }
-                if ((addr & 64) > 0)
-                {
-                    if (c == 'U')
-                        value &= 0b11011111;
-                    if (c == 'P')
-                        value &= 0b11101111;
-                    if (c == 'I')
-                        value &= 0b11110111;
-                    if (c == (char)13)
-                        value &= 0b11111011;
-                    if (c == 'O')
-                        value &= 0b11111101;
-                    if (c == 'Y')
-                        value &= 0b11111110;
-                }
-                if ((addr & 128) > 0)
-                {
-                    if (c == 'J')
-                        value &= 0b11011111;
-                    if (c == ';' || keyCode == Keys.Delete || keyCode == Keys.Oem1 ||
-                        ((keyState.KeyCode & Keys.Shift) == Keys.Shift && (keyState.KeyCode & Keys.KeyCode) == Keys.Oemplus))
-                        value &= 0b11101111;
-                    if (c == 'K')
-                        value &= 0b11110111;
-                    if (c == ':' || keyCode == Keys.End || keyCode == Keys.Oem7)
-                        value &= 0b11111011;
-                    if (c == 'L' || keyCode == Keys.Insert)
-                        value &= 0b11111101;
-                    if (c == 'H')
-                        value &= 0b11111110;
-                }
             }
             else
             {
@@ -235,6 +104,147 @@ namespace VzEmulator.Peripherals
             return value;
         }
 
+        private static byte GetKeyMatrixValue(KeyState keyState, int addr, byte value)
+        {
+            var keyCode = keyState.KeyCode & Keys.KeyCode;
+            var c = keyState.ToLower();
+
+            //These are scanned in order by the ROM
+            if ((addr & 1) > 0)
+            {
+                if (c == 'R')
+                    value &= 0b11011111;
+                if (c == 'Q')
+                    value &= 0b11101111;
+                if (c == 'E')
+                    value &= 0b11110111;
+                if (c == ' ')
+                    value &= 0b11111011;
+                if (c == 'W')
+                    value &= 0b11111101;
+                if (c == 'T')
+                    value &= 0b11111110;
+            }
+
+            if ((addr & 2) > 0)
+            {
+                if (c == 'F')
+                    value &= 0b11011111;
+                if (c == 'A')
+                    value &= 0b11101111;
+                if (c == 'D')
+                    value &= 0b11110111;
+                if ((keyState.KeyCode & Keys.Control) == Keys.Control
+                    || keyCode == Keys.Left || keyCode == Keys.Back
+                    || keyCode == Keys.Right || keyCode == Keys.Up
+                    || keyCode == Keys.Down || keyCode == Keys.Insert
+                    || keyCode == Keys.Delete || keyCode == Keys.End)
+                    value &= 0b11111011;
+                if (c == 'S')
+                    value &= 0b11111101;
+                if (c == 'G')
+                    value &= 0b11111110;
+            }
+            if ((addr & 4) > 0)
+            {
+                if (c == 'V')
+                    value &= 0b11011111;
+                if (c == 'Z')
+                    value &= 0b11101111;
+                if (c == 'C')
+                    value &= 0b11110111;
+                if ((keyState.KeyCode & Keys.Shift) == Keys.Shift ||
+                    ((keyState.KeyCode & Keys.Control) != Keys.Control && (keyState.KeyCode & Keys.Shift) != Keys.Shift && (keyState.KeyCode & Keys.KeyCode) == Keys.Oemplus))
+                    value &= 0b11111011;
+                if (c == 'X')
+                    value &= 0b11111101;
+                if (c == 'B')
+                    value &= 0b11111110;
+            }
+            if ((addr & 8) > 0)
+            {
+                if (c == '4')
+                    value &= 0b11011111;
+                if (c == '1')
+                    value &= 0b11101111;
+                if (c == '3')
+                    value &= 0b11110111;
+                if ((keyState.KeyCode & Keys.Alt) == Keys.Alt)
+                    value &= 0b11111011;
+                if (c == '2')
+                    value &= 0b11111101;
+                if (c == '5')
+                    value &= 0b11111110;
+            }
+            if ((addr & 16) > 0)
+            {
+                if (c == 'M' || keyCode == Keys.Left || keyCode == Keys.Back)
+                    value &= 0b11011111;
+                if (c == ' ' || keyCode == Keys.Down)
+                    value &= 0b11101111;
+                if (keyCode == Keys.Oemcomma
+                    || keyCode == Keys.Right)
+                    value &= 0b11110111;
+                if (keyCode == Keys.F1)
+                    value &= 0b11111011;
+                if (keyCode == Keys.OemPeriod
+                    || keyCode == Keys.Up)
+                    value &= 0b11111101;
+                if (c == 'N')
+                    value &= 0b11111110;
+            }
+            if ((addr & 32) > 0)
+            {
+                if (c == '7')
+                    value &= 0b11011111;
+                if (c == '0')
+                    value &= 0b11101111;
+                if (c == '8')
+                    value &= 0b11110111;
+                if (c == '-' || (keyState.KeyCode & Keys.KeyCode) == Keys.OemMinus || ((keyState.KeyCode & Keys.Shift) != Keys.Shift & (keyState.KeyCode & Keys.KeyCode) == Keys.Oemplus))
+                    value &= 0b11111011;
+                if (c == '9')
+                    value &= 0b11111101;
+                if (c == '6')
+                    value &= 0b11111110;
+            }
+            if ((addr & 64) > 0)
+            {
+                if (c == 'U')
+                    value &= 0b11011111;
+                if (c == 'P')
+                    value &= 0b11101111;
+                if (c == 'I')
+                    value &= 0b11110111;
+                if (c == (char)13)
+                    value &= 0b11111011;
+                if (c == 'O')
+                    value &= 0b11111101;
+                if (c == 'Y')
+                    value &= 0b11111110;
+            }
+            if ((addr & 128) > 0)
+            {
+                if (c == 'J')
+                    value &= 0b11011111;
+                if (c == ';' || keyCode == Keys.Delete || keyCode == Keys.Oem1 ||
+                    ((keyState.KeyCode & Keys.Shift) == Keys.Shift && (keyState.KeyCode & Keys.KeyCode) == Keys.Oemplus))
+                    value &= 0b11101111;
+                if (c == 'K')
+                    value &= 0b11110111;
+                if (c == ':' || keyCode == Keys.End || keyCode == Keys.Oem7)
+                    value &= 0b11111011;
+                if (c == 'L' || keyCode == Keys.Insert)
+                    value &= 0b11111101;
+                if (c == 'H')
+                    value &= 0b11111110;
+            }
+
+            return value;
+        }
+
+        public bool IsKeyValueVZKey(KeyState keyState) => GetKeyMatrixValue(keyState, 0xff, 0xff) < 0xff;
+
         public bool HandleMemoryWrite(ushort address, byte value)
         {
             return false;
@@ -253,7 +263,7 @@ namespace VzEmulator.Peripherals
         internal void SetKeyState(KeyState keyState)
         {
             if (UseKeyQueue)
-                if (keyState.IsKeyPressed)
+                if (keyState.IsKeyPressed && IsKeyValueVZKey(keyState))
                     KeyQueue.Enqueue(keyState);
             else
                 CurrentKeyState = keyState;

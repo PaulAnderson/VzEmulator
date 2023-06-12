@@ -67,12 +67,20 @@ namespace VzEmulator
     {
         public ushort Address { get; }
         public byte[] OpCode { get; }
+        public int TStates { get; set; }
         public bool StopWhenComplete { get; set; }
 
         public InstructionEventArgs(ushort address, byte[] opCode)
         {
             this.Address = address;
             this.OpCode = opCode;
+            this.TStates = 0;
+        }
+        public InstructionEventArgs(ushort address, byte[] opCode,int tStates)
+        {
+            this.Address = address;
+            this.OpCode = opCode;
+            this.TStates = tStates;
         }
     }
 

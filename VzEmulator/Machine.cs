@@ -105,6 +105,9 @@ namespace VzEmulator
                 resetting = false;
             }
 
+            if (args==null || args.OpCode==null)
+                return; 
+
             //reset INT on EI (enable interrupts)
             //if (memory[z80.Registers.PC] == 0xFB)
             if (args.OpCode[0] == 0xFB)
