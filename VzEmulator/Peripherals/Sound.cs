@@ -13,8 +13,6 @@ namespace VzEmulator.Peripherals
     {
         private readonly MemoryLatch outputLatch;
 
-        BinaryWriter writer;
-
         const int SpeakerBit1 = 1; //1,32 = speaker. 2,4 = tape out
         const int SpeakerBit2 = 32; //1,32 = speaker. 2,4 = tape out
 
@@ -42,7 +40,7 @@ namespace VzEmulator.Peripherals
 
             buffer = source;
 
-            //Prefill ~1/3 of a second of sound
+            //Prefill buffer
             byte[] fillBuffer = Enumerable.Repeat((byte)0x7F, targetBufferLength).ToArray();
             buffer.Write(fillBuffer, 0, fillBuffer.Length);
 

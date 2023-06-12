@@ -44,10 +44,10 @@ namespace VzEmulator
 
         }
 
-        private void CpuOnBeforeInstructionExecution(object sender, BeforeInstructionExecutionEventArgs e)
+        private void CpuOnBeforeInstructionExecution(object sender, BeforeInstructionExecutionEventArgs args)
         {
             //map
-            var instructionEventArgs = new InstructionEventArgs(_cpu.Registers.PC, e.Opcode);
+            var instructionEventArgs = new InstructionEventArgs(_cpu.Registers.PC, args.Opcode);
 
             OnRaiseBeforeInstructionExecution(instructionEventArgs);
 
@@ -56,7 +56,7 @@ namespace VzEmulator
         private void OnCpuAfterInstructionExecution(object sender, AfterInstructionExecutionEventArgs args)
         {
             //map
-            var instructionEventArgs = new InstructionEventArgs(_cpu.Registers.PC, args.Opcode);
+            var instructionEventArgs = new InstructionEventArgs(_cpu.Registers.PC, args.Opcode,args.TotalTStates);
 
             OnRaiseAfterInstructionExecution(instructionEventArgs);
 
