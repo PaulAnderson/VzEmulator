@@ -12,12 +12,18 @@ namespace VzEmulator
 
         IInterruptEnableFlag ICpu.InterruptEnableFlag { get => intSource; set => throw new NotImplementedException(); }
 
+        Z80DotNetClockSynchronizer z80DotNetClockSynchronizer;
+
+        public IClockSynced ClockSync { get => z80DotNetClockSynchronizer.ClockSyncedObject; set => z80DotNetClockSynchronizer.ClockSyncedObject = value; }
+
         public bool IsHalted => _cpu.IsHalted;
 
         private Z80DotNetRegisterAdapter _registers;
         public IRegisters Registers => _registers;
 
         public CpuState State => (CpuState)(int) _cpu.State;
+
+        public decimal ClockSpeedMhz { get => _cpu.ClockFrequencyInMHz; set  { _cpu.ClockFrequencyInMHz = value; } }
 
         InterruptSource intSource = new InterruptSource();
         private bool _isStopping;
@@ -32,8 +38,8 @@ namespace VzEmulator
             _cpu.AutoStopOnDiPlusHalt = false;
             _cpu.AutoStopOnRetWithStackEmpty = false;
 
-            _cpu.ClockSynchronizer = null;
-            _cpu.RegisterInterruptSource(intSource);
+            z80DotNetClockSynchronizer =  new Z80DotNetClockSynchronizer();
+            _cpu.ClockSynchronizer =  z80DotNetClockSynchronizer;
 
             _cpu.RegisterInterruptSource(intSource);
 
@@ -41,16 +47,13 @@ namespace VzEmulator
             _cpu.BeforeInstructionExecution += CpuOnBeforeInstructionExecution;
             _cpu.MemoryAccess += OnCpuMemoryAccess;
 
-
         }
 
         private void CpuOnBeforeInstructionExecution(object sender, BeforeInstructionExecutionEventArgs args)
         {
             //map
             var instructionEventArgs = new InstructionEventArgs(_cpu.Registers.PC, args.Opcode);
-
             OnRaiseBeforeInstructionExecution(instructionEventArgs);
-
         }
 
         private void OnCpuAfterInstructionExecution(object sender, AfterInstructionExecutionEventArgs args)

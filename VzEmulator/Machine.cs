@@ -26,7 +26,7 @@ namespace VzEmulator
         private readonly Printer printer = new Printer();
         internal IPrinterOutput PrinterOutput => (IPrinterOutput)printer;
 
-        private Sound sound;
+        private AudioOut sound;
         public bool SoundEnabled { set {
                 sound.SoundEnabled = value;
             } }
@@ -61,7 +61,8 @@ namespace VzEmulator
             VideoMemory = new VideoMemory(memory, AuExtendedGraphicsLatch);
             DeExtendedGraphicsLatch.LinkedLatch = AuExtendedGraphicsLatch; //De Latch stores bits 0,1 value in Au latch
             router.Add(Keyboard).Add(_OutputLatch).Add(rom).Add(VideoMemory).Add(drive).Add(printer).Add(AuExtendedGraphicsLatch).Add(DeExtendedGraphicsLatch);
-            sound = new Sound(_OutputLatch, Cpu);
+            sound = new AudioOut(_OutputLatch);
+            Cpu.ClockSync = sound;
         }
 
         internal void StartCpuTask()

@@ -5,7 +5,8 @@ using System.Windows.Forms;
 
 namespace VzEmulator.Peripherals
 {
-    class Keyboard : IPeripheral
+    //Todo split latch, keyboard, cassette in into separate classes
+    public class Keyboard : IPeripheral
     {
         public Tuple<ushort, ushort> PortRange => null;
         public Tuple<ushort, ushort> MemoryRange { get; } = new Tuple<ushort, ushort>(VzConstants.OutputLatchAndKbStart, VzConstants.OutputLatchAndKbEnd);
@@ -96,13 +97,14 @@ namespace VzEmulator.Peripherals
                     KeyQueue.Peek().KeyScanMask |= (byte) (addr);
                 else
                     KeyQueue.Peek().TimesRead++;
-                if (KeyQueue.Peek().KeyScanMask == 0xff && KeyQueue.Peek().Key.Value != 13)
+                if (KeyQueue.Count > 0 && KeyQueue.Peek().KeyScanMask == 0xff && KeyQueue.Peek().Key.Value != 13)
                     KeyQueue.Dequeue();
-                if (KeyQueue.Peek().TimesRead > 10)
+                if (KeyQueue.Count>0 && KeyQueue.Peek().TimesRead > 10)
                     KeyQueue.Dequeue();
             }
             return value;
         }
+        static Random r = new Random();
 
         private static byte GetKeyMatrixValue(KeyState keyState, int addr, byte value)
         {
@@ -240,6 +242,19 @@ namespace VzEmulator.Peripherals
                     value &= 0b11111110;
             }
 
+            //todo cassette input on bit 6. bit 7 unused?
+            //how it would work: similar to sound output. Easy to support wav by just changing the bit every 1/sample rate per second based on the emulated clock (counted by clock cycles)
+            //Could support real-time input by buffering the input and then reading it back at the same rate as the emulated clock.
+            //Either sample continually, or detect bit 6 sampled.
+
+            byte[] b = new byte[1];
+            r.NextBytes(b);
+            byte tapeData = b[0];
+            tapeData &= 0b01000000; //Tape data is only on bit 6
+
+            value &= 0b10111111; //bit 6 is always 0 from keyboard. Populated by cassette input.
+
+            value |= tapeData;
             return value;
         }
 

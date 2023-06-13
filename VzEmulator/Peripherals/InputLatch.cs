@@ -8,9 +8,17 @@ using System.Windows.Forms;
 
 namespace VzEmulator.Peripherals
 {
-    public class MemoryLatch : IPeripheral, ILatchValue
+    public class InputLatch : IPeripheral, ILatchValue
     {
-      
+        public IPeripheral keyboard;
+        public IAudioInput audioInput;
+
+        public InputLatch(Keyboard keyboard)
+        {
+            this.keyboard = keyboard;
+            this.audioInput = audioInput;
+        }
+
         public Tuple<ushort, ushort> PortRange => null;
 
         public Tuple<ushort, ushort> MemoryRange => new Tuple<ushort, ushort>(VzConstants.OutputLatchAndKbStart , VzConstants.OutputLatchAndKbEnd);
@@ -21,14 +29,17 @@ namespace VzEmulator.Peripherals
 
         public byte? HandleMemoryRead(ushort address)
         {
-            //Reads from the output latch are ignored. Reads from the keyboard latch at this address return the value of the keyboard latch including the cassette input at bit6 (U12)
-            return null;
+            const byte keyMask = 0b00111111;
+            const byte cassetteMask = 0b01000000;
+            var keyvalue = keyboard.HandleMemoryRead(address) & keyMask;
+            var cassetteValue = audioInput.HandleMemoryRead(address) & cassetteMask;
+            Value = (byte)(keyvalue | cassetteValue);
+            return Value;
         }
 
         public bool HandleMemoryWrite(ushort address, byte value)
         {
-            if (MemoryRange.Item1 <= address & address <= MemoryRange.Item2)
-                this.Value = value;
+            //Do nothing. Can't write to input latch
             return false;
         }
 

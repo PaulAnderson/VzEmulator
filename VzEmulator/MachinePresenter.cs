@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net.Http.Headers;
 using System.Windows.Forms;
 using VzEmulator.Peripherals;
 using VzEmulator.Screen;
@@ -9,8 +10,8 @@ namespace VzEmulator
     public class MachinePresenter
     {
         private const string PlaceHolderRomFilename = "Roms/Placeholder.Rom";
-        private string romFilename = "Roms/ROM-FULL.DBG";
-
+        private string romFilename = "Roms/VZ300.ROM";
+        private string dosRomFileName = "Roms/VZDOS.ROM";
         private Timer interruptTimer;
         private Timer watchTimer;
         private Timer debugTimer;
@@ -55,7 +56,14 @@ namespace VzEmulator
                 graphicsPainter.RefreshedEvent += GraphicsPainter_RefreshedEvent;
             }
 
-            var program = fileIo.ReadFile(fileName);
+            byte[] program = new byte[0x6000];
+            var mainRom = fileIo.ReadFile(fileName);
+            mainRom.CopyTo(program, 0);
+            if (mainRom.Length<=0x4000 && File.Exists(dosRomFileName))
+            {
+                var dosRom = fileIo.ReadFile(dosRomFileName);
+                dosRom.CopyTo(program, 0x4000);
+            }
             _machine.Setup(program);
 
             if (interruptTimer == null)

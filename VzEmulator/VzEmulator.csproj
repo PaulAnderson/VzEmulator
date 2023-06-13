@@ -127,6 +127,7 @@
     <Compile Include="frmPrinterView.Designer.cs">
       <DependentUpon>frmPrinterView.cs</DependentUpon>
     </Compile>
+    <Compile Include="IClockSynced.cs" />
     <Compile Include="IDriveWatcher.cs" />
     <Compile Include="Debugger\InstructionTracer.cs" />
     <Compile Include="ICpu.cs" />
@@ -137,19 +138,22 @@
     <Compile Include="Machine.cs" />
     <Compile Include="MachinePresenter.cs" />
     <Compile Include="MachineStats.cs" />
+    <Compile Include="Peripherals\AudioIn.cs" />
     <Compile Include="Peripherals\DriveStatusChange.cs" />
+    <Compile Include="Peripherals\IAudioInput.cs" />
     <Compile Include="Peripherals\ILatchValue.cs" />
     <Compile Include="Peripherals\IPrinterOutput.cs" />
     <Compile Include="Peripherals\Joystick.cs" />
+    <Compile Include="Peripherals\InputLatch.cs" />
     <Compile Include="Peripherals\PortLatch.cs" />
     <Compile Include="Peripherals\Printer.cs" />
-    <Compile Include="Peripherals\Sound.cs" />
-    <Compile Include="Peripherals\QueuedSoundPlayer.cs" />
+    <Compile Include="Peripherals\AudioOut.cs" />
     <Compile Include="Peripherals\SoundPlayerWrapper.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Screen\ExtendedGraphicsModeFlags.cs" />
     <Compile Include="SystemTime.cs" />
+    <Compile Include="Z80DotNetClockSynchronizer.cs" />
     <Compile Include="Z80dotNetCpuAdapter.cs" />
     <Compile Include="Z80dotNetMemoryAccessor.cs" />
     <Compile Include="Peripherals\Disk.cs" />
@@ -237,12 +241,12 @@
     <Content Include="Roms\VZ300.ROM">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Roms\ROM-FULL.DBG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="SavedFiles\test1.dsk">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Roms\VZDOS.ROM">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

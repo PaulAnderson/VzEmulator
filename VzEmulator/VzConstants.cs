@@ -39,6 +39,7 @@ namespace VzEmulator
 
         internal const byte VideoMemoryBankSwitchMask = 0b00000011; //1 Less than total number of video banks (power of 2).4 (8KB) to support graphics mod
 
+        internal const decimal ClockFrequencyMhz = 3.5469m; 
 
         internal class Colour
         {

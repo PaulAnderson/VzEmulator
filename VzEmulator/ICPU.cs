@@ -10,6 +10,8 @@ namespace VzEmulator
         bool IsHalted { get; }
         IRegisters Registers { get; }
         CpuState State { get; }
+        IClockSynced ClockSync { get; set; }
+        decimal ClockSpeedMhz { get; set; }
 
         event EventHandler<BusEventArgs> MemoryAccess;
         event EventHandler<BusEventArgs> PortAccess;
