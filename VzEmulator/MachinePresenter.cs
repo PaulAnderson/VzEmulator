@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Net.Http.Headers;
 using System.Windows.Forms;
 using VzEmulator.Peripherals;
 using VzEmulator.Screen;
@@ -12,6 +11,7 @@ namespace VzEmulator
         private const string PlaceHolderRomFilename = "Roms/Placeholder.Rom";
         private string romFilename = "Roms/VZ300.ROM";
         private string dosRomFileName = "Roms/VZDOS.ROM";
+        private bool dosRomPresent = true;
         private Timer interruptTimer;
         private Timer watchTimer;
         private Timer debugTimer;
@@ -64,6 +64,14 @@ namespace VzEmulator
                 var dosRom = fileIo.ReadFile(dosRomFileName);
                 dosRom.CopyTo(program, 0x4000);
             }
+            if (!dosRomPresent)
+            {
+                //clear bytes from 0x4000 to 0x5fff
+                for (int i = 0x4001; i < 0x6000; i++)
+                {
+                    program[i] = 0x00;
+                }
+            }
             _machine.Setup(program);
 
             if (interruptTimer == null)
@@ -89,7 +97,6 @@ namespace VzEmulator
                 };
                 watchTimer.Start();
             }
-
             if (debugTimer == null)
             {
                 debugTimer = new Timer { Interval = 500 };
@@ -139,7 +146,10 @@ namespace VzEmulator
             var frm2 = new frmMemoryView(_machine.Cpu);
             frm2.Show();
         }
-
+        internal void SetMemory( int startAddress, byte[] content)
+        {
+            _machine.Cpu.Memory.SetContents(startAddress, content);
+        }
         public void LoadImage(string fileName)
         {
             _machine.StopCpuAfterNextInstruction();
@@ -217,9 +227,14 @@ namespace VzEmulator
         public bool SoundEnabled { set {
                 _machine.SoundEnabled = value;
             } }
+        public bool CassetteSoundStreamEnabled { set
+            {
+                _machine.SoundOutput.MixStream2 = value;
+            } }
         public bool SoundTestTone { set {
                 _machine.SoundTestTone = value;
             } }
+
         public AddressRange LoadFile(string fileName)
         {
             var addressRange = fileHandler.LoadFile(fileName);
@@ -279,6 +294,25 @@ namespace VzEmulator
         internal IPrinterOutput GetPrinterOutput()
         {
             return _machine.PrinterOutput;
+        }
+        internal IAudioOutput GetSoundOutput()
+        {
+            return _machine.SoundOutput;
+        }
+
+        internal void StartRecordingCassette(string fileName)
+        {
+            _machine.SoundOutput.StartRecordStream2(fileName);
+        }
+        internal void StartPlayingCassette(string fileName)
+        {
+            //open file for reading using a stream
+            _machine.SoundInput.InputStream= new FileStream(fileName, FileMode.Open,FileAccess.Read);
+        }
+
+        internal void SetDosRomPresent(bool isPresent)
+        {
+            dosRomPresent = isPresent;
         }
     }
 }

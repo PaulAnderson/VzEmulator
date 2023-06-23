@@ -13,7 +13,7 @@ namespace VzEmulator.Peripherals
         public IPeripheral keyboard;
         public IAudioInput audioInput;
 
-        public InputLatch(Keyboard keyboard)
+        public InputLatch(Keyboard keyboard,IAudioInput audioInput)
         {
             this.keyboard = keyboard;
             this.audioInput = audioInput;
@@ -30,7 +30,7 @@ namespace VzEmulator.Peripherals
         public byte? HandleMemoryRead(ushort address)
         {
             const byte keyMask = 0b00111111;
-            const byte cassetteMask = 0b01000000;
+            const byte cassetteMask = 0b11000000;
             var keyvalue = keyboard.HandleMemoryRead(address) & keyMask;
             var cassetteValue = audioInput.HandleMemoryRead(address) & cassetteMask;
             Value = (byte)(keyvalue | cassetteValue);

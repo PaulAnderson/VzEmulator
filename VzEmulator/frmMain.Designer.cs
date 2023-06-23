@@ -57,8 +57,12 @@
             this.smoothingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toggleGraphicsModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colourToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.soundEnabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.audioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.soundEnabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cassetteSoundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.recordCassetteToWavFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.playWavFileInToCassetteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showRegistersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showMemoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,7 +74,9 @@
             this.basicProgramListingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showStatsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.soundTestToneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dosRomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.overlayPanel1 = new VzEmulatorControls.OverlayPanel();
+            this.pOKE307770ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pnlTop.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -80,9 +86,9 @@
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Black;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 35);
+            this.pictureBox1.Location = new System.Drawing.Point(0, 33);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1200, 938);
+            this.pictureBox1.Size = new System.Drawing.Size(1200, 940);
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
             // 
@@ -184,11 +190,12 @@
             this.fileToolStripMenuItem,
             this.emulationToolStripMenuItem,
             this.displayToolStripMenuItem,
+            this.audioToolStripMenuItem,
             this.debugToolStripMenuItem,
             this.developmentToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1200, 35);
+            this.menuStrip1.Size = new System.Drawing.Size(1200, 33);
             this.menuStrip1.TabIndex = 9;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -312,7 +319,6 @@
             this.smoothingToolStripMenuItem,
             this.toggleGraphicsModeToolStripMenuItem,
             this.colourToolStripMenuItem,
-            this.soundEnabledToolStripMenuItem,
             this.printerToolStripMenuItem});
             this.displayToolStripMenuItem.Name = "displayToolStripMenuItem";
             this.displayToolStripMenuItem.Size = new System.Drawing.Size(86, 29);
@@ -350,22 +356,56 @@
             this.colourToolStripMenuItem.Text = "Colour";
             this.colourToolStripMenuItem.Click += new System.EventHandler(this.colourToolStripMenuItem_Click);
             // 
-            // soundEnabledToolStripMenuItem
-            // 
-            this.soundEnabledToolStripMenuItem.Checked = true;
-            this.soundEnabledToolStripMenuItem.CheckOnClick = true;
-            this.soundEnabledToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.soundEnabledToolStripMenuItem.Name = "soundEnabledToolStripMenuItem";
-            this.soundEnabledToolStripMenuItem.Size = new System.Drawing.Size(291, 34);
-            this.soundEnabledToolStripMenuItem.Text = "Sound (Experimental)";
-            this.soundEnabledToolStripMenuItem.Click += new System.EventHandler(this.soundEnabledToolStripMenuItem_Click);
-            // 
             // printerToolStripMenuItem
             // 
             this.printerToolStripMenuItem.Name = "printerToolStripMenuItem";
             this.printerToolStripMenuItem.Size = new System.Drawing.Size(291, 34);
             this.printerToolStripMenuItem.Text = "Printer";
             this.printerToolStripMenuItem.Click += new System.EventHandler(this.printerToolStripMenuItem_Click);
+            // 
+            // audioToolStripMenuItem
+            // 
+            this.audioToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.soundEnabledToolStripMenuItem,
+            this.cassetteSoundToolStripMenuItem,
+            this.recordCassetteToWavFileToolStripMenuItem,
+            this.playWavFileInToCassetteToolStripMenuItem});
+            this.audioToolStripMenuItem.Name = "audioToolStripMenuItem";
+            this.audioToolStripMenuItem.Size = new System.Drawing.Size(76, 29);
+            this.audioToolStripMenuItem.Text = "Audio";
+            this.audioToolStripMenuItem.Click += new System.EventHandler(this.audioToolStripMenuItem_Click);
+            // 
+            // soundEnabledToolStripMenuItem
+            // 
+            this.soundEnabledToolStripMenuItem.Checked = true;
+            this.soundEnabledToolStripMenuItem.CheckOnClick = true;
+            this.soundEnabledToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.soundEnabledToolStripMenuItem.Name = "soundEnabledToolStripMenuItem";
+            this.soundEnabledToolStripMenuItem.Size = new System.Drawing.Size(323, 34);
+            this.soundEnabledToolStripMenuItem.Text = "Sound";
+            this.soundEnabledToolStripMenuItem.Click += new System.EventHandler(this.soundEnabledToolStripMenuItem_Click);
+            // 
+            // cassetteSoundToolStripMenuItem
+            // 
+            this.cassetteSoundToolStripMenuItem.CheckOnClick = true;
+            this.cassetteSoundToolStripMenuItem.Name = "cassetteSoundToolStripMenuItem";
+            this.cassetteSoundToolStripMenuItem.Size = new System.Drawing.Size(323, 34);
+            this.cassetteSoundToolStripMenuItem.Text = "Cassette Sound";
+            this.cassetteSoundToolStripMenuItem.Click += new System.EventHandler(this.cassetteSoundToolStripMenuItem_Click);
+            // 
+            // recordCassetteToWavFileToolStripMenuItem
+            // 
+            this.recordCassetteToWavFileToolStripMenuItem.Name = "recordCassetteToWavFileToolStripMenuItem";
+            this.recordCassetteToWavFileToolStripMenuItem.Size = new System.Drawing.Size(323, 34);
+            this.recordCassetteToWavFileToolStripMenuItem.Text = "Record cassette to wav file";
+            this.recordCassetteToWavFileToolStripMenuItem.Click += new System.EventHandler(this.recordCassetteToWavFileToolStripMenuItem_Click);
+            // 
+            // playWavFileInToCassetteToolStripMenuItem
+            // 
+            this.playWavFileInToCassetteToolStripMenuItem.Name = "playWavFileInToCassetteToolStripMenuItem";
+            this.playWavFileInToCassetteToolStripMenuItem.Size = new System.Drawing.Size(323, 34);
+            this.playWavFileInToCassetteToolStripMenuItem.Text = "Play wav file in to cassette";
+            this.playWavFileInToCassetteToolStripMenuItem.Click += new System.EventHandler(this.playWavFileInToCassetteToolStripMenuItem_Click);
             // 
             // debugToolStripMenuItem
             // 
@@ -399,10 +439,13 @@
             this.numberConversionToolStripMenuItem,
             this.basicProgramListingToolStripMenuItem,
             this.showStatsToolStripMenuItem,
-            this.soundTestToneToolStripMenuItem});
+            this.soundTestToneToolStripMenuItem,
+            this.dosRomToolStripMenuItem,
+            this.pOKE307770ToolStripMenuItem});
             this.developmentToolStripMenuItem.Name = "developmentToolStripMenuItem";
             this.developmentToolStripMenuItem.Size = new System.Drawing.Size(135, 29);
             this.developmentToolStripMenuItem.Text = "Development";
+            this.developmentToolStripMenuItem.Click += new System.EventHandler(this.developmentToolStripMenuItem_Click);
             // 
             // showFontToolStripMenuItem
             // 
@@ -454,6 +497,16 @@
             this.soundTestToneToolStripMenuItem.Text = "Sound Test Tone";
             this.soundTestToneToolStripMenuItem.Click += new System.EventHandler(this.soundTestToneToolStripMenuItem_Click);
             // 
+            // dosRomToolStripMenuItem
+            // 
+            this.dosRomToolStripMenuItem.Checked = true;
+            this.dosRomToolStripMenuItem.CheckOnClick = true;
+            this.dosRomToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.dosRomToolStripMenuItem.Name = "dosRomToolStripMenuItem";
+            this.dosRomToolStripMenuItem.Size = new System.Drawing.Size(283, 34);
+            this.dosRomToolStripMenuItem.Text = "Dos Rom";
+            this.dosRomToolStripMenuItem.Click += new System.EventHandler(this.dosRomToolStripMenuItem_Click);
+            // 
             // overlayPanel1
             // 
             this.overlayPanel1.Location = new System.Drawing.Point(842, 65);
@@ -461,6 +514,13 @@
             this.overlayPanel1.Name = "overlayPanel1";
             this.overlayPanel1.Size = new System.Drawing.Size(300, 154);
             this.overlayPanel1.TabIndex = 10;
+            // 
+            // pOKE307770ToolStripMenuItem
+            // 
+            this.pOKE307770ToolStripMenuItem.Name = "pOKE307770ToolStripMenuItem";
+            this.pOKE307770ToolStripMenuItem.Size = new System.Drawing.Size(283, 34);
+            this.pOKE307770ToolStripMenuItem.Text = "POKE 30777,0";
+            this.pOKE307770ToolStripMenuItem.Click += new System.EventHandler(this.pOKE307770ToolStripMenuItem_Click);
             // 
             // frmMain
             // 
@@ -533,6 +593,12 @@
         private VzEmulatorControls.OverlayPanel overlayPanel1;
         private System.Windows.Forms.ToolStripMenuItem printerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem soundTestToneToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cassetteSoundToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem recordCassetteToWavFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem playWavFileInToCassetteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem audioToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dosRomToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pOKE307770ToolStripMenuItem;
     }
 }
 

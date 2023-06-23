@@ -23,6 +23,15 @@ namespace VzEmulator.Peripherals
         
         public byte Value { get; set; }
 
+        public byte? DefaultValue { get; set; }
+
+        public PortLatch(byte PortRangeStart, byte PortRangeEnd, byte defaultValue)
+        {
+            _portRange = new Tuple<ushort, ushort>(PortRangeStart, PortRangeEnd);
+            Value = defaultValue;
+            this.DefaultValue = defaultValue;
+
+        }
         public PortLatch(byte PortRangeStart, byte PortRangeEnd)
         {
             _portRange = new Tuple<ushort, ushort>(PortRangeStart, PortRangeEnd);
@@ -70,7 +79,7 @@ namespace VzEmulator.Peripherals
 
         public void Reset()
         {
-            SetValue(0);
+            SetValue(this.DefaultValue.GetValueOrDefault());
         }
     }
 }

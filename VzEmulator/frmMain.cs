@@ -283,7 +283,11 @@ namespace VzEmulator
         {
             Presenter.SoundEnabled = soundEnabledToolStripMenuItem.Checked;
         }
+        private void cassetteSoundToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Presenter.CassetteSoundStreamEnabled = cassetteSoundToolStripMenuItem.Checked;
 
+        }
         private void soundTestToneToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Presenter.SoundTestTone = soundTestToneToolStripMenuItem.Checked;
@@ -315,6 +319,53 @@ namespace VzEmulator
             var frm = new frmPrinterView();
             frm.PrinterOutput = Presenter.GetPrinterOutput();
             frm.Show();
+        }
+
+        private void developmentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void recordCassetteToWavFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Prompt user for save file name and location
+            var dlg = new SaveFileDialog() { AddExtension = true, DefaultExt = "wav", Filter = "Wav files (*.wav)|*.wav" };
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                Presenter.StartRecordingCassette(dlg.FileName);
+                //Show file recording widget
+                //cassetteRecorder1.Visible = true;
+
+            }
+        }
+
+        private void playWavFileInToCassetteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //prompt user for open file name and location 
+            var dlg = new OpenFileDialog() { AddExtension = true, DefaultExt = "wav", Filter = "Wav files (*.wav)|*.wav" };
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                 Presenter.StartPlayingCassette(dlg.FileName);
+                //Show file recording widget
+                //cassetteRecorder1.Visible = true;
+
+            }
+        }
+
+        private void audioToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dosRomToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Presenter.SetDosRomPresent(dosRomToolStripMenuItem.Checked);
+            //todo general function to enable/disable peripherals
+        }
+
+        private void pOKE307770ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Presenter.SetMemory(30777, new Byte[] { 0 });
         }
     }
 }

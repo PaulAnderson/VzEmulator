@@ -20,12 +20,12 @@ namespace VzEmulator.Peripherals
 
         byte? IPeripheral.HandleMemoryRead(ushort address)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         bool IPeripheral.HandleMemoryWrite(ushort address, byte value)
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         byte? IPeripheral.HandlePortRead(ushort address)

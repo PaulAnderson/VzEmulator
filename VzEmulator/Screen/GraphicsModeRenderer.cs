@@ -73,7 +73,7 @@ namespace VzEmulator.Screen
             var cssColourIndexIncrement = isColourGraphicsMode ? 4 : 2;
             CSSColourValue = ModeFlags.HasFlag(ExtendedGraphicsModeFlags.CSS_BackColour) ? cssColourIndexIncrement : 0;
 
-            //Resolution
+            //Resolution/Colour mode based on GM2 (MSB), GM1, GM0 (LSB)
             var ModeNo = (((byte)ModeFlags) & 0b00011100) >> 2;
             switch (ModeNo)
             {
@@ -83,7 +83,8 @@ namespace VzEmulator.Screen
                     WidthInBytes = 16;
                     AspectRatio = (float).75;
                     break;
-                case 1: //RG1 128x64 2 Colours
+                case 
+                1: //RG1 128x64 2 Colours
                     (Width, Height) = (128, 64);
                     PixelsPerByte = 8;
                     WidthInBytes = 16;
@@ -101,7 +102,7 @@ namespace VzEmulator.Screen
                     WidthInBytes = 16;
                     AspectRatio = (float)1.5;
                     break;
-                case 4: //CG3 128x96 4Colours
+                case 4: //CG3 128x96 4 Colours
                     (Width, Height) = (128, 96);
                     PixelsPerByte = 4;
                     WidthInBytes = 32;
@@ -119,7 +120,7 @@ namespace VzEmulator.Screen
                     WidthInBytes = 32;
                     AspectRatio = (float)1.5;
                     break;
-                case 7: //RG4 256x192 4 colours
+                case 7: //RG4 256x192 2 colours
                     (Width, Height) = (256, 192);
                     PixelsPerByte = 8;
                     WidthInBytes = 32;
@@ -150,11 +151,10 @@ namespace VzEmulator.Screen
                     for (int i = 0; i < PixelsPerByte; i++)
                     {
                         var pixelValue = (current & mask) >> (i * bitShift);
-                        var pixelColor = GetPixelColor(pixelValue);
+                        var pixelColor = GetPixelColor(pixelValue+CSSColourValue);
                         _GraphicsBitmap.SetPixel(StartGroupx + (PixelsPerByte - 1) - i, y, pixelColor);
                         mask <<= bitShift;
                     }
-
                 }
             }
         }

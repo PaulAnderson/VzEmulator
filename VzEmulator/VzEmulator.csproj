@@ -127,6 +127,7 @@
     <Compile Include="frmPrinterView.Designer.cs">
       <DependentUpon>frmPrinterView.cs</DependentUpon>
     </Compile>
+    <Compile Include="IAudioStreamIn.cs" />
     <Compile Include="IClockSynced.cs" />
     <Compile Include="IDriveWatcher.cs" />
     <Compile Include="Debugger\InstructionTracer.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="Peripherals\AudioIn.cs" />
     <Compile Include="Peripherals\DriveStatusChange.cs" />
     <Compile Include="Peripherals\IAudioInput.cs" />
+    <Compile Include="Peripherals\IAudioOutput.cs" />
     <Compile Include="Peripherals\ILatchValue.cs" />
     <Compile Include="Peripherals\IPrinterOutput.cs" />
     <Compile Include="Peripherals\Joystick.cs" />

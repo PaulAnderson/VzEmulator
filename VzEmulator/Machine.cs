@@ -12,6 +12,8 @@ namespace VzEmulator
         internal MemUtils Memory { get; private set; }
         internal VideoMemory VideoMemory { get; set; }
         internal Keyboard Keyboard;
+        internal AudioIn AudioInp;
+        internal InputLatch InpLatch;
         internal IInterruptEnableFlag IntSource;
 
         private bool cpuIsSetup = false;
@@ -27,6 +29,8 @@ namespace VzEmulator
         internal IPrinterOutput PrinterOutput => (IPrinterOutput)printer;
 
         private AudioOut sound;
+        internal IAudioOutput SoundOutput => (IAudioOutput)sound;
+        internal IAudioStreamIn SoundInput => (IAudioStreamIn)AudioInp;
         public bool SoundEnabled { set {
                 sound.SoundEnabled = value;
             } }
@@ -38,7 +42,7 @@ namespace VzEmulator
         private readonly MemoryLatch _OutputLatch = new MemoryLatch();
         public MemoryLatch OutputLatch => _OutputLatch;
         public PortLatch AuExtendedGraphicsLatch 
-            = new PortLatch(VzConstants.AuExtendedGraphicsLatchPortStart, VzConstants.AuExtendedGraphicsLatchPortEnd)
+            = new PortLatch(VzConstants.AuExtendedGraphicsLatchPortStart, VzConstants.AuExtendedGraphicsLatchPortEnd, VzConstants.AuExtendedGraphicsLatchDefault)
             { Value = VzConstants.AuExtendedGraphicsLatchDefault };
         public PortLatch DeExtendedGraphicsLatch =
             new PortLatch(VzConstants.DeExtendedGraphicsLatchPortStart, VzConstants.DeExtendedGraphicsLatchPortEnd)
@@ -57,11 +61,13 @@ namespace VzEmulator
         {
             IntSource = Cpu.InterruptEnableFlag;
             Keyboard = new Keyboard(IntSource);
+            AudioInp = new AudioIn(Cpu);
+            InpLatch = new InputLatch(Keyboard, AudioInp); 
             memory = Cpu.Memory;
             VideoMemory = new VideoMemory(memory, AuExtendedGraphicsLatch);
             DeExtendedGraphicsLatch.LinkedLatch = AuExtendedGraphicsLatch; //De Latch stores bits 0,1 value in Au latch
-            router.Add(Keyboard).Add(_OutputLatch).Add(rom).Add(VideoMemory).Add(drive).Add(printer).Add(AuExtendedGraphicsLatch).Add(DeExtendedGraphicsLatch);
-            sound = new AudioOut(_OutputLatch);
+            router.Add(InpLatch).Add(_OutputLatch).Add(rom).Add(VideoMemory).Add(drive).Add(printer).Add(AuExtendedGraphicsLatch).Add(DeExtendedGraphicsLatch);
+            sound = new AudioOut(_OutputLatch,AudioInp);
             Cpu.ClockSync = sound;
         }
 

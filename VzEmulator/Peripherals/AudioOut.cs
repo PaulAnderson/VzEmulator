@@ -10,38 +10,76 @@ using CSCore.Streams;
 
 namespace VzEmulator.Peripherals
 {
-    class AudioOut  : IClockSynced
+    internal class AudioOut : IClockSynced, IAudioOutput
     {
         private readonly MemoryLatch outputLatch;
 
-        static readonly (byte,byte) SpeakerBits = (1,32); //1,32 = speaker. 2,4 = tape out
-        static readonly (byte,byte) TapeBits = (2,4); //1,32 = speaker. 2,4 = tape out
+        static readonly (byte, byte) SpeakerBits = (1, 32); //1,32 = speaker. 2,4 = tape out
+        static readonly (byte, byte) TapeBits = (2, 4); //1,32 = speaker. 2,4 = tape out
 
         const int samplesPerSecond = 22050;
         const int bytesPerSample = 1;
-        const int targetBufferLength = samplesPerSecond/64*bytesPerSample;
+        const int targetBufferLength = samplesPerSecond / 64 * bytesPerSample;
 
-        decimal currentClockFrequencyMhz= VzConstants.ClockFrequencyMhz;
+        decimal currentClockFrequencyMhz = VzConstants.ClockFrequencyMhz;
         public bool SoundEnabled { get; set; } = false;
         public bool TestTone { get; set; } = false;
         decimal IClockSynced.ClockFrequency
         {
             get => currentClockFrequencyMhz;
             set { currentClockFrequencyMhz = value;
-                  targetTStates = (int)currentClockFrequencyMhz * 1000000 / samplesPerSecond * bytesPerSample;
+                CalculateTargetTStates();
+
+            }
+        }
+        void CalculateTargetTStates()
+        {
+            targetTStates = (int)currentClockFrequencyMhz * 1000000 / samplesPerSecond * bytesPerSample;
+            targetTStates = (int)(targetTStates / 1.16);
+        }
+        public Stream OutputStream1 { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        private Stream cassetteOutStream;
+        public Stream OutputStream2
+        {
+            get => cassetteOutStream;
+            set {
+                cassetteOutputEnabled = false;
+                if (cassetteOutStream != null)
+                    cassetteOutStream.Dispose();
+                cassetteOutStream = value;
+                if (cassetteOutStream != null)
+                    CassetteWriter = new WaveWriter(cassetteOutStream, new WaveFormat(samplesPerSecond, 8, 1, AudioEncoding.Pcm));
             }
         }
 
-        private IWriteable _writer;
+        public void StartRecordStream2(string fileName)
+        {
+            OutputStream2 = File.OpenWrite(fileName);
+        }
+        
+        public bool MixStream2 { get; set; } 
 
-        WriteableBufferingSource buffer;
+        private bool cassetteOutputEnabled;
+        private int cassetteOutputLastUpdate; //number of audio samples cassette value has been unchanged
+
+        public event EventHandler<EventArgs> Stream1Started;
+        public event EventHandler<EventArgs> Stream2Started;
+        public event EventHandler<EventArgs> Stream2Idle;
+
+        private IWriteable CassetteWriter;
+        WriteableBufferingSource SpeakerWriter;
 
         int targetTStates;
         int tStateCount = 0;
+
+        //todo pipe audio input to output for monitoring
+        IAudioInput audioInput;
+
         //Sound class. Use cpu parameter to sync sound to cpu using the AfterInstructionExecutionEvent. If null, sound will be synced to clock using IClockSynced.ProcessClockCycle
-        //Todo implement cassette in/out
-        public AudioOut(MemoryLatch outputLatch, ICpu cpu=null)
+        public AudioOut(MemoryLatch outputLatch, IAudioInput audioInput, ICpu cpu=null )
         {
+            this.audioInput = audioInput;
             this.outputLatch = outputLatch;
             if (cpu != null)
             {
@@ -56,14 +94,14 @@ namespace VzEmulator.Peripherals
             soundOut.Initialize(source);
             soundOut.Play();
 
-            buffer = source;
+            SpeakerWriter = source;
 
             //Prefill buffer
             byte[] fillBuffer = Enumerable.Repeat((byte)0x7F, targetBufferLength*2).ToArray();
-            buffer.Write(fillBuffer, 0, fillBuffer.Length);
+            SpeakerWriter.Write(fillBuffer, 0, fillBuffer.Length);
 
             //Test writing to wav file
-            _writer = new WaveWriter("test.wav", new WaveFormat(samplesPerSecond, 8, 1, AudioEncoding.Pcm));
+            CassetteWriter = new WaveWriter("test.wav", new WaveFormat(samplesPerSecond, 8, 1, AudioEncoding.Pcm));
         }
 
         private ISoundOut GetSoundOut()
@@ -94,54 +132,89 @@ namespace VzEmulator.Peripherals
 
             //if buffer getting full, busy wait to slow cpu down
             //todo move to cpu. For now, the cpu speed is tied to the sound buffer size which shrinks at sampleRate - 32k per second
-            if (buffer.Length > targetBufferLength * 1.2)
+            if (SpeakerWriter.Length > targetBufferLength * 1.2)
             {
-                while (buffer.Length > targetBufferLength)
+                while (SpeakerWriter.Length > targetBufferLength)
                 {
                     Thread.Sleep(0);
                 }
             }
         }
 
-        byte Previousvalue = 0x7f;
+        byte windowSizeSpeaker = 2;
+        byte rollingAverageSpeaker = 0x7f;
+        byte windowSizeCassette = 2;
+        byte rollingAverageCassette = 0x7f;
+        byte lastTapeValue = 0x7f;
         private void ProcessSoundAfterCpuInstruction()
         {
+            //Get audio stream byte values batched on latch contents
             byte value = GetAudioValue(SpeakerBits);
             byte tapeValue = GetTapeValue(TapeBits);
 
-            //value ^= tapeValue;
+            var audioIn = audioInput.HandleMemoryRead(0);
+            value ^= audioIn;
 
-            var smoothedValue = (byte)((value + Previousvalue) / 2);
+            if (!SoundEnabled)
+                value = 0;
 
-            var b = new byte[bytesPerSample] {
-                    smoothedValue,
-                //    value,
-                };
+            //Mix cassette with normal speaker output if enabled
+            if (MixStream2)
+                value ^= tapeValue;
+            
+            //Calculate rolling average of value
+            rollingAverageSpeaker = (byte)((rollingAverageSpeaker * (windowSizeSpeaker - 1) + value) / windowSizeSpeaker);
+            rollingAverageCassette = (byte)((rollingAverageCassette * (windowSizeCassette - 1) + tapeValue) / windowSizeCassette);
 
-            Previousvalue = smoothedValue;
+            var SpeakerOutputBuffer = new byte[bytesPerSample]
+            {
+                rollingAverageSpeaker
+            };
+            var CassetteOutputBuffer = new byte[bytesPerSample]
+            {
+                rollingAverageCassette
+            };
 
             //test - generate continuous tones to test the buffering
             if (TestTone)
             {
-                GenerateTestTone(b);
+                GenerateTestTone(SpeakerOutputBuffer);
             }
             //end test code
 
 
-            ////test writing cassette data to wav file
-            //if (tapeValue != 0)
-            //    cassetteOutputEnabled = true;
-            //if (cassetteOutputEnabled)
-            //{
-            //    _writer.Write(b, 0,1);
-            //}
-            //end test
+            // write cassette data to wav file
+            if (tapeValue != 0)
+            {
+                //raise event if casseteOutput changing from false to true
+                if (!cassetteOutputEnabled)
+                {
+                    cassetteOutputEnabled = true;
+                    Stream2Started?.Invoke(this, new EventArgs());
+                }
+            }
+            if (cassetteOutputEnabled && CassetteWriter !=null)
+            {
+                CassetteWriter.Write(CassetteOutputBuffer, 0, 1);
 
-            if (!SoundEnabled)
-                for (var x = 0; x < bytesPerSample; x++)
-                    b[x] = 0x7F;
+                //Detect end of output
+                if (tapeValue == lastTapeValue)
+                {
+                    cassetteOutputLastUpdate += 1;
+                } else
+                {
+                    cassetteOutputLastUpdate = 0;
+                }
+                if (cassetteOutputLastUpdate>1000) //todo configurable value;
+                {
+                    cassetteOutputLastUpdate = 0;
+                    cassetteOutputEnabled = false;
+                    Stream2Idle?.Invoke(this, new EventArgs());
+                }
+                lastTapeValue = tapeValue;
+            }
 
-            buffer.Write(b, 0, bytesPerSample);
+            SpeakerWriter.Write(SpeakerOutputBuffer, 0, bytesPerSample);
 
         }
 
@@ -164,7 +237,6 @@ namespace VzEmulator.Peripherals
         //test tone variables 
         double sinPos = 0;
         double sinPos2 = 0;
-        private bool cassetteOutputEnabled;
 
         private void GenerateTestTone(byte[] b)
         {
