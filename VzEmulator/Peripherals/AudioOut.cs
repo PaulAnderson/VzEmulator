@@ -24,6 +24,7 @@ namespace VzEmulator.Peripherals
         decimal currentClockFrequencyMhz = VzConstants.ClockFrequencyMhz;
         public bool SoundEnabled { get; set; } = false;
         public bool TestTone { get; set; } = false;
+        
         decimal IClockSynced.ClockFrequency
         {
             get => currentClockFrequencyMhz;
@@ -32,6 +33,11 @@ namespace VzEmulator.Peripherals
 
             }
         }
+
+        bool clockSyncEnabled = true;
+        bool IClockSynced.ClockSyncEnabled
+        { get => clockSyncEnabled; set => clockSyncEnabled = value; }
+
         void CalculateTargetTStates()
         {
             targetTStates = (int)currentClockFrequencyMhz * 1000000 / samplesPerSecond * bytesPerSample;
@@ -58,7 +64,7 @@ namespace VzEmulator.Peripherals
             OutputStream2 = File.OpenWrite(fileName);
         }
         
-        public bool MixStream2 { get; set; } 
+        public bool MixStream2 { get; set; }
 
         private bool cassetteOutputEnabled;
         private int cassetteOutputLastUpdate; //number of audio samples cassette value has been unchanged
@@ -76,6 +82,7 @@ namespace VzEmulator.Peripherals
         //todo pipe audio input to output for monitoring
         IAudioInput audioInput;
 
+        private Drive drive;
         //Sound class. Use cpu parameter to sync sound to cpu using the AfterInstructionExecutionEvent. If null, sound will be synced to clock using IClockSynced.ProcessClockCycle
         public AudioOut(MemoryLatch outputLatch, IAudioInput audioInput, ICpu cpu=null )
         {
@@ -132,7 +139,7 @@ namespace VzEmulator.Peripherals
 
             //if buffer getting full, busy wait to slow cpu down
             //todo move to cpu. For now, the cpu speed is tied to the sound buffer size which shrinks at sampleRate - 32k per second
-            if (SpeakerWriter.Length > targetBufferLength * 1.2)
+            if (SpeakerWriter.Length > targetBufferLength * 1.2 & clockSyncEnabled)
             {
                 while (SpeakerWriter.Length > targetBufferLength)
                 {

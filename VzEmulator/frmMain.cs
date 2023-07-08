@@ -367,5 +367,11 @@ namespace VzEmulator
         {
             Presenter.SetMemory(30777, new Byte[] { 0 });
         }
+
+        private void toggleClockSyncToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Presenter.SetClockSync(toggleClockSyncToolStripMenuItem.Checked);
+        }
     }
 }
+ 

@@ -75,8 +75,9 @@
             this.showStatsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.soundTestToneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dosRomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.overlayPanel1 = new VzEmulatorControls.OverlayPanel();
             this.pOKE307770ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.overlayPanel1 = new VzEmulatorControls.OverlayPanel();
+            this.toggleClockSyncToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pnlTop.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -211,7 +212,7 @@
             this.saveMemoryImageToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 29);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 30);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // openDiskImageToolStripMenuItem
@@ -279,7 +280,7 @@
             this.unPauseToolStripMenuItem,
             this.execMachinecodeProgramToolStripMenuItem});
             this.emulationToolStripMenuItem.Name = "emulationToolStripMenuItem";
-            this.emulationToolStripMenuItem.Size = new System.Drawing.Size(107, 29);
+            this.emulationToolStripMenuItem.Size = new System.Drawing.Size(107, 30);
             this.emulationToolStripMenuItem.Text = "Emulation";
             // 
             // startToolStripMenuItem
@@ -321,7 +322,7 @@
             this.colourToolStripMenuItem,
             this.printerToolStripMenuItem});
             this.displayToolStripMenuItem.Name = "displayToolStripMenuItem";
-            this.displayToolStripMenuItem.Size = new System.Drawing.Size(86, 29);
+            this.displayToolStripMenuItem.Size = new System.Drawing.Size(86, 30);
             this.displayToolStripMenuItem.Text = "Display";
             // 
             // integerScalingToolStripMenuItem
@@ -371,7 +372,7 @@
             this.recordCassetteToWavFileToolStripMenuItem,
             this.playWavFileInToCassetteToolStripMenuItem});
             this.audioToolStripMenuItem.Name = "audioToolStripMenuItem";
-            this.audioToolStripMenuItem.Size = new System.Drawing.Size(76, 29);
+            this.audioToolStripMenuItem.Size = new System.Drawing.Size(76, 30);
             this.audioToolStripMenuItem.Text = "Audio";
             this.audioToolStripMenuItem.Click += new System.EventHandler(this.audioToolStripMenuItem_Click);
             // 
@@ -413,20 +414,20 @@
             this.showRegistersToolStripMenuItem,
             this.showMemoryToolStripMenuItem});
             this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
-            this.debugToolStripMenuItem.Size = new System.Drawing.Size(82, 29);
+            this.debugToolStripMenuItem.Size = new System.Drawing.Size(82, 30);
             this.debugToolStripMenuItem.Text = "Debug";
             // 
             // showRegistersToolStripMenuItem
             // 
             this.showRegistersToolStripMenuItem.Name = "showRegistersToolStripMenuItem";
-            this.showRegistersToolStripMenuItem.Size = new System.Drawing.Size(234, 34);
+            this.showRegistersToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.showRegistersToolStripMenuItem.Text = "Show Registers";
             this.showRegistersToolStripMenuItem.Click += new System.EventHandler(this.showRegistersToolStripMenuItem_Click);
             // 
             // showMemoryToolStripMenuItem
             // 
             this.showMemoryToolStripMenuItem.Name = "showMemoryToolStripMenuItem";
-            this.showMemoryToolStripMenuItem.Size = new System.Drawing.Size(234, 34);
+            this.showMemoryToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.showMemoryToolStripMenuItem.Text = "Show Memory";
             this.showMemoryToolStripMenuItem.Click += new System.EventHandler(this.showMemoryToolStripMenuItem_Click);
             // 
@@ -441,7 +442,8 @@
             this.showStatsToolStripMenuItem,
             this.soundTestToneToolStripMenuItem,
             this.dosRomToolStripMenuItem,
-            this.pOKE307770ToolStripMenuItem});
+            this.pOKE307770ToolStripMenuItem,
+            this.toggleClockSyncToolStripMenuItem});
             this.developmentToolStripMenuItem.Name = "developmentToolStripMenuItem";
             this.developmentToolStripMenuItem.Size = new System.Drawing.Size(135, 29);
             this.developmentToolStripMenuItem.Text = "Development";
@@ -507,6 +509,13 @@
             this.dosRomToolStripMenuItem.Text = "Dos Rom";
             this.dosRomToolStripMenuItem.Click += new System.EventHandler(this.dosRomToolStripMenuItem_Click);
             // 
+            // pOKE307770ToolStripMenuItem
+            // 
+            this.pOKE307770ToolStripMenuItem.Name = "pOKE307770ToolStripMenuItem";
+            this.pOKE307770ToolStripMenuItem.Size = new System.Drawing.Size(283, 34);
+            this.pOKE307770ToolStripMenuItem.Text = "POKE 30777,0";
+            this.pOKE307770ToolStripMenuItem.Click += new System.EventHandler(this.pOKE307770ToolStripMenuItem_Click);
+            // 
             // overlayPanel1
             // 
             this.overlayPanel1.Location = new System.Drawing.Point(842, 65);
@@ -515,12 +524,15 @@
             this.overlayPanel1.Size = new System.Drawing.Size(300, 154);
             this.overlayPanel1.TabIndex = 10;
             // 
-            // pOKE307770ToolStripMenuItem
+            // toggleClockSyncToolStripMenuItem
             // 
-            this.pOKE307770ToolStripMenuItem.Name = "pOKE307770ToolStripMenuItem";
-            this.pOKE307770ToolStripMenuItem.Size = new System.Drawing.Size(283, 34);
-            this.pOKE307770ToolStripMenuItem.Text = "POKE 30777,0";
-            this.pOKE307770ToolStripMenuItem.Click += new System.EventHandler(this.pOKE307770ToolStripMenuItem_Click);
+            this.toggleClockSyncToolStripMenuItem.Checked = true;
+            this.toggleClockSyncToolStripMenuItem.CheckOnClick = true;
+            this.toggleClockSyncToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.toggleClockSyncToolStripMenuItem.Name = "toggleClockSyncToolStripMenuItem";
+            this.toggleClockSyncToolStripMenuItem.Size = new System.Drawing.Size(283, 34);
+            this.toggleClockSyncToolStripMenuItem.Text = "Clock Sync";
+            this.toggleClockSyncToolStripMenuItem.Click += new System.EventHandler(this.toggleClockSyncToolStripMenuItem_Click);
             // 
             // frmMain
             // 
@@ -599,6 +611,7 @@
         private System.Windows.Forms.ToolStripMenuItem audioToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dosRomToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pOKE307770ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toggleClockSyncToolStripMenuItem;
     }
 }
 

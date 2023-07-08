@@ -46,7 +46,9 @@ namespace VzEmulator.Peripherals
             set { currentClockFrequencyMhz = value;
                 CalculateTargetTStates();
             }   
-        } 
+        }
+
+        bool IClockSynced.ClockSyncEnabled { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         int targetTStates;
         int tStateCount = 0;

@@ -51,6 +51,11 @@ namespace VzEmulator
         public double InstructionCount { get; set; }
         public Drive Drive => drive;
         public bool TraceEnabled { get; set; }
+        public bool ClockSynced
+        {
+            get => ((IClockSynced)sound).ClockSyncEnabled;
+            set { ((IClockSynced)sound).ClockSyncEnabled = value; } 
+        }
 
         public Machine()
         {
@@ -68,6 +73,7 @@ namespace VzEmulator
             DeExtendedGraphicsLatch.LinkedLatch = AuExtendedGraphicsLatch; //De Latch stores bits 0,1 value in Au latch
             router.Add(InpLatch).Add(_OutputLatch).Add(rom).Add(VideoMemory).Add(drive).Add(printer).Add(AuExtendedGraphicsLatch).Add(DeExtendedGraphicsLatch);
             sound = new AudioOut(_OutputLatch,AudioInp);
+            ((IClockSynced)sound).ClockSyncEnabled = true;
             Cpu.ClockSync = sound;
         }
 
@@ -244,6 +250,11 @@ namespace VzEmulator
         internal void AttachDriveWatcher(IDriveWatcher watcher)
         {
             drive.DriveStatusChangeEvent += (object sender, DriveStatusChange e) => watcher.NotifyDriveStatusChange(e);
+        }
+
+        internal void SetClockSync(bool clockSynced)
+        {
+            throw new NotImplementedException();
         }
     }
 }

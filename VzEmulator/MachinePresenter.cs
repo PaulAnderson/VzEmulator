@@ -314,5 +314,10 @@ namespace VzEmulator
         {
             dosRomPresent = isPresent;
         }
+
+        internal void SetClockSync(bool clockSynced)
+        {
+            _machine.ClockSynced=clockSynced;
+        }
     }
 }
