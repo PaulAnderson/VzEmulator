@@ -9,8 +9,20 @@ namespace VzEmulator.Peripherals
 {
     public class Disk
     {
-        public const int Size = 99160;
-        public const int TrackLength = 2480;   // 99160/40
+        //Disk structure (per VZ300 Technical Manual)
+        //40 Tracks of 16 Sectors.
+        //Each sector has 25 bytes sector identification, 128 bytes of data, 2 bytes checksum (155 bytes total)
+        //155x16 = 2480 bytes per track
+        //2480x40 = 99200 bytes per disk
+
+        //Sector format:
+        //GAP1: 6 or 7 bytes of 0x80h, 1 byte of 0x00h (7 Bytes in tech manual, 6 bytes actually written by ROM)
+        //IDAM: 0xFE,0xE7,0x18,0xC3,Track No, Sector No, checksum
+        //GAP2: 5 bytes of 0x80h, 1 byte of 0x00h, 0xC3,0x18,0xE7,0xFE
+
+        public const int Size = 99200;
+        public const int TrackLength = 2480;   // 99200/40
+        public const int Tracks = 40;
         private string fileName;
         private byte[] contents;
         public byte this[int address] {
@@ -36,7 +48,17 @@ namespace VzEmulator.Peripherals
 
         public void LoadDiskImage(string fileName)
         {
-            contents = File.ReadAllBytes(fileName);
+            var fileContents = File.ReadAllBytes(fileName);
+            if (fileContents.Length>Size)
+            {
+                //todo handle unknown disk format
+                contents = fileContents;
+            }
+            else
+            {
+                contents = new Byte[Size];
+                fileContents.CopyTo(contents, 0);
+            }
             this.fileName = fileName;
         }
         public void SaveDiskImage(string fileName)

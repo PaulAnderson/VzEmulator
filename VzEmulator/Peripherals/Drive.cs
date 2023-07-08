@@ -33,6 +33,7 @@ namespace VzEmulator.Peripherals
 
         public bool DebugEnabled { get; set; } = false;
 
+
         public Drive()
         {
             PortRange = new Tuple<ushort, ushort>(0x10, 0x1f);
@@ -101,7 +102,7 @@ namespace VzEmulator.Peripherals
                     {
                         //update position unless in write mode (write function takes care of its own location)
                         diskLocationOntrack++;
-                        if (diskLocationOntrack > (Disk.TrackLength * 8) + 10)
+                        if (diskLocationOntrack >= (Disk.TrackLength * 8))
                             diskLocationOntrack = 0;
                     }
                 }
@@ -175,9 +176,21 @@ namespace VzEmulator.Peripherals
                         //all 8 bits received, write to file
                         int fileIndex = (diskCurrentTrack * Disk.TrackLength) + (diskLocationOntrack / 8);
 
+#if DEBUG
+                        //write to console current track, location on track and file index, and value
+                        Console.WriteLine("Disk write: Track: {0:X2} Location: {1:X4} FileIndex: {2:X4} Value: {3:X2}", diskCurrentTrack, diskLocationOntrack/8, fileIndex, currentWritingByte);
+#endif
+
                         //bounds check fileIndex
                         if (fileIndex < 0) fileIndex = 0;
-                        if (fileIndex > diskContent.Length - 1) fileIndex = diskContent.Length - 1;
+                        if (fileIndex > diskContent.Length - 1)
+                        {
+                            
+#if DEBUG
+                            Console.WriteLine("Disk write out of bounds: {0:X4}", fileIndex);
+#endif
+                            fileIndex = diskContent.Length - 1;
+                        }
 
                         //write byte
                         diskContent[fileIndex] = currentWritingByte;
@@ -197,6 +210,11 @@ namespace VzEmulator.Peripherals
                         writeBitNo = 0; //start next byte
                         currentWritingByte = 0;
                         firstHalfBit = 0;
+
+                        //track wraps around
+                        if (diskLocationOntrack >= (Disk.TrackLength * 8))
+                            diskLocationOntrack = 0;
+
                     }
                     else
                     {
@@ -239,7 +257,7 @@ namespace VzEmulator.Peripherals
                                 | (stepNo == 4 && lastStepNo == 6 && lastStepNo2 == 2))
             {
                 diskCurrentTrack += 1;
-                if (diskCurrentTrack > 40) diskCurrentTrack = 40;
+                if (diskCurrentTrack > (Disk.Tracks-1)) diskCurrentTrack = Disk.Tracks - 1;
                 OnTrackUpdated();
             }
             if ((stepNo == 8 && lastStepNo == 9 && lastStepNo2 == 1) |
@@ -264,6 +282,7 @@ namespace VzEmulator.Peripherals
 
         protected void OnTrackUpdated()
         {
+            diskLocationOntrack = 0; //Nice to keep the tracks aligned in the DSK file
             if (DebugEnabled) Console.WriteLine("Disk Track: {0}", diskCurrentTrack);
 
             OnDriveStatusChangeEvent(new DriveStatusChange
