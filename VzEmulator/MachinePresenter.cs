@@ -89,9 +89,11 @@ namespace VzEmulator
                     var stats = new MachineStats()
                     {
                         InstructionsPerSecond = (int)(_machine.InstructionCount / (watchTimer.Interval / 1000.0)),
+                        ClockCyclesPerSecond = (int)(_machine.ClockCycleCount / (watchTimer.Interval / 1000.0)),
                         FramesPerSecond = graphicsPainter.CurrentFps
                     };
                     _machine.InstructionCount = 0;
+                    _machine.ClockCycleCount = 0;
 
                     _view.UpdateStats(stats);
                 };

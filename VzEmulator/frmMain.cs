@@ -36,10 +36,14 @@ namespace VzEmulator
             if (showStatsToolStripMenuItem.Checked)
             {
                 overlayPanel1.TextElements.Add(("IPS", stats.InstructionsPerSecond.ToString()));
+                //format CLK as decimal with 2 decimal places
+
+                string actualClockSpeedMhz = $"{(stats.ClockCyclesPerSecond / 1_000_000m):0.00}Mhz";
+                overlayPanel1.TextElements.Add(("CLK", actualClockSpeedMhz));
                 overlayPanel1.TextElements.Add(("FPS", stats.FramesPerSecond.ToString()));
-                if (overlayPanel1.TextElements.Count > 2)
+                if (overlayPanel1.TextElements.Count > 3)
                 {
-                    overlayPanel1.TextElements.RemoveRange(0, 2);
+                    overlayPanel1.TextElements.RemoveRange(0, 3);
                 }
             }
         }

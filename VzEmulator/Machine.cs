@@ -49,6 +49,8 @@ namespace VzEmulator
             { LinkedLatchCopyMask = VzConstants.VideoMemoryBankSwitchMask };
   
         public double InstructionCount { get; set; }
+        public double ClockCycleCount { get; set; }
+        
         public Drive Drive => drive;
         public bool TraceEnabled { get; set; }
         public bool ClockSynced
@@ -73,8 +75,10 @@ namespace VzEmulator
             DeExtendedGraphicsLatch.LinkedLatch = AuExtendedGraphicsLatch; //De Latch stores bits 0,1 value in Au latch
             router.Add(InpLatch).Add(_OutputLatch).Add(rom).Add(VideoMemory).Add(drive).Add(printer).Add(AuExtendedGraphicsLatch).Add(DeExtendedGraphicsLatch);
             sound = new AudioOut(_OutputLatch,AudioInp);
-            ((IClockSynced)sound).ClockSyncEnabled = true;
             Cpu.ClockSync = sound;
+
+            ((IClockSynced)sound).ClockSyncEnabled = true;
+            ((IClockSynced)sound).ClockFrequency = VzConstants.ClockFrequencyMhz;
         }
 
         internal void StartCpuTask()
@@ -110,6 +114,7 @@ namespace VzEmulator
         {
             
             InstructionCount += 1;
+            ClockCycleCount += args.TStates;
 
             if (resetting)
             {

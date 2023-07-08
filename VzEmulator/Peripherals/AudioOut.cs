@@ -36,12 +36,17 @@ namespace VzEmulator.Peripherals
 
         bool clockSyncEnabled = true;
         bool IClockSynced.ClockSyncEnabled
-        { get => clockSyncEnabled; set => clockSyncEnabled = value; }
+        { get => clockSyncEnabled; set   {
+                clockSyncEnabled = value;
+                    } }
 
         void CalculateTargetTStates()
         {
             targetTStates = (int)currentClockFrequencyMhz * 1000000 / samplesPerSecond * bytesPerSample;
-            targetTStates = (int)(targetTStates / 1.16);
+            if (currentClockFrequencyMhz == 4.0m) {
+                //Override the CPU component default of 4.0mhz to 3.54mhz
+                targetTStates = (int)(targetTStates / 1.16);
+            }
         }
         public Stream OutputStream1 { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
@@ -94,7 +99,7 @@ namespace VzEmulator.Peripherals
                 cpu.AfterInstructionExecution += Cpu_AfterInstructionExecution;
             }
 
-            ((IClockSynced)this).ClockFrequency = VzConstants.ClockFrequencyMhz; //Set clock frequency to default, ensure targetTStates is set.
+            ((IClockSynced)this).ClockFrequency =  VzConstants.ClockFrequencyMhz; //Set clock frequency to default, ensure targetTStates is set.
 
             var source = new WriteableBufferingSource(new WaveFormat(samplesPerSecond, 8, 1, AudioEncoding.Pcm)) { FillWithZeros = true };
             var soundOut = GetSoundOut();
@@ -129,6 +134,9 @@ namespace VzEmulator.Peripherals
         }
         private void ReadAndSyncronizeSound(int clockCyclesElapsed)
         {
+            if (!clockSyncEnabled)
+                return; //dont buffer sound when not running in realtime
+
             tStateCount += clockCyclesElapsed;
 
             if (tStateCount >= targetTStates)
