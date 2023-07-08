@@ -114,7 +114,7 @@ namespace VzEmulator.Peripherals
                 {
                     CurrentValue = 255;
                 }
-               Console.Write($"{CurrentValue} ");
+               //Console.Write($"{CurrentValue} ");
                 if (inputStream.Position >= inputStream.Length)
                 {
                     reader.Dispose();

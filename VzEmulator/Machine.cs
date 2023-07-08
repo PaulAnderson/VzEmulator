@@ -59,6 +59,16 @@ namespace VzEmulator
             set { ((IClockSynced)sound).ClockSyncEnabled = value; } 
         }
 
+        public decimal ClockSpeed
+        {
+            get =>
+                ((IClockSynced)sound).ClockFrequency = ClockSpeed;
+            set
+            {
+                ((IClockSynced)sound).ClockFrequency = value;
+            }
+        }
+
         public Machine()
         {
             SetupDevices();

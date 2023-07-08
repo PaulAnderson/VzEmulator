@@ -321,5 +321,10 @@ namespace VzEmulator
         {
             _machine.ClockSynced=clockSynced;
         }
+
+        internal void SetClockSpeed(decimal speedMhz)
+        {
+            _machine.ClockSpeed = speedMhz;
+        }
     }
 }

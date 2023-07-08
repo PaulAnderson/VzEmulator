@@ -78,6 +78,13 @@
             this.pOKE307770ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.overlayPanel1 = new VzEmulatorControls.OverlayPanel();
             this.toggleClockSyncToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clockSpeedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Clock1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Clock2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Clock3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Clock4ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Clock5ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Clock6ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pnlTop.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -87,9 +94,9 @@
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Black;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 33);
+            this.pictureBox1.Location = new System.Drawing.Point(0, 36);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1200, 940);
+            this.pictureBox1.Size = new System.Drawing.Size(1200, 937);
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
             // 
@@ -196,7 +203,7 @@
             this.developmentToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1200, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(1200, 36);
             this.menuStrip1.TabIndex = 9;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -443,9 +450,10 @@
             this.soundTestToneToolStripMenuItem,
             this.dosRomToolStripMenuItem,
             this.pOKE307770ToolStripMenuItem,
-            this.toggleClockSyncToolStripMenuItem});
+            this.toggleClockSyncToolStripMenuItem,
+            this.clockSpeedToolStripMenuItem});
             this.developmentToolStripMenuItem.Name = "developmentToolStripMenuItem";
-            this.developmentToolStripMenuItem.Size = new System.Drawing.Size(135, 29);
+            this.developmentToolStripMenuItem.Size = new System.Drawing.Size(135, 30);
             this.developmentToolStripMenuItem.Text = "Development";
             this.developmentToolStripMenuItem.Click += new System.EventHandler(this.developmentToolStripMenuItem_Click);
             // 
@@ -534,6 +542,61 @@
             this.toggleClockSyncToolStripMenuItem.Text = "Clock Sync";
             this.toggleClockSyncToolStripMenuItem.Click += new System.EventHandler(this.toggleClockSyncToolStripMenuItem_Click);
             // 
+            // clockSpeedToolStripMenuItem
+            // 
+            this.clockSpeedToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Clock1ToolStripMenuItem,
+            this.Clock2ToolStripMenuItem,
+            this.Clock3ToolStripMenuItem,
+            this.Clock4ToolStripMenuItem,
+            this.Clock5ToolStripMenuItem,
+            this.Clock6ToolStripMenuItem});
+            this.clockSpeedToolStripMenuItem.Name = "clockSpeedToolStripMenuItem";
+            this.clockSpeedToolStripMenuItem.Size = new System.Drawing.Size(283, 34);
+            this.clockSpeedToolStripMenuItem.Text = "Clock Speed ";
+            // 
+            // Clock1ToolStripMenuItem
+            // 
+            this.Clock1ToolStripMenuItem.Name = "Clock1ToolStripMenuItem";
+            this.Clock1ToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.Clock1ToolStripMenuItem.Text = "100Khz";
+            this.Clock1ToolStripMenuItem.Click += new System.EventHandler(this.mhzToolStripMenuItem_Click);
+            // 
+            // Clock2ToolStripMenuItem
+            // 
+            this.Clock2ToolStripMenuItem.Name = "Clock2ToolStripMenuItem";
+            this.Clock2ToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.Clock2ToolStripMenuItem.Text = "1Mhz";
+            this.Clock2ToolStripMenuItem.Click += new System.EventHandler(this.Clock2ToolStripMenuItem_Click);
+            // 
+            // Clock3ToolStripMenuItem
+            // 
+            this.Clock3ToolStripMenuItem.Name = "Clock3ToolStripMenuItem";
+            this.Clock3ToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.Clock3ToolStripMenuItem.Text = "3.54Mhz";
+            this.Clock3ToolStripMenuItem.Click += new System.EventHandler(this.Clock3ToolStripMenuItem_Click);
+            // 
+            // Clock4ToolStripMenuItem
+            // 
+            this.Clock4ToolStripMenuItem.Name = "Clock4ToolStripMenuItem";
+            this.Clock4ToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.Clock4ToolStripMenuItem.Text = "8Mhz";
+            this.Clock4ToolStripMenuItem.Click += new System.EventHandler(this.Clock4ToolStripMenuItem_Click);
+            // 
+            // Clock5ToolStripMenuItem
+            // 
+            this.Clock5ToolStripMenuItem.Name = "Clock5ToolStripMenuItem";
+            this.Clock5ToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.Clock5ToolStripMenuItem.Text = "16Mhz";
+            this.Clock5ToolStripMenuItem.Click += new System.EventHandler(this.Clock5ToolStripMenuItem_Click);
+            // 
+            // Clock6ToolStripMenuItem
+            // 
+            this.Clock6ToolStripMenuItem.Name = "Clock6ToolStripMenuItem";
+            this.Clock6ToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.Clock6ToolStripMenuItem.Text = "Custom";
+            this.Clock6ToolStripMenuItem.Click += new System.EventHandler(this.Clock6ToolStripMenuItem_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -612,6 +675,13 @@
         private System.Windows.Forms.ToolStripMenuItem dosRomToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pOKE307770ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toggleClockSyncToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clockSpeedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Clock1ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Clock2ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Clock3ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Clock4ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Clock5ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Clock6ToolStripMenuItem;
     }
 }
 
