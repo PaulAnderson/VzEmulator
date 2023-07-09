@@ -63,7 +63,7 @@ namespace VzEmulator.Peripherals
             {
                 inDosInitRoutine = false;
 
-                int fileIndex = (diskCurrentTrack * Disk.TrackLength) + (diskLocationOntrack / 8);
+                int fileIndex = (diskCurrentTrack * diskContent.TrackLength) + (diskLocationOntrack / 8);
 
                 //bounds check fileIndex
                 if (fileIndex < 0) fileIndex = 0;
@@ -102,7 +102,7 @@ namespace VzEmulator.Peripherals
                     {
                         //update position unless in write mode (write function takes care of its own location)
                         diskLocationOntrack++;
-                        if (diskLocationOntrack >= (Disk.TrackLength * 8))
+                        if (diskLocationOntrack >= (diskContent.TrackLength * 8))
                             diskLocationOntrack = 0;
                     }
                 }
@@ -174,7 +174,7 @@ namespace VzEmulator.Peripherals
                     if (writeBitNo == 15)
                     {
                         //all 8 bits received, write to file
-                        int fileIndex = (diskCurrentTrack * Disk.TrackLength) + (diskLocationOntrack / 8);
+                        int fileIndex = (diskCurrentTrack * diskContent.TrackLength) + (diskLocationOntrack / 8);
 
 #if DEBUG
                         //write to console current track, location on track and file index, and value
@@ -212,7 +212,7 @@ namespace VzEmulator.Peripherals
                         firstHalfBit = 0;
 
                         //track wraps around
-                        if (diskLocationOntrack >= (Disk.TrackLength * 8))
+                        if (diskLocationOntrack >= (diskContent.TrackLength * 8))
                             diskLocationOntrack = 0;
 
                     }
@@ -257,7 +257,7 @@ namespace VzEmulator.Peripherals
                                 | (stepNo == 4 && lastStepNo == 6 && lastStepNo2 == 2))
             {
                 diskCurrentTrack += 1;
-                if (diskCurrentTrack > (Disk.Tracks-1)) diskCurrentTrack = Disk.Tracks - 1;
+                if (diskCurrentTrack > (diskContent.Tracks-1)) diskCurrentTrack = diskContent.Tracks - 1;
                 OnTrackUpdated();
             }
             if ((stepNo == 8 && lastStepNo == 9 && lastStepNo2 == 1) |

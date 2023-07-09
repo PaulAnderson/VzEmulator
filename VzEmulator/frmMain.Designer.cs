@@ -76,7 +76,6 @@
             this.soundTestToneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dosRomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pOKE307770ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.overlayPanel1 = new VzEmulatorControls.OverlayPanel();
             this.toggleClockSyncToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clockSpeedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Clock1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -85,6 +84,8 @@
             this.Clock4ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Clock5ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Clock6ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.overlayPanel1 = new VzEmulatorControls.OverlayPanel();
+            this.reformatDiskSectorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pnlTop.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -94,9 +95,9 @@
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Black;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 36);
+            this.pictureBox1.Location = new System.Drawing.Point(0, 33);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1200, 937);
+            this.pictureBox1.Size = new System.Drawing.Size(1200, 940);
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
             // 
@@ -203,7 +204,7 @@
             this.developmentToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1200, 36);
+            this.menuStrip1.Size = new System.Drawing.Size(1200, 33);
             this.menuStrip1.TabIndex = 9;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -212,6 +213,7 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openDiskImageToolStripMenuItem,
             this.saveDiskImageToolStripMenuItem,
+            this.reformatDiskSectorsToolStripMenuItem,
             this.openvzFileToolStripMenuItem,
             this.saveBasicProgramToolStripMenuItem,
             this.saveMachinecodeProgramToolStripMenuItem,
@@ -219,7 +221,7 @@
             this.saveMemoryImageToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 30);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 29);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // openDiskImageToolStripMenuItem
@@ -287,7 +289,7 @@
             this.unPauseToolStripMenuItem,
             this.execMachinecodeProgramToolStripMenuItem});
             this.emulationToolStripMenuItem.Name = "emulationToolStripMenuItem";
-            this.emulationToolStripMenuItem.Size = new System.Drawing.Size(107, 30);
+            this.emulationToolStripMenuItem.Size = new System.Drawing.Size(107, 29);
             this.emulationToolStripMenuItem.Text = "Emulation";
             // 
             // startToolStripMenuItem
@@ -329,7 +331,7 @@
             this.colourToolStripMenuItem,
             this.printerToolStripMenuItem});
             this.displayToolStripMenuItem.Name = "displayToolStripMenuItem";
-            this.displayToolStripMenuItem.Size = new System.Drawing.Size(86, 30);
+            this.displayToolStripMenuItem.Size = new System.Drawing.Size(86, 29);
             this.displayToolStripMenuItem.Text = "Display";
             // 
             // integerScalingToolStripMenuItem
@@ -379,7 +381,7 @@
             this.recordCassetteToWavFileToolStripMenuItem,
             this.playWavFileInToCassetteToolStripMenuItem});
             this.audioToolStripMenuItem.Name = "audioToolStripMenuItem";
-            this.audioToolStripMenuItem.Size = new System.Drawing.Size(76, 30);
+            this.audioToolStripMenuItem.Size = new System.Drawing.Size(76, 29);
             this.audioToolStripMenuItem.Text = "Audio";
             this.audioToolStripMenuItem.Click += new System.EventHandler(this.audioToolStripMenuItem_Click);
             // 
@@ -421,20 +423,20 @@
             this.showRegistersToolStripMenuItem,
             this.showMemoryToolStripMenuItem});
             this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
-            this.debugToolStripMenuItem.Size = new System.Drawing.Size(82, 30);
+            this.debugToolStripMenuItem.Size = new System.Drawing.Size(82, 29);
             this.debugToolStripMenuItem.Text = "Debug";
             // 
             // showRegistersToolStripMenuItem
             // 
             this.showRegistersToolStripMenuItem.Name = "showRegistersToolStripMenuItem";
-            this.showRegistersToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.showRegistersToolStripMenuItem.Size = new System.Drawing.Size(234, 34);
             this.showRegistersToolStripMenuItem.Text = "Show Registers";
             this.showRegistersToolStripMenuItem.Click += new System.EventHandler(this.showRegistersToolStripMenuItem_Click);
             // 
             // showMemoryToolStripMenuItem
             // 
             this.showMemoryToolStripMenuItem.Name = "showMemoryToolStripMenuItem";
-            this.showMemoryToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.showMemoryToolStripMenuItem.Size = new System.Drawing.Size(234, 34);
             this.showMemoryToolStripMenuItem.Text = "Show Memory";
             this.showMemoryToolStripMenuItem.Click += new System.EventHandler(this.showMemoryToolStripMenuItem_Click);
             // 
@@ -453,7 +455,7 @@
             this.toggleClockSyncToolStripMenuItem,
             this.clockSpeedToolStripMenuItem});
             this.developmentToolStripMenuItem.Name = "developmentToolStripMenuItem";
-            this.developmentToolStripMenuItem.Size = new System.Drawing.Size(135, 30);
+            this.developmentToolStripMenuItem.Size = new System.Drawing.Size(135, 29);
             this.developmentToolStripMenuItem.Text = "Development";
             this.developmentToolStripMenuItem.Click += new System.EventHandler(this.developmentToolStripMenuItem_Click);
             // 
@@ -524,14 +526,6 @@
             this.pOKE307770ToolStripMenuItem.Text = "POKE 30777,0";
             this.pOKE307770ToolStripMenuItem.Click += new System.EventHandler(this.pOKE307770ToolStripMenuItem_Click);
             // 
-            // overlayPanel1
-            // 
-            this.overlayPanel1.Location = new System.Drawing.Point(842, 65);
-            this.overlayPanel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.overlayPanel1.Name = "overlayPanel1";
-            this.overlayPanel1.Size = new System.Drawing.Size(300, 154);
-            this.overlayPanel1.TabIndex = 10;
-            // 
             // toggleClockSyncToolStripMenuItem
             // 
             this.toggleClockSyncToolStripMenuItem.Checked = true;
@@ -558,44 +552,59 @@
             // Clock1ToolStripMenuItem
             // 
             this.Clock1ToolStripMenuItem.Name = "Clock1ToolStripMenuItem";
-            this.Clock1ToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.Clock1ToolStripMenuItem.Size = new System.Drawing.Size(182, 34);
             this.Clock1ToolStripMenuItem.Text = "100Khz";
             this.Clock1ToolStripMenuItem.Click += new System.EventHandler(this.mhzToolStripMenuItem_Click);
             // 
             // Clock2ToolStripMenuItem
             // 
             this.Clock2ToolStripMenuItem.Name = "Clock2ToolStripMenuItem";
-            this.Clock2ToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.Clock2ToolStripMenuItem.Size = new System.Drawing.Size(182, 34);
             this.Clock2ToolStripMenuItem.Text = "1Mhz";
             this.Clock2ToolStripMenuItem.Click += new System.EventHandler(this.Clock2ToolStripMenuItem_Click);
             // 
             // Clock3ToolStripMenuItem
             // 
             this.Clock3ToolStripMenuItem.Name = "Clock3ToolStripMenuItem";
-            this.Clock3ToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.Clock3ToolStripMenuItem.Size = new System.Drawing.Size(182, 34);
             this.Clock3ToolStripMenuItem.Text = "3.54Mhz";
             this.Clock3ToolStripMenuItem.Click += new System.EventHandler(this.Clock3ToolStripMenuItem_Click);
             // 
             // Clock4ToolStripMenuItem
             // 
             this.Clock4ToolStripMenuItem.Name = "Clock4ToolStripMenuItem";
-            this.Clock4ToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.Clock4ToolStripMenuItem.Size = new System.Drawing.Size(182, 34);
             this.Clock4ToolStripMenuItem.Text = "8Mhz";
             this.Clock4ToolStripMenuItem.Click += new System.EventHandler(this.Clock4ToolStripMenuItem_Click);
             // 
             // Clock5ToolStripMenuItem
             // 
             this.Clock5ToolStripMenuItem.Name = "Clock5ToolStripMenuItem";
-            this.Clock5ToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.Clock5ToolStripMenuItem.Size = new System.Drawing.Size(182, 34);
             this.Clock5ToolStripMenuItem.Text = "16Mhz";
             this.Clock5ToolStripMenuItem.Click += new System.EventHandler(this.Clock5ToolStripMenuItem_Click);
             // 
             // Clock6ToolStripMenuItem
             // 
             this.Clock6ToolStripMenuItem.Name = "Clock6ToolStripMenuItem";
-            this.Clock6ToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.Clock6ToolStripMenuItem.Size = new System.Drawing.Size(182, 34);
             this.Clock6ToolStripMenuItem.Text = "Custom";
             this.Clock6ToolStripMenuItem.Click += new System.EventHandler(this.Clock6ToolStripMenuItem_Click);
+            // 
+            // overlayPanel1
+            // 
+            this.overlayPanel1.Location = new System.Drawing.Point(842, 65);
+            this.overlayPanel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.overlayPanel1.Name = "overlayPanel1";
+            this.overlayPanel1.Size = new System.Drawing.Size(300, 154);
+            this.overlayPanel1.TabIndex = 10;
+            // 
+            // reformatDiskSectorsToolStripMenuItem
+            // 
+            this.reformatDiskSectorsToolStripMenuItem.Name = "reformatDiskSectorsToolStripMenuItem";
+            this.reformatDiskSectorsToolStripMenuItem.Size = new System.Drawing.Size(343, 34);
+            this.reformatDiskSectorsToolStripMenuItem.Text = "Reformat disk sectors";
+            this.reformatDiskSectorsToolStripMenuItem.Click += new System.EventHandler(this.reformatDiskSectorsToolStripMenuItem_Click);
             // 
             // frmMain
             // 
@@ -682,6 +691,7 @@
         private System.Windows.Forms.ToolStripMenuItem Clock4ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem Clock5ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem Clock6ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reformatDiskSectorsToolStripMenuItem;
     }
 }
 

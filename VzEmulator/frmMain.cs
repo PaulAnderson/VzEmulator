@@ -376,6 +376,45 @@ namespace VzEmulator
         {
             Presenter.SetClockSync(toggleClockSyncToolStripMenuItem.Checked);
         }
+
+        private void mhzToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Presenter.SetClockSpeed(0.1m);
+        }
+
+        private void Clock2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Presenter.SetClockSpeed(1.0m);
+
+        }
+
+        private void Clock3ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Presenter.SetClockSpeed(VzConstants.ClockFrequencyMhz);
+
+        }
+
+        private void Clock4ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Presenter.SetClockSpeed(8.0m);
+
+        }
+
+        private void Clock5ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Presenter.SetClockSpeed(16.0m);
+
+        }
+
+        private void Clock6ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void reformatDiskSectorsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //todo convert disk to standard track length, write sector data with rengerated headers
+        }
     }
 }
  
