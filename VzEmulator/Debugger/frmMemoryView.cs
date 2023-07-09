@@ -14,11 +14,12 @@ namespace VzEmulator
 
         Byte[] Memory = new byte[2000];
         HashSet<int> SearchResults = new HashSet<int>();
-        ICpu cpu;
+        IMemoryAccessor EditingMemory;
+
         Timer RefreshTimer;
         Timer CursorTimer;
 
-        ushort startAddr;
+        int startAddr;
         bool useLightColour = true;
 
         int cursorLocation = 0;
@@ -26,9 +27,12 @@ namespace VzEmulator
         byte cursorNibbleValue = 0;
         bool cursorBlink;
 
+        bool wrapAround=true;
+        int maxAddress = 0x10000;
+
         private TextboxValidation validation = new TextboxValidation();
 
-        public frmMemoryView(ICpu cpu)
+        public frmMemoryView(IMemoryAccessor memory)
         {
             InitializeComponent();
 
@@ -39,7 +43,14 @@ namespace VzEmulator
                 UseFixedScale = true,
             };
 
-            this.cpu = cpu;
+            this.EditingMemory = memory;
+            if (memory.Size>maxAddress)
+            {
+                //disk edit
+                maxAddress = memory.Size;
+                wrapAround = false;
+                txtStartAddress.Text = "0x0000";
+            }    
 
             ReadAddrFromTextBox();
 
@@ -89,6 +100,7 @@ namespace VzEmulator
         {
             var blockAddr = startAddr;
 
+
             for (var line = 0; line < Lines; line++ )
             {
                 var startLineAddr = line << 5;
@@ -99,7 +111,7 @@ namespace VzEmulator
                 for (var i = 0; i < RowLength; i++ )
                 {
                     var isCursorLocation = cursorLocation == i + line * RowLength;
-                    var value = cpu.Memory[blockAddr + i];
+                    var value = EditingMemory[blockAddr + i];
                     var valueStr = string.Format("{0:X2}", value);
                     var colour = !(SearchResults.Contains(blockAddr + i)) && !(isCursorLocation & cursorBlink);
 
@@ -163,15 +175,15 @@ namespace VzEmulator
             bool addSearch = (SearchResults.Count == 0);
             var searchTerm = MemUtils.StringToByte(txtSearch.Text);
             if (addSearch)
-                for (var i=0;i<cpu.Memory.Size;i++)
+                for (var i=0;i< EditingMemory.Size;i++)
                 {
-                    if (cpu.Memory[i] == searchTerm)
+                    if (EditingMemory[i] == searchTerm)
                         SearchResults.Add(i);
                 }
             else
-                for (var i = 0; i < cpu.Memory.Size; i++)
+                for (var i = 0; i < EditingMemory.Size; i++)
                 {
-                    if (cpu.Memory[i] != searchTerm && SearchResults.Contains(i))
+                    if (EditingMemory[i] != searchTerm && SearchResults.Contains(i))
                         SearchResults.Remove(i);
                 }
         }
@@ -221,7 +233,10 @@ namespace VzEmulator
                             cursorNibbleLocation = 1;
                         } else
                         {
-                            cpu.Memory[startAddr + cursorLocation] = (byte)(cursorNibbleValue | (byte)(value & 0x0F));
+                            var addr = startAddr + cursorLocation;
+                            if (wrapAround && addr >= maxAddress) addr -= maxAddress;
+                            Console.WriteLine($"Writing {value:X2} to {(addr):X4}");
+                            EditingMemory[addr] = (byte)(cursorNibbleValue | (byte)(value & 0x0F));
                             cursorLocation++;
                             cursorMoved = true;
 
@@ -254,9 +269,15 @@ namespace VzEmulator
             }
 
             //validate memory postion. Wrap around if out of range
-            if (startAddr < 0) startAddr += 0xFFFF;
-            if (startAddr > 0xFFFF) startAddr -= 0xFFFF;
-
+            if (wrapAround)
+            {
+                if (startAddr < 0) startAddr += maxAddress - 1; ;
+                if (startAddr >= maxAddress) startAddr -= (maxAddress - 1);
+            } else
+            {
+                if (startAddr < 0) startAddr = 0;
+                if (startAddr >= maxAddress) startAddr = maxAddress - 1;
+            }
         }
 
         private void frmMemoryView_Load(object sender, EventArgs e)

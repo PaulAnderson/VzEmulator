@@ -41,6 +41,7 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDiskImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveDiskImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reformatDiskSectorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openvzFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveBasicProgramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveMachinecodeProgramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,6 +67,7 @@
             this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showRegistersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showMemoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editDiskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.developmentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showFontToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.traceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -85,7 +87,6 @@
             this.Clock5ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Clock6ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.overlayPanel1 = new VzEmulatorControls.OverlayPanel();
-            this.reformatDiskSectorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pnlTop.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -227,7 +228,7 @@
             // openDiskImageToolStripMenuItem
             // 
             this.openDiskImageToolStripMenuItem.Name = "openDiskImageToolStripMenuItem";
-            this.openDiskImageToolStripMenuItem.Size = new System.Drawing.Size(343, 34);
+            this.openDiskImageToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
             this.openDiskImageToolStripMenuItem.Text = "Open Disk Image";
             this.openDiskImageToolStripMenuItem.Click += new System.EventHandler(this.openDiskImageToolStripMenuItem_Click);
             // 
@@ -235,49 +236,56 @@
             // 
             this.saveDiskImageToolStripMenuItem.BackColor = System.Drawing.SystemColors.Control;
             this.saveDiskImageToolStripMenuItem.Name = "saveDiskImageToolStripMenuItem";
-            this.saveDiskImageToolStripMenuItem.Size = new System.Drawing.Size(343, 34);
+            this.saveDiskImageToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
             this.saveDiskImageToolStripMenuItem.Text = "Save Disk Image";
             this.saveDiskImageToolStripMenuItem.Click += new System.EventHandler(this.saveDiskImageToolStripMenuItem_Click);
+            // 
+            // reformatDiskSectorsToolStripMenuItem
+            // 
+            this.reformatDiskSectorsToolStripMenuItem.Name = "reformatDiskSectorsToolStripMenuItem";
+            this.reformatDiskSectorsToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
+            this.reformatDiskSectorsToolStripMenuItem.Text = "Save Disk image with reformat";
+            this.reformatDiskSectorsToolStripMenuItem.Click += new System.EventHandler(this.reformatDiskSectorsToolStripMenuItem_Click);
             // 
             // openvzFileToolStripMenuItem
             // 
             this.openvzFileToolStripMenuItem.Name = "openvzFileToolStripMenuItem";
-            this.openvzFileToolStripMenuItem.Size = new System.Drawing.Size(343, 34);
+            this.openvzFileToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
             this.openvzFileToolStripMenuItem.Text = "Open .vz File";
             this.openvzFileToolStripMenuItem.Click += new System.EventHandler(this.openvzFileToolStripMenuItem_Click);
             // 
             // saveBasicProgramToolStripMenuItem
             // 
             this.saveBasicProgramToolStripMenuItem.Name = "saveBasicProgramToolStripMenuItem";
-            this.saveBasicProgramToolStripMenuItem.Size = new System.Drawing.Size(343, 34);
+            this.saveBasicProgramToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
             this.saveBasicProgramToolStripMenuItem.Text = "Save Basic Program";
             this.saveBasicProgramToolStripMenuItem.Click += new System.EventHandler(this.saveBasicProgramToolStripMenuItem_Click);
             // 
             // saveMachinecodeProgramToolStripMenuItem
             // 
             this.saveMachinecodeProgramToolStripMenuItem.Name = "saveMachinecodeProgramToolStripMenuItem";
-            this.saveMachinecodeProgramToolStripMenuItem.Size = new System.Drawing.Size(343, 34);
+            this.saveMachinecodeProgramToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
             this.saveMachinecodeProgramToolStripMenuItem.Text = "Save Machine-code program";
             this.saveMachinecodeProgramToolStripMenuItem.Click += new System.EventHandler(this.saveMachinecodeProgramToolStripMenuItem_Click);
             // 
             // openMemoryImageToolStripMenuItem
             // 
             this.openMemoryImageToolStripMenuItem.Name = "openMemoryImageToolStripMenuItem";
-            this.openMemoryImageToolStripMenuItem.Size = new System.Drawing.Size(343, 34);
+            this.openMemoryImageToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
             this.openMemoryImageToolStripMenuItem.Text = "Open Memory Image";
             this.openMemoryImageToolStripMenuItem.Click += new System.EventHandler(this.openMemoryImageToolStripMenuItem_Click);
             // 
             // saveMemoryImageToolStripMenuItem
             // 
             this.saveMemoryImageToolStripMenuItem.Name = "saveMemoryImageToolStripMenuItem";
-            this.saveMemoryImageToolStripMenuItem.Size = new System.Drawing.Size(343, 34);
+            this.saveMemoryImageToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
             this.saveMemoryImageToolStripMenuItem.Text = "Save Memory Image";
             this.saveMemoryImageToolStripMenuItem.Click += new System.EventHandler(this.saveMemoryImageToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(343, 34);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -421,7 +429,8 @@
             // 
             this.debugToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.showRegistersToolStripMenuItem,
-            this.showMemoryToolStripMenuItem});
+            this.showMemoryToolStripMenuItem,
+            this.editDiskToolStripMenuItem});
             this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
             this.debugToolStripMenuItem.Size = new System.Drawing.Size(82, 29);
             this.debugToolStripMenuItem.Text = "Debug";
@@ -429,16 +438,23 @@
             // showRegistersToolStripMenuItem
             // 
             this.showRegistersToolStripMenuItem.Name = "showRegistersToolStripMenuItem";
-            this.showRegistersToolStripMenuItem.Size = new System.Drawing.Size(234, 34);
+            this.showRegistersToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.showRegistersToolStripMenuItem.Text = "Show Registers";
             this.showRegistersToolStripMenuItem.Click += new System.EventHandler(this.showRegistersToolStripMenuItem_Click);
             // 
             // showMemoryToolStripMenuItem
             // 
             this.showMemoryToolStripMenuItem.Name = "showMemoryToolStripMenuItem";
-            this.showMemoryToolStripMenuItem.Size = new System.Drawing.Size(234, 34);
+            this.showMemoryToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.showMemoryToolStripMenuItem.Text = "Show Memory";
             this.showMemoryToolStripMenuItem.Click += new System.EventHandler(this.showMemoryToolStripMenuItem_Click);
+            // 
+            // editDiskToolStripMenuItem
+            // 
+            this.editDiskToolStripMenuItem.Name = "editDiskToolStripMenuItem";
+            this.editDiskToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.editDiskToolStripMenuItem.Text = "Edit Disk";
+            this.editDiskToolStripMenuItem.Click += new System.EventHandler(this.editDiskToolStripMenuItem_Click);
             // 
             // developmentToolStripMenuItem
             // 
@@ -599,13 +615,6 @@
             this.overlayPanel1.Size = new System.Drawing.Size(300, 154);
             this.overlayPanel1.TabIndex = 10;
             // 
-            // reformatDiskSectorsToolStripMenuItem
-            // 
-            this.reformatDiskSectorsToolStripMenuItem.Name = "reformatDiskSectorsToolStripMenuItem";
-            this.reformatDiskSectorsToolStripMenuItem.Size = new System.Drawing.Size(343, 34);
-            this.reformatDiskSectorsToolStripMenuItem.Text = "Reformat disk sectors";
-            this.reformatDiskSectorsToolStripMenuItem.Click += new System.EventHandler(this.reformatDiskSectorsToolStripMenuItem_Click);
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -692,6 +701,7 @@
         private System.Windows.Forms.ToolStripMenuItem Clock5ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem Clock6ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reformatDiskSectorsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editDiskToolStripMenuItem;
     }
 }
 

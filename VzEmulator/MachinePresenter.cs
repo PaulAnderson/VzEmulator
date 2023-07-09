@@ -145,9 +145,15 @@ namespace VzEmulator
 
         internal void DebugMemory()
         {
-            var frm2 = new frmMemoryView(_machine.Cpu);
+            var frm2 = new frmMemoryView(_machine.Cpu.Memory);
             frm2.Show();
         }
+        internal void EditDisk()
+        {
+            var frm2 = new frmMemoryView(_machine.Drive.Disk);
+            frm2.Show();
+        }
+
         internal void SetMemory( int startAddress, byte[] content)
         {
             _machine.Cpu.Memory.SetContents(startAddress, content);
@@ -245,9 +251,9 @@ namespace VzEmulator
             return addressRange;
         }
 
-        public void SaveDiskImage(string fileName)
+        public void SaveDiskImage(string fileName, bool reFormat=false)
         {
-            _machine.Drive.SaveDiskImage(fileName);
+            _machine.Drive.SaveDiskImage(fileName, reFormat);
         }
 
         public void LoadDiskImage(string fileName)
@@ -326,5 +332,7 @@ namespace VzEmulator
         {
             _machine.ClockSpeed = speedMhz;
         }
+
+        
     }
 }

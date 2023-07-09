@@ -195,6 +195,16 @@ namespace VzEmulator
             }
         }
 
+        private void reformatDiskSectorsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //convert disk to standard track length, write sector data with regenerated headers
+            var saveFileDialog = new SaveFileDialog();
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                Presenter.SaveDiskImage(saveFileDialog.FileName, reFormat: true) ;
+            }
+        }
+
         private void openMemoryImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var dlg = new OpenFileDialog();
@@ -257,7 +267,10 @@ namespace VzEmulator
         {
             Presenter.DebugMemory();
         }
-
+        private void editDiskToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Presenter.EditDisk();
+        }
         private void integerScalingToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Presenter.ToggleUseFixedScaling();
@@ -410,11 +423,7 @@ namespace VzEmulator
         {
 
         }
-
-        private void reformatDiskSectorsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //todo convert disk to standard track length, write sector data with rengerated headers
-        }
+ 
     }
 }
  

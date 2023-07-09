@@ -130,7 +130,7 @@ namespace VzEmulator.Screen
             fps++;
             s.Stop();
 
-            Console.WriteLine($"Screen render took {s.ElapsedMilliseconds} ms ({s.ElapsedTicks} ticks)");
+            //Console.WriteLine($"Screen render took {s.ElapsedMilliseconds} ms ({s.ElapsedTicks} ticks)");
         }
 
         /// <summary>
