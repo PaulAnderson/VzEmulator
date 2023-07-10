@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace VzEmulator.Peripherals
 {
@@ -25,6 +26,7 @@ namespace VzEmulator.Peripherals
         bool inDosInitRoutine = false;
         bool writeProtect = false;
         Disk diskContent = new Disk();
+        public Disk Disk => diskContent;
 
 
         public Tuple<ushort, ushort> PortRange { get; set; }
@@ -275,9 +277,9 @@ namespace VzEmulator.Peripherals
         {
             diskContent.LoadDiskImage(fileName);
         }
-        public void SaveDiskImage(string fileName)
+        public void SaveDiskImage(string fileName, bool reFormat = false)
         {
-            diskContent.SaveDiskImage(fileName);
+            diskContent.ReformatAndSaveDiskImage(fileName);
         }
 
         protected void OnTrackUpdated()
