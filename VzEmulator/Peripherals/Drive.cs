@@ -139,7 +139,15 @@ namespace VzEmulator.Peripherals
                 Bit 6 : Write Request. Enable? (0=Active)
                 Bit 7 : Drive 2 Active (1=active)
                  */
-                byte stepNo = (byte)(value & 0xF);
+
+                //todo Drive selection. Record current value in latch.
+                //Handle drive 1 and drive 2 active
+                bool drive1Active = (value & 0x10) == 0x10;
+                bool drive2Active = (value & 0x80) == 0x80;
+
+                //todo separate drive and controller logic
+
+                byte stepNo = (byte)(value & 0x0F);
                 Step(stepNo);
 
                 byte writeControl = (byte)(value & 0xF0);
@@ -157,6 +165,7 @@ namespace VzEmulator.Peripherals
                 Bit 7 : Drive 2 Active(1 = active)
             */
             bool isWriteEnable = !((value & 0x40) == 0x40);
+
             if (isWriteEnable)
             {
                 if (prevWriteEnable)
