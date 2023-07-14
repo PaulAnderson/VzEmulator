@@ -44,26 +44,39 @@ namespace VzEmulator.Peripherals
             }
         }
 
-        private void reCalculateChecksum(int address)
+        private void reCalculateChecksum(int indexOfDataChange)
         {
             //Called when changes are made to the disk contents using the disk editor
             //Todo make more efficient by only finding the current sector
             var sectors=FindSoftSectors(ignoreCheckSumErrors:true);
-            var sector = sectors.Where(s => s.startIndex <= address && s.startIndex+s.length >= address).FirstOrDefault();
+            var sector = sectors.Where(s => s.startIndex <= indexOfDataChange && s.startIndex+s.length >= indexOfDataChange).FirstOrDefault();
             if (sector.length > 0)
             {
-                //Combine with code in WriteSectors, reuse checksum calc
-                int checksum = 0;
-                for (int i = 0; i < sector.dataLength; i++)
-                {
-                    checksum += sector.data[i];
-                }
-                contents[sector.startIndex + GAP1IDAM.Length + 3 + GAP2.Length + sector.dataLength+1] = (byte)(checksum & 0xFF);
-                contents[sector.startIndex + GAP1IDAM.Length + 3 + GAP2.Length + sector.dataLength + 2] = (byte)((checksum >> 8) & 0xFF);
+                //todo Combine with code in WriteSectors, reuse checksum calc
+                UpdateSectorDataChecksum(sector);
 
             }
         }
+        private void UpdateSectorDataChecksum(Sector sector) { 
+            var checksumValue = CalculateChecksum(sector.data,0,sector.dataLength-1);
+            contents[GetSectorChecksumLocation(sector)] = (byte)(checksumValue & 0xFF);
+            contents[GetSectorChecksumLocation(sector)+1] = (byte)((checksumValue >> 8) & 0xFF);
+        }
+        private ushort CalculateChecksum(byte[] data, int startAddress, int endAddress)
+        {
+            //caclulate checksum by adding all bytes mod 2^16
+            ushort checksum = 0;
+            for (int i = startAddress; i <= endAddress; i++)
+            {
+                checksum += data[i];
+            }
+            return checksum;
 
+        }
+        private int GetSectorChecksumLocation(Sector sector)
+        {
+            return sector.startIndex + GAP1IDAM.Length + 3 + GAP2.Length + sector.dataLength + 1;
+        }
         public int Length { get
             {
                 return contents.Length;
