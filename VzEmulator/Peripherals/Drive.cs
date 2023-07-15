@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace VzEmulator.Peripherals
 {
@@ -25,9 +19,11 @@ namespace VzEmulator.Peripherals
         int bytesWritten = 0;
         bool inDosInitRoutine = false;
         bool writeProtect = false;
-        Disk diskContent = new Disk();
-        public Disk Disk => diskContent;
+        Disk[] diskContent = { new Disk(), new Disk() };
+        public Disk Disk0 => diskContent[0];
+        public Disk Disk1 => diskContent[1];
 
+        byte activeDrive;
 
         public Tuple<ushort, ushort> PortRange { get; set; }
 
@@ -65,13 +61,14 @@ namespace VzEmulator.Peripherals
             {
                 inDosInitRoutine = false;
 
-                int fileIndex = (diskCurrentTrack * diskContent.TrackLength) + (diskLocationOntrack / 8);
+                int fileIndex = (diskCurrentTrack * diskContent[activeDrive].TrackLength) + (diskLocationOntrack / 8);
 
                 //bounds check fileIndex
                 if (fileIndex < 0) fileIndex = 0;
-                if (fileIndex > diskContent.Length - 1) fileIndex = diskContent.Length - 1;
+                if (fileIndex > diskContent[activeDrive].Length - 1) fileIndex = diskContent[activeDrive].Length - 1;
 
-                value = diskContent[fileIndex]; //Dos routine reads port 11 once for each change to bit 7 of port 12. 
+                //a more accurate emulation would shift the value in one bit at a time but this is enough for now.
+                value = diskContent[activeDrive][fileIndex]; //Dos routine reads port 11 once for each change to bit 7 of port 12. 
 
                 if (!prevFileIndex.HasValue || prevFileIndex != fileIndex)
                 {
@@ -104,7 +101,7 @@ namespace VzEmulator.Peripherals
                     {
                         //update position unless in write mode (write function takes care of its own location)
                         diskLocationOntrack++;
-                        if (diskLocationOntrack >= (diskContent.TrackLength * 8))
+                        if (diskLocationOntrack >= (diskContent[activeDrive].TrackLength * 8))
                             diskLocationOntrack = 0;
                     }
                 }
@@ -142,10 +139,8 @@ namespace VzEmulator.Peripherals
 
                 //todo Drive selection. Record current value in latch.
                 //Handle drive 1 and drive 2 active
-                bool drive1Active = (value & 0x10) == 0x10;
-                bool drive2Active = (value & 0x80) == 0x80;
-
-                //todo separate drive and controller logic
+                if ((value & 0x10) == 0x10) activeDrive = 0;
+                else if ((value & 0x80) == 0x80) activeDrive = 1;
 
                 byte stepNo = (byte)(value & 0x0F);
                 Step(stepNo);
@@ -184,8 +179,8 @@ namespace VzEmulator.Peripherals
                     }
                     if (writeBitNo == 15)
                     {
-                        //all 8 bits received, write to file
-                        int fileIndex = (diskCurrentTrack * diskContent.TrackLength) + (diskLocationOntrack / 8);
+                        //all 8 bits and associated clocks received, write to array
+                        int fileIndex = (diskCurrentTrack * diskContent[activeDrive].TrackLength) + (diskLocationOntrack / 8);
 
 #if DEBUG
                         //write to console current track, location on track and file index, and value
@@ -194,17 +189,17 @@ namespace VzEmulator.Peripherals
 
                         //bounds check fileIndex
                         if (fileIndex < 0) fileIndex = 0;
-                        if (fileIndex > diskContent.Length - 1)
+                        if (fileIndex > diskContent[activeDrive].Length - 1)
                         {
                             
 #if DEBUG
                             Console.WriteLine("Disk write out of bounds: {0:X4}", fileIndex);
 #endif
-                            fileIndex = diskContent.Length - 1;
+                            fileIndex = diskContent[activeDrive].Length - 1;
                         }
 
                         //write byte
-                        diskContent[fileIndex] = currentWritingByte;
+                        diskContent[activeDrive][fileIndex] = currentWritingByte;
 
                         if (DebugEnabled)
                         {
@@ -223,7 +218,7 @@ namespace VzEmulator.Peripherals
                         firstHalfBit = 0;
 
                         //track wraps around
-                        if (diskLocationOntrack >= (diskContent.TrackLength * 8))
+                        if (diskLocationOntrack >= (diskContent[activeDrive].TrackLength * 8))
                             diskLocationOntrack = 0;
 
                     }
@@ -268,7 +263,7 @@ namespace VzEmulator.Peripherals
                                 | (stepNo == 4 && lastStepNo == 6 && lastStepNo2 == 2))
             {
                 diskCurrentTrack += 1;
-                if (diskCurrentTrack > (diskContent.Tracks-1)) diskCurrentTrack = diskContent.Tracks - 1;
+                if (diskCurrentTrack > (diskContent[activeDrive].Tracks-1)) diskCurrentTrack = diskContent[activeDrive].Tracks - 1;
                 OnTrackUpdated();
             }
             if ((stepNo == 8 && lastStepNo == 9 && lastStepNo2 == 1) |
@@ -284,11 +279,11 @@ namespace VzEmulator.Peripherals
 
         public void LoadDiskImage(string fileName)
         {
-            diskContent.LoadDiskImage(fileName);
+            diskContent[activeDrive].LoadDiskImage(fileName);
         }
         public void SaveDiskImage(string fileName, bool reFormat = false)
         {
-            diskContent.ReformatAndSaveDiskImage(fileName);
+            diskContent[activeDrive].ReformatAndSaveDiskImage(fileName);
         }
 
         protected void OnTrackUpdated()

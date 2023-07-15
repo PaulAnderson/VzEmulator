@@ -12,7 +12,6 @@ namespace VzEmulator
         private string romFilename = "Roms/VZ300.ROM";
         private string dosRomFileName = "Roms/VZDOS.ROM";
         private bool dosRomPresent = true;
-        private Timer interruptTimer;
         private Timer watchTimer;
         private Timer debugTimer;
 
@@ -73,14 +72,6 @@ namespace VzEmulator
                 }
             }
             _machine.Setup(program);
-
-            if (interruptTimer == null)
-            {
-                var timer = new Timer { Interval = 10 };
-                timer.Tick += (v, a) => _machine.IntSource.IsEnabled = true;
-                timer.Start();
-                interruptTimer = timer;
-            }
 
             if (watchTimer == null)
             {
@@ -150,7 +141,8 @@ namespace VzEmulator
         }
         internal void EditDisk()
         {
-            var frm2 = new frmMemoryView(_machine.Drive.Disk);
+            //todo select disk to edit
+            var frm2 = new frmMemoryView(_machine.Drive.Disk0);
             frm2.Show();
         }
 
@@ -206,7 +198,7 @@ namespace VzEmulator
             _machine.Keyboard.SetKeyState(new Keyboard.KeyState(keyValue, keyData));
 
             //trigger interrupt early to handle keys fast
-            _machine.IntSource.IsEnabled = true;
+            //_machine.IntSource.IsEnabled = true;
         }
         public void KeyUp(Keys keyData)
         {

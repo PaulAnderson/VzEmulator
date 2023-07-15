@@ -79,7 +79,7 @@ namespace VzEmulator
             IntSource = Cpu.InterruptEnableFlag;
             Keyboard = new Keyboard(IntSource);
             AudioInp = new AudioIn(Cpu);
-            InpLatch = new InputLatch(Keyboard, AudioInp); 
+            InpLatch = new InputLatch(Keyboard, AudioInp, IntSource); 
             memory = Cpu.Memory;
             VideoMemory = new VideoMemory(memory, AuExtendedGraphicsLatch);
             DeExtendedGraphicsLatch.LinkedLatch = AuExtendedGraphicsLatch; //De Latch stores bits 0,1 value in Au latch
@@ -126,6 +126,9 @@ namespace VzEmulator
             InstructionCount += 1;
             ClockCycleCount += args.TStates;
 
+            InpLatch.ProcessClockCycles(args.TStates);
+            
+
             if (resetting)
             {
                 Cpu.Reset();
@@ -140,7 +143,30 @@ namespace VzEmulator
             //if (memory[z80.Registers.PC] == 0xFB)
             if (args.OpCode[0] == 0xFB)
             {
+#if DEBUG
+                Console.WriteLine($"EI at {args.Address:X4} : 0xFB");
+#endif
+
                 IntSource.IsEnabled = false;
+            }
+#if DEBUG
+
+            if (args.OpCode[0] == 0xF3)
+            {
+                Console.WriteLine($"DI at {args.Address:X4} : 0xF3");
+            }
+            if (args.OpCode[0]==0xED && args.OpCode[1]==0x46)
+            {
+                Console.WriteLine($"IM0 at {args.Address:X4} : 0xF3");
+            }
+            if (args.OpCode[0] == 0xED && args.OpCode[1] == 0x56)
+            {
+                Console.WriteLine($"IM1 at {args.Address:X4} : 0xF3");
+            }
+            if (args.OpCode[0] == 0xED && args.OpCode[1] == 0x5E)
+            {
+                Console.WriteLine($"IM2 at {args.Address:X4} : 0xF3");
+#endif
             }
 
             if (_afterInstructionExecutionCallback != null)
@@ -157,6 +183,7 @@ namespace VzEmulator
 
             if (TraceEnabled)
                 tracer.TraceNextInstruction();
+             
         }
 
         private void CpuOnBeforeInstructionExecution(object sender, InstructionEventArgs e)

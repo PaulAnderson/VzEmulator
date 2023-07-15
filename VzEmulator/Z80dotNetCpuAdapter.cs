@@ -42,6 +42,7 @@ namespace VzEmulator
             _cpu.ClockSynchronizer =  z80DotNetClockSynchronizer;
 
             _cpu.RegisterInterruptSource(intSource);
+            _cpu.InterruptMode = 0;
 
             _cpu.AfterInstructionExecution += OnCpuAfterInstructionExecution;
             _cpu.BeforeInstructionExecution += CpuOnBeforeInstructionExecution;

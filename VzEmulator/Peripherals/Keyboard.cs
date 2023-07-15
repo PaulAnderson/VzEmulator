@@ -64,7 +64,7 @@ namespace VzEmulator.Peripherals
             //Invert address - key scanning is active low
             addr = 0xff - addr;
             //Default value is 111111, pressed keys are active low
-            const byte keyMask= 63;
+            const byte keyMask= 0b10111111; //63;
             byte value = 0b10111111;
 
             if (keyState?.IsKeyPressed ?? false)
