@@ -64,8 +64,8 @@ namespace VzEmulator.Peripherals
             //Invert address - key scanning is active low
             addr = 0xff - addr;
             //Default value is 111111, pressed keys are active low
-            const byte keyMask= 0b10111111; //63;
-            byte value = 0b10111111;
+            const byte keyMask= 0b00111111; //63;
+            byte value = 0b00111111;
 
             if (keyState?.IsKeyPressed ?? false)
             {
@@ -78,13 +78,14 @@ namespace VzEmulator.Peripherals
                 //System.Threading.Thread.Sleep(TimeSpan.Zero); //Do any other work waiting
             }
 
-            if (intSource.IsEnabled || KeyQueue?.Count > 0)
-            {
-                value &= keyMask;
-                intSource.IsEnabled = false;
-            }
+            //if (intSource.IsEnabled || KeyQueue?.Count > 0)
+            //{
+            //    value &= keyMask;
+            //    intSource.IsEnabled = false;
+            //}
 
             //track key presses and de-queue key if in queue mode if it has been read more than once
+            //todo track emulated time and release key after set number of clock cycles
             if (UseKeyQueue && KeyQueue?.Count > 0 && (value & keyMask) != keyMask)
             {
                 KeyQueue.Peek().TimesRead++;
@@ -104,7 +105,6 @@ namespace VzEmulator.Peripherals
             }
             return value;
         }
-        static Random r = new Random();
 
         private static byte GetKeyMatrixValue(KeyState keyState, int addr, byte value)
         {
@@ -242,19 +242,6 @@ namespace VzEmulator.Peripherals
                     value &= 0b11111110;
             }
 
-            //todo cassette input on bit 6. bit 7 unused?
-            //how it would work: similar to sound output. Easy to support wav by just changing the bit every 1/sample rate per second based on the emulated clock (counted by clock cycles)
-            //Could support real-time input by buffering the input and then reading it back at the same rate as the emulated clock.
-            //Either sample continually, or detect bit 6 sampled.
-
-            byte[] b = new byte[1];
-            r.NextBytes(b);
-            byte tapeData = b[0];
-            tapeData &= 0b01000000; //Tape data is only on bit 6
-
-            value &= 0b10111111; //bit 6 is always 0 from keyboard. Populated by cassette input.
-
-            value |= tapeData;
             return value;
         }
 

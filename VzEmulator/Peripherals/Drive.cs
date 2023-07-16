@@ -2,7 +2,7 @@
 
 namespace VzEmulator.Peripherals
 {
-    public class Drive : IPeripheral
+    public class Drive : IPeripheral , IClockSynced
     {
         const ushort DosInitRoutineAddress = 0x4b08;
         byte lastVal;
@@ -31,7 +31,11 @@ namespace VzEmulator.Peripherals
 
         public bool DebugEnabled { get; set; } = false;
 
-
+        //timing data. Currently for debugging only
+        decimal IClockSynced.ClockFrequency { get; set; }
+        bool IClockSynced.ClockSyncEnabled { get; set; }
+        int currentClockCycles; //Roll over every 3,5400,000 cycles
+        int lastRead12ClockCycles;
         public Drive()
         {
             PortRange = new Tuple<ushort, ushort>(0x10, 0x1f);
@@ -88,29 +92,34 @@ namespace VzEmulator.Peripherals
                     }
                 }
                 prevFileIndex = fileIndex;
+#if DEBUG
+                Console.WriteLine($"{currentClockCycles}: Disk Read 0x11 Value {value:X2}");
+#endif
                 return value;
             }
             if (address == 0x12)
             {
-                if (lastVal == 0)
+                value = lastVal;
+                if (currentClockCycles- lastRead12ClockCycles>35 | currentClockCycles - lastRead12ClockCycles<0) //invert bit every 10us
                 {
-                    value = 0x80;
-                    lastVal = value;
+                    lastRead12ClockCycles = currentClockCycles;
 
-                    if (!prevWriteEnable)
+                    value ^= 0x80;
+                    lastVal = value;
+                    if (value==0x80)
                     {
-                        //update position unless in write mode (write function takes care of its own location)
-                        diskLocationOntrack++;
-                        if (diskLocationOntrack >= (diskContent[activeDrive].TrackLength * 8))
-                            diskLocationOntrack = 0;
+                        if (!prevWriteEnable)
+                        {
+                            //update position unless in write mode (write function takes care of its own location)
+                            diskLocationOntrack++;
+                            if (diskLocationOntrack >= (diskContent[activeDrive].TrackLength * 8))
+                                diskLocationOntrack = 0;
+                        }
                     }
                 }
-                else
-                {
-                    value = 0x00;
-                    lastVal = value;
-
-                }
+#if DEBUG
+                Console.WriteLine($"{currentClockCycles}: Disk Read 0x12 Value {value:X2}");
+#endif 
                 return value;
             }
             if (address==0x13)
@@ -307,6 +316,16 @@ namespace VzEmulator.Peripherals
         public void Reset()
         {
             //do nothing
+        }
+
+        void IClockSynced.ProcessClockCycles(int periodLengthInCycles)
+        {
+            int maxClockCycles = (int)(((IClockSynced)this).ClockFrequency*1000000);
+            currentClockCycles +=periodLengthInCycles;
+            if (currentClockCycles > maxClockCycles)
+            {
+                currentClockCycles -= maxClockCycles;
+            }
         }
     }
 }

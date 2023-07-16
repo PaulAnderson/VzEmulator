@@ -87,8 +87,13 @@ namespace VzEmulator
             sound = new AudioOut(_OutputLatch,AudioInp);
             Cpu.ClockSync = sound;
 
+            //todo a list of clock synced devices
             ((IClockSynced)sound).ClockSyncEnabled = true;
             ((IClockSynced)sound).ClockFrequency = VzConstants.ClockFrequencyMhz;
+            ((IClockSynced)drive).ClockSyncEnabled = false;
+            ((IClockSynced)drive).ClockFrequency = VzConstants.ClockFrequencyMhz;
+
+
         }
 
         internal void StartCpuTask()
@@ -126,8 +131,9 @@ namespace VzEmulator
             InstructionCount += 1;
             ClockCycleCount += args.TStates;
 
-            InpLatch.ProcessClockCycles(args.TStates);
-            
+            //todo a list of clock cycle watchers
+            ((IClockSynced)InpLatch).ProcessClockCycles(args.TStates);
+            ((IClockSynced)drive).ProcessClockCycles(args.TStates);
 
             if (resetting)
             {
@@ -144,18 +150,19 @@ namespace VzEmulator
             if (args.OpCode[0] == 0xFB)
             {
 #if DEBUG
-                Console.WriteLine($"EI at {args.Address:X4} : 0xFB");
+                //Console.WriteLine($"EI at {args.Address:X4} : 0xFB");
 #endif
 
                 IntSource.IsEnabled = false;
             }
+            /*
 #if DEBUG
 
             if (args.OpCode[0] == 0xF3)
             {
                 Console.WriteLine($"DI at {args.Address:X4} : 0xF3");
             }
-            if (args.OpCode[0]==0xED && args.OpCode[1]==0x46)
+            if (args.OpCode[0] == 0xED && args.OpCode[1] == 0x46)
             {
                 Console.WriteLine($"IM0 at {args.Address:X4} : 0xF3");
             }
@@ -166,9 +173,10 @@ namespace VzEmulator
             if (args.OpCode[0] == 0xED && args.OpCode[1] == 0x5E)
             {
                 Console.WriteLine($"IM2 at {args.Address:X4} : 0xF3");
-#endif
-            }
 
+            }
+#endif
+            */
             if (_afterInstructionExecutionCallback != null)
             {
                 _afterInstructionExecutionCallback.Invoke();

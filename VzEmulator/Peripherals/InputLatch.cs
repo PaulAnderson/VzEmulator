@@ -37,10 +37,8 @@ namespace VzEmulator.Peripherals
             const byte cassetteMask = 0b01000000;
             var keyvalue = keyboard.HandleMemoryRead(address) & keyMask;
             var cassetteValue = audioInput.HandleMemoryRead(address) & cassetteMask;
-            //cassetteValue ^= cassetteMask; //invert cassette value
             Value = (byte)(keyvalue | cassetteValue  );
-            if (GetRefreshBit()) 
-                Value |= 0b10000000;
+            if (GetRefreshBit()) Value |= 0b10000000;
             else
                 Value &= 0b01111111;
             return Value;
@@ -102,7 +100,7 @@ namespace VzEmulator.Peripherals
         }
         public bool GetRefreshBit()
         {
-            return CurrentRenderLine < 254;
+            return CurrentRenderLine > 150;
         }
     }
 }
