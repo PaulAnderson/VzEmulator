@@ -15,24 +15,7 @@ namespace VzEmulator.Screen
 
         private bool isColourGraphicsMode = true;
         private int CSSColourValue;
-        static Color[] ColourModecolours => new Color[]
-        {
-            VzConstants.Colour.VZ_BR_GREEN,
-            VzConstants.Colour.VZ_YELLOW,
-            VzConstants.Colour.VZ_BLUE,
-            VzConstants.Colour.VZ_RED,
-            VzConstants.Colour.VZ_BUFF,
-            VzConstants.Colour.VZ_CYAN,
-            VzConstants.Colour.VZ_MAGENTA,
-            VzConstants.Colour.VZ_ORANGE,
-        };
-        static Color[] ResolutionModecolours => new Color[]
-        {
-            VzConstants.Colour.VZ_BLACK,
-            VzConstants.Colour.VZ_BR_GREEN,
-            VzConstants.Colour.VZ_BLACK,
-            VzConstants.Colour.VZ_BUFF,
-        };
+       
 
 
         public GraphicsModeRenderer(byte[] Memory, ushort VideoMemoryStartAddress)
@@ -51,7 +34,7 @@ namespace VzEmulator.Screen
             }
         }
 
-        public override void Render(Graphics gr, ExtendedGraphicsModeFlags ModeFlags)
+        public override void Render(Graphics gr, ScreenConstants.ExtendedGraphicsModeFlags ModeFlags)
         {
             gr.CompositingMode = CompositingMode.SourceCopy;
             gr.CompositingQuality = CompositingQuality.HighSpeed;
@@ -66,12 +49,14 @@ namespace VzEmulator.Screen
 
         }
 
-        private void SetUpGraphicsMode(ExtendedGraphicsModeFlags ModeFlags)
+
+
+        private void SetUpGraphicsMode(ScreenConstants.ExtendedGraphicsModeFlags ModeFlags)
         {
             //Colours
-            isColourGraphicsMode = !ModeFlags.HasFlag(ExtendedGraphicsModeFlags.GM0);
+            isColourGraphicsMode = !ModeFlags.HasFlag(ScreenConstants.ExtendedGraphicsModeFlags.GM0);
             var cssColourIndexIncrement = isColourGraphicsMode ? 4 : 2;
-            CSSColourValue = ModeFlags.HasFlag(ExtendedGraphicsModeFlags.CSS_BackColour) ? cssColourIndexIncrement : 0;
+            CSSColourValue = ModeFlags.HasFlag(ScreenConstants.ExtendedGraphicsModeFlags.CSS_BackColour) ? cssColourIndexIncrement : 0;
 
             //Resolution/Colour mode based on GM2 (MSB), GM1, GM0 (LSB)
             var ModeNo = (((byte)ModeFlags) & 0b00011100) >> 2;
@@ -129,7 +114,7 @@ namespace VzEmulator.Screen
             }
         }
 
-        private void RenderGraphicsMode(ExtendedGraphicsModeFlags ModeFlags)
+        private void RenderGraphicsMode(ScreenConstants.ExtendedGraphicsModeFlags ModeFlags)
         {
             for (var y = 0; y < Height; y++)
             {
@@ -163,11 +148,11 @@ namespace VzEmulator.Screen
         {
             if (isColourGraphicsMode)
             {
-                return ColourModecolours[colourNumber];
+                return ScreenConstants.ColourModecolours[colourNumber];
             }
             else
             {
-                return ResolutionModecolours[colourNumber];
+                return ScreenConstants.ResolutionModecolours[colourNumber];
             }
         }
     }

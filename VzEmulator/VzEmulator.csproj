@@ -137,6 +137,7 @@
     <Compile Include="IMemoryAccessor.cs" />
     <Compile Include="FileHandler.cs" />
     <Compile Include="Machine.cs" />
+    <Compile Include="MachineRunner.cs" />
     <Compile Include="MachinePresenter.cs" />
     <Compile Include="MachineStats.cs" />
     <Compile Include="Peripherals\AudioIn.cs" />
@@ -154,6 +155,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Screen\ExtendedGraphicsModeFlags.cs" />
+    <Compile Include="Screen\GraphicsPainter.cs" />
+    <Compile Include="Screen\ImageGraphicsPainter.cs" />
+    <Compile Include="Screen\ScreenConstants.cs" />
     <Compile Include="SystemTime.cs" />
     <Compile Include="Z80DotNetClockSynchronizer.cs" />
     <Compile Include="Z80dotNetCpuAdapter.cs" />
@@ -180,7 +184,7 @@
       <DependentUpon>frmDebug.cs</DependentUpon>
     </Compile>
     <Compile Include="Screen\PngFontLoader.cs" />
-    <Compile Include="Screen\GraphicsPainter.cs" />
+    <Compile Include="Screen\FormsGraphicsPainter.cs" />
     <Compile Include="Screen\IFontLoader.cs" />
     <Compile Include="Screen\Renderer.cs" />
     <Compile Include="Screen\GraphicsModeRenderer.cs" />

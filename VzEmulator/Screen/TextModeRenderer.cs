@@ -21,9 +21,9 @@ namespace VzEmulator.Screen
             _FontBitmap = fontLoader.LoadFont(FileName);
         }
 
-        public override void Render(Graphics gr, ExtendedGraphicsModeFlags ModeFlags)
+        public override void Render(Graphics gr, ScreenConstants.ExtendedGraphicsModeFlags ModeFlags)
         {
-            renderTextMode(ModeFlags.HasFlag(ExtendedGraphicsModeFlags.CSS_BackColour), ModeFlags.HasFlag(ExtendedGraphicsModeFlags.SG6));
+            renderTextMode(ModeFlags.HasFlag(ScreenConstants.ExtendedGraphicsModeFlags.CSS_BackColour), ModeFlags.HasFlag(ScreenConstants.ExtendedGraphicsModeFlags.SG6));
             CopyGraphicsBitmap(gr, _GraphicsBitmap, AspectRatio);
         }
 

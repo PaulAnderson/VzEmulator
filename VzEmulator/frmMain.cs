@@ -423,7 +423,20 @@ namespace VzEmulator
         {
 
         }
- 
+
+        private void testPreviewFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string dosRomFileName = "Roms/VZDOS.ROM";
+            string romFilename = "Roms/VZ300.ROM";
+
+            var openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() != DialogResult.OK)
+                return;
+
+            var runner = new MachineRunner(new Machine());
+            //todo load program, run for a set number of cycles, get image
+
+        }
     }
 }
  

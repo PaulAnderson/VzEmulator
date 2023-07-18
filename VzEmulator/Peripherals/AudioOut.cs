@@ -113,7 +113,7 @@ namespace VzEmulator.Peripherals
             SpeakerWriter.Write(fillBuffer, 0, fillBuffer.Length);
 
             //Test writing to wav file
-            CassetteWriter = new WaveWriter("test.wav", new WaveFormat(samplesPerSecond, 8, 1, AudioEncoding.Pcm));
+            //CassetteWriter = new WaveWriter("test.wav", new WaveFormat(samplesPerSecond, 8, 1, AudioEncoding.Pcm));
         }
 
         private ISoundOut GetSoundOut()

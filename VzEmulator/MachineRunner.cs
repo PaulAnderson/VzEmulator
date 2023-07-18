@@ -6,7 +6,7 @@ using VzEmulator.Screen;
 
 namespace VzEmulator
 {
-    public class MachinePresenter
+    public class MachineRunner
     {
         private const string PlaceHolderRomFilename = "Roms/Placeholder.Rom";
         private string romFilename = "Roms/VZ300.ROM";
@@ -16,16 +16,14 @@ namespace VzEmulator
         private Timer debugTimer;
 
         private Machine _machine;
-        private IMachineView _view;
 
         private FileIO fileIo;
         private FileHandler fileHandler;
         private FormsGraphicsPainter graphicsPainter;
 
-        public MachinePresenter(Machine machine, IMachineView view)
+        public MachineRunner(Machine machine)
         {
             _machine = machine;
-            _view = view;
 
             fileIo = FileIO.GetDefaultImplementation();
             fileHandler = new FileHandler(fileIo, machine.Cpu.Memory, machine.VideoMemory);
@@ -51,8 +49,8 @@ namespace VzEmulator
             }
             if (graphicsPainter == null)
             {
-                graphicsPainter = new FormsGraphicsPainter(_view.RenderControl, _machine.VideoMemory.Content, _machine.OutputLatch, 0, 33, _machine.AuExtendedGraphicsLatch);
-                graphicsPainter.RefreshedEvent += GraphicsPainter_RefreshedEvent;
+                //graphicsPainter = new FormsGraphicsPainter(_view.RenderControl, _machine.VideoMemory.Content, _machine.OutputLatch, 0, 33, _machine.AuExtendedGraphicsLatch);
+                //graphicsPainter.RefreshedEvent += GraphicsPainter_RefreshedEvent;
             }
 
             byte[] program = new byte[0x6000];
@@ -86,7 +84,6 @@ namespace VzEmulator
                     _machine.InstructionCount = 0;
                     _machine.ClockCycleCount = 0;
 
-                    _view.UpdateStats(stats);
                 };
                 watchTimer.Start();
             }
@@ -94,16 +91,9 @@ namespace VzEmulator
             {
                 debugTimer = new Timer { Interval = 500 };
                 debugTimer.Tick += (s, a) => {
-                    _view.UpdateMCStart(StartMcProgram);
-                    _view.UpdateMcEnd(EndMCProgram);
                 };
                 debugTimer.Start();
             }
-        }
-
-        private void GraphicsPainter_RefreshedEvent(object sender, EventArgs e)
-        {
-            _view.RenderComplete();
         }
 
         internal void Pause()

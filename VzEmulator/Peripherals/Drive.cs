@@ -93,7 +93,7 @@ namespace VzEmulator.Peripherals
                 }
                 prevFileIndex = fileIndex;
 #if DEBUG
-                Console.WriteLine($"{currentClockCycles}: Disk Read 0x11 Value {value:X2}");
+    //            Console.WriteLine($"{currentClockCycles}: Disk Read 0x11 Value {value:X2}");
 #endif
                 return value;
             }
@@ -118,7 +118,7 @@ namespace VzEmulator.Peripherals
                     }
                 }
 #if DEBUG
-                Console.WriteLine($"{currentClockCycles}: Disk Read 0x12 Value {value:X2}");
+      //          Console.WriteLine($"{currentClockCycles}: Disk Read 0x12 Value {value:X2}");
 #endif 
                 return value;
             }
@@ -193,7 +193,7 @@ namespace VzEmulator.Peripherals
 
 #if DEBUG
                         //write to console current track, location on track and file index, and value
-                        Console.WriteLine("Disk write: Track: {0:X2} Location: {1:X4} FileIndex: {2:X4} Value: {3:X2}", diskCurrentTrack, diskLocationOntrack/8, fileIndex, currentWritingByte);
+                        //Console.WriteLine("Disk write: Track: {0:X2} Location: {1:X4} FileIndex: {2:X4} Value: {3:X2}", diskCurrentTrack, diskLocationOntrack/8, fileIndex, currentWritingByte);
 #endif
 
                         //bounds check fileIndex
