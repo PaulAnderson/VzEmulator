@@ -60,7 +60,13 @@ namespace VzEmulator
                 str = str.Substring(2);
                     return ushort.Parse(str, System.Globalization.NumberStyles.HexNumber);
             } else {
-                return ushort.Parse(str, System.Globalization.NumberStyles.AllowTrailingWhite | System.Globalization.NumberStyles.AllowLeadingWhite);
+                try
+                {
+                    return ushort.Parse(str, System.Globalization.NumberStyles.AllowTrailingWhite | System.Globalization.NumberStyles.AllowLeadingWhite);
+                } catch   
+                {
+                    return ushort.Parse(str, System.Globalization.NumberStyles.HexNumber);
+                }
             }
         }
         public static short StringToShort(String str)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CSCore.Streams;
+using System;
 using System.Threading.Tasks;
 using VzEmulator.Debug;
 using VzEmulator.Peripherals;
@@ -93,7 +94,6 @@ namespace VzEmulator
             ((IClockSynced)drive).ClockSyncEnabled = false;
             ((IClockSynced)drive).ClockFrequency = VzConstants.ClockFrequencyMhz;
 
-
         }
 
         internal void StartCpuTask()
@@ -121,8 +121,15 @@ namespace VzEmulator
         {
             _afterInstructionExecutionCallback = action;
         }
+        public void SetCyclesCallback(Action action, int cycles)
+        {
+            _afterCyclesCallback = action;
+            _afterCyclesCount = ClockCycleCount+cycles;
+        }
 
         private Action _afterInstructionExecutionCallback;
+        private Action _afterCyclesCallback;
+        private double _afterCyclesCount;
         private bool _stopAfterNext;
 
         private void Z80OnAfterInstructionExecution(object sender, InstructionEventArgs args)
@@ -177,10 +184,19 @@ namespace VzEmulator
             }
 #endif
             */
+            
             if (_afterInstructionExecutionCallback != null)
             {
-                _afterInstructionExecutionCallback.Invoke();
+                var callback = _afterInstructionExecutionCallback;
                 _afterInstructionExecutionCallback = null;
+                callback.Invoke();
+            }
+
+            if (_afterCyclesCallback !=null && ClockCycleCount>_afterCyclesCount)
+            {
+                var callback = _afterCyclesCallback;
+                _afterCyclesCallback = null;
+                callback.Invoke();
             }
 
             if (_stopAfterNext)
@@ -194,8 +210,71 @@ namespace VzEmulator
              
         }
 
-        private void CpuOnBeforeInstructionExecution(object sender, InstructionEventArgs e)
+        private void CpuOnBeforeInstructionExecution(object sender, InstructionEventArgs args)
         {
+#if DEBUG_TRACE
+            if (args.OpCode[0] == 0xC4 ||
+                args.OpCode[0] == 0xD4 ||
+                args.OpCode[0] == 0xE4 ||
+                args.OpCode[0] == 0xF4 ||
+                args.OpCode[0] == 0xCC ||
+                args.OpCode[0] == 0xDC ||
+                args.OpCode[0] == 0xEC ||
+                args.OpCode[0] == 0xFC ||
+                args.OpCode[0] == 0xCD 
+                
+                )
+            {
+                ushort targetAddress = (ushort)((args.OpCode[2] << 8) + args.OpCode[1]);
+                if (targetAddress != 0x787d &&
+                    targetAddress != 0x3f7b &&
+                    targetAddress != 0x2edc &&
+                    targetAddress != 0x2efd &&
+                    targetAddress != 0x301b &&
+                    targetAddress != 0x3430)
+                {
+                    if (args.OpCode.Length == 3) 
+                    Console.WriteLine($"{ClockCycleCount} CALL ({args.OpCode[0]:X2}) at {args.Address:X4} to {args.OpCode[2]:X2}{args.OpCode[1]:X2}");
+                    if (args.OpCode.Length == 2)
+                        Console.WriteLine($"{ClockCycleCount} CALL ({args.OpCode[0]:X2}) at {args.Address:X4} to {args.OpCode[1]:X2}");
+                    if (args.OpCode.Length == 1)
+                        Console.WriteLine($"{ClockCycleCount} CALL ({args.OpCode[0]:X2}) at {args.Address:X4} ");
+                    if (args.OpCode.Length == 0)
+                        Console.WriteLine($"{ClockCycleCount}  ");
+
+                    Console.WriteLine($"{args.Address:X4}  " +
+                        $"A:{Cpu.Registers.AF:X4}," +
+                        $"BC:{Cpu.Registers.BC:X4}," +
+                        $"DE:{Cpu.Registers.DE:X4}," +
+                        $"HL:{Cpu.Registers.HL:X4}," +
+                        $"IX:{Cpu.Registers.IX:X4}," +
+                        $"IY:{Cpu.Registers.IY:X4}," +
+                        $"SP:{Cpu.Registers.SP:X4}," +
+                        $"PC:{Cpu.Registers.PC:X4},");
+                }
+
+                //main loop calls
+                /*CALL (CD) at 2EBF to 787D
+                CALL (CD) at 2EC2 to 3F7B
+                CALL (CD) at 2EC5 to 2EDC
+                CALL (CD) at 2EC8 to 2EFD
+                CALL (CC) at 2ED1 to 301B
+                CALL (CD) at 2ED5 to 3430*/
+            } 
+            if (args.Address== 0x1D37)
+            {
+                //write all cpu registers to console
+                Console.WriteLine($"{args.Address:X4}  " +
+                        $"A:{Cpu.Registers.AF:X4}," +
+                        $"BC:{Cpu.Registers.BC:X4}," +
+                        $"DE:{Cpu.Registers.DE:X4}," +
+                        $"HL:{Cpu.Registers.HL:X4}," +
+                        $"IX:{Cpu.Registers.IX:X4}," +
+                        $"IY:{Cpu.Registers.IY:X4}," +
+                        $"SP:{Cpu.Registers.SP:X4}," +
+                        $"PC:{Cpu.Registers.PC:X4},");
+            }
+#endif
         }
 
         private void OnCpuBusAccess(object sender, BusEventArgs args)
@@ -204,13 +283,14 @@ namespace VzEmulator
             {
                 if (args.IsRead)
                 {
-#if DEBUG_KEYBOARD
-                    if (args.Address == 26624)
+                    if (args.Address>=0x7aE9 && args.Address < 0x7aF9)
                     {
-                        Console.Write("KEYB:");
-                        tracer.TraceNextInstruction();
+                          Console.WriteLine($"Read from basic program memory {args.Address:X4}");
                     }
-#endif 
+                    if (args.Address == 0x78a4  )
+                    {
+                        Console.WriteLine($"Read from basic program memory {args.Address:X4}");
+                    }
                     byte? value = router.HandleMemoryRead(args.Address);
                     if (value.HasValue)
                     {
@@ -305,6 +385,11 @@ namespace VzEmulator
         internal void SetClockSync(bool clockSynced)
         {
             throw new NotImplementedException();
+        }
+
+        internal void Call(ushort v)
+        {
+            Cpu.ExecuteCall(v);
         }
     }
 }

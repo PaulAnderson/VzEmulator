@@ -424,6 +424,7 @@ namespace VzEmulator
 
         }
 
+        MachineRunner previewRunner;
         private void testPreviewFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string dosRomFileName = "Roms/VZDOS.ROM";
@@ -433,9 +434,49 @@ namespace VzEmulator
             if (openFileDialog.ShowDialog() != DialogResult.OK)
                 return;
 
-            var runner = new MachineRunner(new Machine());
             //todo load program, run for a set number of cycles, get image
 
+            if (previewRunner == null)
+            {
+                  previewRunner = new MachineRunner(new Machine());
+
+                //create runner for this and future previews
+                previewRunner.Start(null);
+                while (previewRunner.LatestImage == null)
+                {
+                    System.Threading.Thread.Sleep(0);
+                }
+            }
+            var frm = new Form();
+            previewRunner.LatestImage = null;
+            previewRunner.LoadAndRunFile(openFileDialog.FileName);
+            while (previewRunner.LatestImage == null)
+            {
+                System.Threading.Thread.Sleep(0);
+            }
+
+            frm.BackgroundImage = previewRunner.LatestImage;
+            frm.Show();
+        }
+
+        private void getImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var image = Presenter.GetScreenImage();
+            var frm = new Form();
+            frm.Show();
+
+            frm.BackgroundImage = image;
+            frm.BackgroundImageLayout= ImageLayout.None;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Presenter.JumpToUsrExec();
+        }
+
+        private void Run_Click(object sender, EventArgs e)
+        {
+            Presenter.TestExecRun();
         }
     }
 }

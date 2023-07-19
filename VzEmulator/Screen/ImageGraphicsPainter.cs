@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,28 +19,17 @@ namespace VzEmulator.Screen
         public Bitmap GetImage()
         {
             SetModeFromOutputLatch(OutputLatch?.Value ?? 0);
+            bool isGraphicsMode = ExtendedGraphicsMode.HasFlag(ScreenConstants.ExtendedGraphicsModeFlags.G_A_graphics);
 
-            var bitmap = new Bitmap(256, 192);
-
-            var gr = Graphics.FromImage(bitmap);
-
-            if (ExtendedGraphicsEnabled)
+            if (isGraphicsMode)
             {
-                if ((ExtendedGraphicsMode & ScreenConstants.ExtendedGraphicsModeFlags.GM0) > 0)
-                {
-                    GraphicsModeRenderer.Render(gr,ExtendedGraphicsMode);
-                }
-                else
-                {
-                    TextModeRenderer.Render(gr,ExtendedGraphicsMode);
-                }
+                //todo scale pixels
+                return GraphicsModeRenderer.Render(null,ExtendedGraphicsMode);
             }
             else
             {
-                TextModeRenderer.Render(gr, ExtendedGraphicsMode);
+                return TextModeRenderer.Render(null, ExtendedGraphicsMode);
             }
-
-            return bitmap;
         }
     }
 }

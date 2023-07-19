@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
+using System.Net;
 using System.Windows.Forms;
 using VzEmulator.Peripherals;
 using VzEmulator.Screen;
@@ -19,7 +21,7 @@ namespace VzEmulator
 
         private FileIO fileIo;
         private FileHandler fileHandler;
-        private FormsGraphicsPainter graphicsPainter;
+        private ImageGraphicsPainter graphicsPainter;
 
         public MachineRunner(Machine machine)
         {
@@ -34,7 +36,7 @@ namespace VzEmulator
             _machine.TraceEnabled = value;
         }
 
-        internal void Start()
+        internal void Start(string userFileName)
         {
 
             string fileName;
@@ -49,8 +51,7 @@ namespace VzEmulator
             }
             if (graphicsPainter == null)
             {
-                //graphicsPainter = new FormsGraphicsPainter(_view.RenderControl, _machine.VideoMemory.Content, _machine.OutputLatch, 0, 33, _machine.AuExtendedGraphicsLatch);
-                //graphicsPainter.RefreshedEvent += GraphicsPainter_RefreshedEvent;
+                graphicsPainter = new ImageGraphicsPainter(_machine.VideoMemory.Content, _machine.OutputLatch, 0, _machine.AuExtendedGraphicsLatch);
             }
 
             byte[] program = new byte[0x6000];
@@ -69,33 +70,25 @@ namespace VzEmulator
                     program[i] = 0x00;
                 }
             }
+            _machine.ClockSynced = false;
             _machine.Setup(program);
 
-            if (watchTimer == null)
+            int targetCycleCount = 10000000;
+            _machine.SetCyclesCallback(() =>
             {
-                watchTimer = new Timer { Interval = 500 };
-                watchTimer.Tick += (s, a) => {
-                    var stats = new MachineStats()
-                    {
-                        InstructionsPerSecond = (int)(_machine.InstructionCount / (watchTimer.Interval / 1000.0)),
-                        ClockCyclesPerSecond = (int)(_machine.ClockCycleCount / (watchTimer.Interval / 1000.0)),
-                        FramesPerSecond = graphicsPainter.CurrentFps
-                    };
-                    _machine.InstructionCount = 0;
-                    _machine.ClockCycleCount = 0;
+               
+                LatestImage = graphicsPainter.GetImage();
 
-                };
-                watchTimer.Start();
-            }
-            if (debugTimer == null)
-            {
-                debugTimer = new Timer { Interval = 500 };
-                debugTimer.Tick += (s, a) => {
-                };
-                debugTimer.Start();
-            }
+                
+                //todo back up state, ready to load next program
+            },targetCycleCount);
+
         }
-
+        public Bitmap GetImage()
+        {
+            LatestImage = graphicsPainter.GetImage();
+            return LatestImage;
+        }
         internal void Pause()
         {
             _machine.Pause();
@@ -225,6 +218,56 @@ namespace VzEmulator
                 _machine.SoundTestTone = value;
             } }
 
+        public Bitmap LatestImage { get;   set; }
+
+        public void LoadAndRunFile(string filename)
+        {
+            if (filename == null)
+                return;
+
+            _machine.Cpu.Memory[VzConstants.StartBasicProgramPtr] = 0;
+            _machine.Cpu.Memory[VzConstants.StartBasicProgramPtr + 1] = 0;
+            _machine.Cpu.Memory[VzConstants.UserExecWordPtr] = 0;
+            _machine.Cpu.Memory[VzConstants.UserExecWordPtr + 1] = 0;
+
+            var address= LoadFile(filename);
+
+            if (_machine.Cpu.Memory[VzConstants.StartBasicProgramPtr] > 0)
+            {
+                //TODO this code is to 'RUN' a basic program. To handle a MC program, just call the address
+                _machine.Cpu.Registers.AF = 68;
+                _machine.Cpu.Registers.BC = 7454;
+                _machine.Cpu.Registers.DE = (short)(address.Start - 1);//31464;
+                _machine.Cpu.Registers.HL = (short)address.Start;//31465;
+                _machine.Cpu.Registers.AltAF = 0;
+                _machine.Cpu.Registers.AltBC = 0;
+                _machine.Cpu.Registers.AltDE = 7515;
+                _machine.Cpu.Registers.AltHL = 0;
+                _machine.Cpu.Registers.PC = 0x1D37;
+                //_machine.Call(0x1D37);
+                //todo ensure correct values in registers based on loaded program address
+                //todo first load always errors. 2nd works
+                //todo handle graphics mode
+            } else
+            {
+                _machine.Cpu.Registers.PC = (ushort)((_machine.Cpu.Memory[VzConstants.UserExecWordPtr + 1] << 8) +
+                                                _machine.Cpu.Memory[VzConstants.UserExecWordPtr]);
+                
+            }
+            //_machine.Call(0x1D37); //todo stop on return, change to run program call
+            if (_machine.Cpu.State != CpuState.Running)
+                _machine.StartCpuTask();
+
+            _machine.SetCyclesCallback(() =>
+            {
+                _machine.Pause();
+
+                //Get image
+                LatestImage = graphicsPainter.GetImage();
+            }, 3540000);
+
+        }
+
         public AddressRange LoadFile(string fileName)
         {
             var addressRange = fileHandler.LoadFile(fileName);
@@ -243,44 +286,6 @@ namespace VzEmulator
             _machine.Drive.LoadDiskImage(fileName);
         }
 
-        internal void ToggleUseFixedScaling()
-        {
-            if (graphicsPainter != null)
-            {
-                graphicsPainter.UseFixedScale = !graphicsPainter.UseFixedScale;
-                graphicsPainter.FixedScale = 2;
-            }
-        }
-
-        internal void ToggleDisplaySmothing()
-        {
-            if (graphicsPainter != null)
-                graphicsPainter.UseSmoothing = !graphicsPainter.UseSmoothing;
-        }
-
-        internal void ToggleGrahpicsMode()
-        {
-            _machine.OutputLatch.Value ^= (byte)VzConstants.OutputLatchBits.GraphicsMode; //toggle graphics mode
-        }
-
-        internal void ToggleColour()
-        {
-            if (graphicsPainter != null)
-                graphicsPainter.GrayScale = !graphicsPainter.GrayScale;
-        }
-
-        internal void DevelopmentShowFont()
-        {
-            var imageForm = new Form();
-            imageForm.Text = "Font Tile Viewer";
-            imageForm.BackgroundImage = ((TextModeRenderer)graphicsPainter.TextModeRenderer)._FontBitmap.Bitmap;
-            imageForm.BackgroundImageLayout = ImageLayout.None;
-            imageForm.Show();
-        }
-        internal void AttachDriveWatcher(IDriveWatcher watcher )
-        {
-            _machine.AttachDriveWatcher(watcher);
-        }
         internal IPrinterOutput GetPrinterOutput()
         {
             return _machine.PrinterOutput;
@@ -304,17 +309,6 @@ namespace VzEmulator
         {
             dosRomPresent = isPresent;
         }
-
-        internal void SetClockSync(bool clockSynced)
-        {
-            _machine.ClockSynced=clockSynced;
-        }
-
-        internal void SetClockSpeed(decimal speedMhz)
-        {
-            _machine.ClockSpeed = speedMhz;
-        }
-
-        
+          
     }
 }

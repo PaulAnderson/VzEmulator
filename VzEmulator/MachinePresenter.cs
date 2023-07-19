@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using VzEmulator.Peripherals;
@@ -29,6 +30,23 @@ namespace VzEmulator
 
             fileIo = FileIO.GetDefaultImplementation();
             fileHandler = new FileHandler(fileIo, machine.Cpu.Memory, machine.VideoMemory);
+        }
+
+        public void TestExecRun()
+        {
+            _machine.SetAfterInstructionExecutionCallback( () => { 
+            _machine.Cpu.Registers.AF = 68;
+            _machine.Cpu.Registers.BC = 7454;
+            _machine.Cpu.Registers.DE = 0x7A00;
+            _machine.Cpu.Registers.HL = 0x7Af0;
+            _machine.Cpu.Registers.AltAF = 0;
+            _machine.Cpu.Registers.AltBC = 0;
+            _machine.Cpu.Registers.AltDE = 7515;
+            _machine.Cpu.Registers.AltHL = 0;
+            _machine.Cpu.Registers.PC = 0x1D37;
+            _machine.Cpu.Registers.SP = 0x1D37;
+            _machine.Call(0x1D37);
+            });
         }
 
         public void EnableTrace(bool value)
@@ -325,6 +343,10 @@ namespace VzEmulator
             _machine.ClockSpeed = speedMhz;
         }
 
-        
+        internal Bitmap GetScreenImage()
+        {
+            var imagePainter = new ImageGraphicsPainter(_machine.VideoMemory.Content, _machine.OutputLatch, 0, _machine.AuExtendedGraphicsLatch);
+            return imagePainter.GetImage();
+        }
     }
 }

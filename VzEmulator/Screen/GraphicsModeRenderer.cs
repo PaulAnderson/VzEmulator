@@ -34,19 +34,20 @@ namespace VzEmulator.Screen
             }
         }
 
-        public override void Render(Graphics gr, ScreenConstants.ExtendedGraphicsModeFlags ModeFlags)
+        public override Bitmap Render(Graphics gr, ScreenConstants.ExtendedGraphicsModeFlags ModeFlags)
         {
-            gr.CompositingMode = CompositingMode.SourceCopy;
-            gr.CompositingQuality = CompositingQuality.HighSpeed;
-            gr.InterpolationMode = InterpolationMode.NearestNeighbor;
-
             SetUpGraphicsMode(ModeFlags);
-
             SetUpGraphicsBitmap();
 
             RenderGraphicsMode(ModeFlags);
-            CopyGraphicsBitmap(gr, _GraphicsBitmap, AspectRatio);
-
+            if (gr != null)
+            {
+                gr.CompositingMode = CompositingMode.SourceCopy;
+                gr.CompositingQuality = CompositingQuality.HighSpeed;
+                gr.InterpolationMode = InterpolationMode.NearestNeighbor;
+                CopyGraphicsBitmap(gr, _GraphicsBitmap, AspectRatio);
+            }
+            return _GraphicsBitmap.Bitmap;
         }
 
 
