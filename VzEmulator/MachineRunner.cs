@@ -234,7 +234,6 @@ namespace VzEmulator
 
             if (_machine.Cpu.Memory[VzConstants.StartBasicProgramPtr] > 0)
             {
-                //TODO this code is to 'RUN' a basic program. To handle a MC program, just call the address
                 _machine.Cpu.Registers.AF = 68;
                 _machine.Cpu.Registers.BC = 7454;
                 _machine.Cpu.Registers.DE = (short)(address.Start - 1);//31464;

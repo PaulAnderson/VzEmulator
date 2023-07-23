@@ -30,6 +30,7 @@
         {
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pnlTop = new System.Windows.Forms.Panel();
+            this.Run = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.StatusLabel = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -89,7 +90,6 @@
             this.Clock5ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Clock6ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.getImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.Run = new System.Windows.Forms.Button();
             this.overlayPanel1 = new VzEmulatorControls.OverlayPanel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pnlTop.SuspendLayout();
@@ -100,9 +100,9 @@
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Black;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 36);
+            this.pictureBox1.Location = new System.Drawing.Point(0, 33);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1200, 937);
+            this.pictureBox1.Size = new System.Drawing.Size(1200, 940);
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
             // 
@@ -122,6 +122,17 @@
             this.pnlTop.Name = "pnlTop";
             this.pnlTop.Size = new System.Drawing.Size(1200, 92);
             this.pnlTop.TabIndex = 8;
+            // 
+            // Run
+            // 
+            this.Run.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.Run.Location = new System.Drawing.Point(842, 49);
+            this.Run.Name = "Run";
+            this.Run.Size = new System.Drawing.Size(99, 37);
+            this.Run.TabIndex = 13;
+            this.Run.Text = "Run";
+            this.Run.UseVisualStyleBackColor = true;
+            this.Run.Click += new System.EventHandler(this.Run_Click);
             // 
             // button1
             // 
@@ -222,7 +233,7 @@
             this.developmentToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1200, 36);
+            this.menuStrip1.Size = new System.Drawing.Size(1200, 33);
             this.menuStrip1.TabIndex = 9;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -240,7 +251,7 @@
             this.testPreviewFileToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 32);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 29);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // openDiskImageToolStripMenuItem
@@ -322,7 +333,7 @@
             this.unPauseToolStripMenuItem,
             this.execMachinecodeProgramToolStripMenuItem});
             this.emulationToolStripMenuItem.Name = "emulationToolStripMenuItem";
-            this.emulationToolStripMenuItem.Size = new System.Drawing.Size(107, 32);
+            this.emulationToolStripMenuItem.Size = new System.Drawing.Size(107, 29);
             this.emulationToolStripMenuItem.Text = "Emulation";
             // 
             // startToolStripMenuItem
@@ -364,7 +375,7 @@
             this.colourToolStripMenuItem,
             this.printerToolStripMenuItem});
             this.displayToolStripMenuItem.Name = "displayToolStripMenuItem";
-            this.displayToolStripMenuItem.Size = new System.Drawing.Size(86, 32);
+            this.displayToolStripMenuItem.Size = new System.Drawing.Size(86, 29);
             this.displayToolStripMenuItem.Text = "Display";
             // 
             // integerScalingToolStripMenuItem
@@ -414,7 +425,7 @@
             this.recordCassetteToWavFileToolStripMenuItem,
             this.playWavFileInToCassetteToolStripMenuItem});
             this.audioToolStripMenuItem.Name = "audioToolStripMenuItem";
-            this.audioToolStripMenuItem.Size = new System.Drawing.Size(76, 32);
+            this.audioToolStripMenuItem.Size = new System.Drawing.Size(76, 29);
             this.audioToolStripMenuItem.Text = "Audio";
             this.audioToolStripMenuItem.Click += new System.EventHandler(this.audioToolStripMenuItem_Click);
             // 
@@ -457,7 +468,7 @@
             this.showMemoryToolStripMenuItem,
             this.editDiskToolStripMenuItem});
             this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
-            this.debugToolStripMenuItem.Size = new System.Drawing.Size(82, 32);
+            this.debugToolStripMenuItem.Size = new System.Drawing.Size(82, 29);
             this.debugToolStripMenuItem.Text = "Debug";
             // 
             // showRegistersToolStripMenuItem
@@ -497,7 +508,7 @@
             this.clockSpeedToolStripMenuItem,
             this.getImageToolStripMenuItem});
             this.developmentToolStripMenuItem.Name = "developmentToolStripMenuItem";
-            this.developmentToolStripMenuItem.Size = new System.Drawing.Size(135, 32);
+            this.developmentToolStripMenuItem.Size = new System.Drawing.Size(135, 29);
             this.developmentToolStripMenuItem.Text = "Development";
             this.developmentToolStripMenuItem.Click += new System.EventHandler(this.developmentToolStripMenuItem_Click);
             // 
@@ -639,17 +650,6 @@
             this.getImageToolStripMenuItem.Size = new System.Drawing.Size(283, 34);
             this.getImageToolStripMenuItem.Text = "Get Image";
             this.getImageToolStripMenuItem.Click += new System.EventHandler(this.getImageToolStripMenuItem_Click);
-            // 
-            // Run
-            // 
-            this.Run.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Run.Location = new System.Drawing.Point(842, 49);
-            this.Run.Name = "Run";
-            this.Run.Size = new System.Drawing.Size(99, 37);
-            this.Run.TabIndex = 13;
-            this.Run.Text = "Run";
-            this.Run.UseVisualStyleBackColor = true;
-            this.Run.Click += new System.EventHandler(this.Run_Click);
             // 
             // overlayPanel1
             // 

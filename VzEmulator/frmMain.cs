@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using VzEmulator.Debugger;
 
@@ -454,7 +455,8 @@ namespace VzEmulator
             {
                 System.Threading.Thread.Sleep(0);
             }
-
+            frm.BackgroundImageLayout = ImageLayout.Stretch;
+            frm.Size = new Size(256, 192);
             frm.BackgroundImage = previewRunner.LatestImage;
             frm.Show();
         }

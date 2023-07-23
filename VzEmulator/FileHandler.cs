@@ -24,7 +24,7 @@ namespace VzEmulator
         public AddressRange LoadFile(string Filename)
         {
             var file = reader.LoadFile(Filename);
-            if (file.header == 0x2020 | file.header == 0x30465a56)
+            if ((file.header & 0xffff) == 0x2020 | file.header == 0xA0D2020 | file.header == 0x30465a56 | file.header == 0x4f465a56)
             {
                 //valid vz file
                  //get start address
@@ -80,7 +80,7 @@ namespace VzEmulator
             else
             {
                 //invalid file
-                throw new Exception($"Invalid .vz file. Unknown File Header: 0x{file.header:X}");
+                throw new Exception($"Invalid .vz file. Unknown File Header: 0x{file.header:X4} or Type File: 0x{file.fileType:X2}");
             }
         }
 
