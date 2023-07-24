@@ -91,6 +91,10 @@
             this.Clock6ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.getImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.overlayPanel1 = new VzEmulatorControls.OverlayPanel();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pnlTop.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -226,6 +230,7 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
+            this.editToolStripMenuItem,
             this.emulationToolStripMenuItem,
             this.displayToolStripMenuItem,
             this.audioToolStripMenuItem,
@@ -659,6 +664,35 @@
             this.overlayPanel1.Size = new System.Drawing.Size(300, 154);
             this.overlayPanel1.TabIndex = 10;
             // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.copyTextToolStripMenuItem,
+            this.copyImageToolStripMenuItem,
+            this.pasteTextToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(58, 29);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // copyTextToolStripMenuItem
+            // 
+            this.copyTextToolStripMenuItem.Name = "copyTextToolStripMenuItem";
+            this.copyTextToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.copyTextToolStripMenuItem.Text = "Copy Text";
+            // 
+            // copyImageToolStripMenuItem
+            // 
+            this.copyImageToolStripMenuItem.Name = "copyImageToolStripMenuItem";
+            this.copyImageToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.copyImageToolStripMenuItem.Text = "Copy Image";
+            // 
+            // pasteTextToolStripMenuItem
+            // 
+            this.pasteTextToolStripMenuItem.Name = "pasteTextToolStripMenuItem";
+            this.pasteTextToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.pasteTextToolStripMenuItem.Text = "Paste Text";
+            this.pasteTextToolStripMenuItem.Click += new System.EventHandler(this.pasteTextToolStripMenuItem_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -750,6 +784,10 @@
         private System.Windows.Forms.ToolStripMenuItem getImageToolStripMenuItem;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button Run;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyTextToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyImageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pasteTextToolStripMenuItem;
     }
 }
 

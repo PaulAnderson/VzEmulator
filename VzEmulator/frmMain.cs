@@ -480,6 +480,12 @@ namespace VzEmulator
         {
             Presenter.TestExecRun();
         }
+
+        private void pasteTextToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Presenter.PasteTextAsKeys(Clipboard.GetText());
+
+        }
     }
 }
  

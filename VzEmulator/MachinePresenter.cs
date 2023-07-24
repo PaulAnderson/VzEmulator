@@ -348,5 +348,10 @@ namespace VzEmulator
             var imagePainter = new ImageGraphicsPainter(_machine.VideoMemory.Content, _machine.OutputLatch, 0, _machine.AuExtendedGraphicsLatch);
             return imagePainter.GetImage();
         }
+
+        internal void PasteTextAsKeys(string text)
+        {
+            _machine.Keyboard.QueueKeys(text);
+        }
     }
 }

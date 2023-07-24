@@ -89,7 +89,7 @@ namespace VzEmulator.Peripherals
             if (UseKeyQueue && KeyQueue?.Count > 0 && (value & keyMask) != keyMask)
             {
                 KeyQueue.Peek().TimesRead++;
-                if (KeyQueue.Peek().TimesRead > 4) KeyQueue.Dequeue();
+                if (KeyQueue.Peek().TimesRead >7) KeyQueue.Dequeue();
             }
             //de-queue key if it has been read on all address lines and not inputted
             if (UseKeyQueue && KeyQueue?.Count > 0 && value == keyMask)
@@ -271,6 +271,27 @@ namespace VzEmulator.Peripherals
                 CurrentKeyState = keyState;
         }
 
+        internal void QueueKeys(string keysToQueue)
+        {
+            KeysConverter kc = new KeysConverter();
+            //iterate over each char in keysToQueue, adding each one to KeyQueue after converting it with kc
+            for (var i = 0; i < keysToQueue.Length; i++)
+            {
+                char c = keysToQueue[i];
+
+                var keyCode = new Keys(); //todo apply shift, etc
+                if (c == '+') keyCode |= Keys.Shift | Keys.Oemplus;
+                if (c == ',') keyCode = Keys.Oemcomma;
+                if (c == '=') keyCode = Keys.Oemplus;
+                if (c == '*')
+                {
+                    keyCode = Keys.Shift | Keys.Oem7;//todo encode c and keycode
+                    c = ':';
+                }
+
+                KeyQueue.Enqueue(new KeyState(c, keyCode));
+            }
+        }
         public void Reset()
         {
             KeyQueue?.Clear();
