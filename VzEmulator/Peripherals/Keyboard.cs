@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 
 namespace VzEmulator.Peripherals
 {
     //Todo split latch, keyboard, cassette in into separate classes
-    public class Keyboard : IPeripheral
+    public class Keyboard : IPeripheral, IClockSynced
     {
         public Tuple<ushort, ushort> PortRange => null;
         public Tuple<ushort, ushort> MemoryRange { get; } = new Tuple<ushort, ushort>(VzConstants.OutputLatchAndKbStart, VzConstants.OutputLatchAndKbEnd);
@@ -16,6 +17,10 @@ namespace VzEmulator.Peripherals
         IInterruptEnableFlag intSource;
 
         internal KeyState CurrentKeyState { get; set; }
+        public decimal ClockFrequency { get; set; } //not used
+        public bool ClockSyncEnabled { get; set; }
+
+        int currentClockCycles; //Roll over every 3,5400,000 cycles
 
         public bool UseKeyQueue = true;
 
@@ -27,6 +32,8 @@ namespace VzEmulator.Peripherals
             public int TimesRead { get; set; }
             public byte KeyScanMask { get; set; }
 
+            //The cpu cycle when the key was recorded. Used to age the queue
+            public int CycleTimeStamp { get; set; }
 
             public KeyState(int? keyValue, Keys keyData)
             {
@@ -86,23 +93,60 @@ namespace VzEmulator.Peripherals
 
             //track key presses and de-queue key if in queue mode if it has been read more than once
             //todo track emulated time and release key after set number of clock cycles
-            if (UseKeyQueue && KeyQueue?.Count > 0 && (value & keyMask) != keyMask)
+            const bool useCpuCycleBasedKeyAging = true;
+            int keyHoldTime = (int)(ClockFrequency * 100000); // 100ms
+            if (useCpuCycleBasedKeyAging)
             {
-                KeyQueue.Peek().TimesRead++;
-                if (KeyQueue.Peek().TimesRead >7) KeyQueue.Dequeue();
+                if (KeyQueue.Count > 0)
+                {
+                    //Age keys based on number of clock cycles
+                    var queuedKeyCycleTimeStamp = KeyQueue.Peek().CycleTimeStamp;
+
+                    //Handle wrap around
+                    if (queuedKeyCycleTimeStamp > currentClockCycles)
+                        KeyQueue.Peek().CycleTimeStamp = currentClockCycles;
+
+                    if (currentClockCycles - KeyQueue.Peek().CycleTimeStamp > keyHoldTime)
+                    {
+                        //todo set next key in queue at current cycletimestamp?
+                        KeyQueue.Dequeue();
+                        if (KeyQueue.Count> 0 && KeyQueue.Peek().CycleTimeStamp==-1)
+                        {
+                            if (KeyQueue.Peek().IsKeyPressed == false)
+                            {
+                                //'No key' queued. delay
+                                KeyQueue.Peek().CycleTimeStamp = currentClockCycles ;
+                            } else
+                            {
+                                KeyQueue.Peek().CycleTimeStamp = currentClockCycles - keyHoldTime + keyHoldTime / 4;
+                            }
+                        }
+
+                    }
+                }
             }
-            //de-queue key if it has been read on all address lines and not inputted
-            if (UseKeyQueue && KeyQueue?.Count > 0 && value == keyMask)
+            else
             {
-                if (addr < 0xff)
-                    KeyQueue.Peek().KeyScanMask |= (byte) (addr);
-                else
+                //Age keys based on number of times the keyboard is scanned
+                if (UseKeyQueue && KeyQueue?.Count > 0 && (value & keyMask) != keyMask)
+                {
                     KeyQueue.Peek().TimesRead++;
-                if (KeyQueue.Count > 0 && KeyQueue.Peek().KeyScanMask == 0xff && KeyQueue.Peek().Key.Value != 13)
-                    KeyQueue.Dequeue();
-                if (KeyQueue.Count>0 && KeyQueue.Peek().TimesRead > 10)
-                    KeyQueue.Dequeue();
+                    if (KeyQueue.Peek().TimesRead > 7) KeyQueue.Dequeue();
+                }
+                //de-queue key if it has been read on all address lines and not inputted
+                if (UseKeyQueue && KeyQueue?.Count > 0 && value == keyMask)
+                {
+                    if (addr < 0xff)
+                        KeyQueue.Peek().KeyScanMask |= (byte)(addr);
+                    else
+                        KeyQueue.Peek().TimesRead++;
+                    if (KeyQueue.Count > 0 && KeyQueue.Peek().KeyScanMask == 0xff && KeyQueue.Peek().Key.Value != 13)
+                        KeyQueue.Dequeue();
+                    if (KeyQueue.Count > 0 && KeyQueue.Peek().TimesRead > 10)
+                        KeyQueue.Dequeue();
+                }
             }
+            
             return value;
         }
 
@@ -265,36 +309,99 @@ namespace VzEmulator.Peripherals
         internal void SetKeyState(KeyState keyState)
         {
             if (UseKeyQueue)
+            {
+                keyState.CycleTimeStamp = currentClockCycles;
                 if (keyState.IsKeyPressed && IsKeyValueVZKey(keyState))
                     KeyQueue.Enqueue(keyState);
+            }
             else
+            {
                 CurrentKeyState = keyState;
+            }
+            
         }
 
+        //Used to queue up pasted text, a text file etc
         internal void QueueKeys(string keysToQueue)
         {
+            //Clear current queue
+            KeyQueue?.Clear();
+
+            KeyState previousKey = new KeyState(0, 0);
             KeysConverter kc = new KeysConverter();
             //iterate over each char in keysToQueue, adding each one to KeyQueue after converting it with kc
             for (var i = 0; i < keysToQueue.Length; i++)
             {
                 char c = keysToQueue[i];
-
+                var pauseAfterKey = false;
                 var keyCode = new Keys(); //todo apply shift, etc
-                if (c == '+') keyCode |= Keys.Shift | Keys.Oemplus;
-                if (c == ',') keyCode = Keys.Oemcomma;
-                if (c == '=') keyCode = Keys.Oemplus;
+                if (c == '@') { keyCode |= Keys.Shift; c = '0'; pauseAfterKey = true; }
+                if (c == '!') { keyCode |= Keys.Shift; c = '1'; pauseAfterKey = true; }
+                if (c == '"') { keyCode = Keys.Shift;  c = '2'; pauseAfterKey = true; }
+                if (c == '#') { keyCode |= Keys.Shift; c = '3'; pauseAfterKey = true; }
+                if (c == '$') { keyCode = Keys.Shift; c = '4'; pauseAfterKey = true; }
+                if (c == '%') { keyCode |= Keys.Shift; c = '5'; pauseAfterKey = true; }
+                if (c == '&') { keyCode |= Keys.Shift; c = '6'; pauseAfterKey = true; }
+                if (c == '\'') { keyCode |= Keys.Shift; c = '7'; pauseAfterKey = true; }
+                if (c == '(') { keyCode |= Keys.Shift; c = '8'; pauseAfterKey = true; }
+                if (c == ')') { keyCode |= Keys.Shift; c = '9'; pauseAfterKey = true; }
+                if (c == '^') { keyCode |= Keys.Shift; c = 'n'; pauseAfterKey = true; } //Up arrow symbol
+                if (c == '|') { keyCode |= Keys.Shift; c = 'n'; pauseAfterKey = true; } //Up arrow symbol
+                if (c == '[') { keyCode |= Keys.Shift; c = 'o'; pauseAfterKey = true; } 
+                if (c == ']') { keyCode |= Keys.Shift; c = 'p'; pauseAfterKey = true; }
+                if (c == '/') { keyCode |= Keys.Shift; c = 'k'; pauseAfterKey = true; }
+                if (c == '?') { keyCode |= Keys.Shift; c = 'l'; pauseAfterKey = true; }
+                if (c == '\\') { keyCode |= Keys.Shift; c = 'm'; pauseAfterKey = true; }
+                if (c == '<') { keyCode |= Keys.Shift | Keys.Oemcomma; pauseAfterKey = true; }
+                if (c == '>') { keyCode |= Keys.Shift | Keys.OemPeriod;  pauseAfterKey = true; }
+
+                if (c == '+') { keyCode |= Keys.Shift | Keys.Oemplus; pauseAfterKey = true; }
+                if (c == ',') { keyCode = Keys.Oemcomma; pauseAfterKey = true; }
+                if (c == '=') { keyCode = Keys.Oemplus; pauseAfterKey = true; }
+
                 if (c == '*')
                 {
                     keyCode = Keys.Shift | Keys.Oem7;//todo encode c and keycode
                     c = ':';
                 }
 
-                KeyQueue.Enqueue(new KeyState(c, keyCode));
+                //Queue the key. The first key press is at the current cpu cycle, the rest are at -1 so that they are re-timed after each key is pressed
+                    var cycleTimeStamp = -1;
+                if (i == 0)
+                    cycleTimeStamp = currentClockCycles;
+                var keyState = new KeyState(c, keyCode) { CycleTimeStamp = cycleTimeStamp };
+                
+                //Handle double letters
+                if (previousKey.Key.HasValue && previousKey.Key.Value == keyState.Key.Value) 
+                { 
+                    KeyQueue.Enqueue(new KeyState(null, Keys.None) { CycleTimeStamp = cycleTimeStamp});
+                }
+                previousKey = keyState;
+
+                //queue the key
+                KeyQueue.Enqueue(keyState) ;
+
+                //pause after shift
+                if ((keyCode | Keys.Shift) == Keys.Shift && pauseAfterKey)
+                {
+                    KeyQueue.Enqueue(new KeyState(null, Keys.None) { CycleTimeStamp = cycleTimeStamp });
+                }
             }
         }
         public void Reset()
         {
             KeyQueue?.Clear();
+        }
+
+        //IClockSync. Used to age key press events
+        public void ProcessClockCycles(int periodLengthInCycles)
+        {
+            int maxClockCycles = (int)(((IClockSynced)this).ClockFrequency * 1000000);
+            currentClockCycles += periodLengthInCycles;
+            if (currentClockCycles > maxClockCycles)
+            {
+                currentClockCycles -= maxClockCycles;
+            }
         }
     }
 }

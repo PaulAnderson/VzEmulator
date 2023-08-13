@@ -93,6 +93,8 @@ namespace VzEmulator
             ((IClockSynced)sound).ClockFrequency = VzConstants.ClockFrequencyMhz;
             ((IClockSynced)drive).ClockSyncEnabled = false;
             ((IClockSynced)drive).ClockFrequency = VzConstants.ClockFrequencyMhz;
+            ((IClockSynced)Keyboard).ClockSyncEnabled = false;
+            ((IClockSynced)Keyboard).ClockFrequency = VzConstants.ClockFrequencyMhz;
 
         }
 
@@ -139,8 +141,11 @@ namespace VzEmulator
             ClockCycleCount += args.TStates;
 
             //todo a list of clock cycle watchers
+            //Clock sync for devices that care about the current clock cycle but are not used to control the cpu speed
             ((IClockSynced)InpLatch).ProcessClockCycles(args.TStates);
             ((IClockSynced)drive).ProcessClockCycles(args.TStates);
+            ((IClockSynced)Keyboard).ProcessClockCycles(args.TStates);
+
 
             if (resetting)
             {
