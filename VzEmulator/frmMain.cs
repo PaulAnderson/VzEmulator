@@ -460,17 +460,6 @@ namespace VzEmulator
             frm.BackgroundImage = previewRunner.LatestImage;
             frm.Show();
         }
-
-        private void getImageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var image = Presenter.GetScreenImage();
-            var frm = new Form();
-            frm.Show();
-
-            frm.BackgroundImage = image;
-            frm.BackgroundImageLayout= ImageLayout.None;
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             Presenter.JumpToUsrExec();
@@ -484,7 +473,28 @@ namespace VzEmulator
         private void pasteTextToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Presenter.PasteTextAsKeys(Clipboard.GetText());
+        }
 
+        private void copyTextToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Get text from screen
+            var screenText = Presenter.GetScreenText();
+
+            //Copy to clipboard
+            Clipboard.SetText(screenText);
+        }
+
+        private void copyImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var screen = Presenter.GetScreenImage();
+            Clipboard.SetImage(screen);
+        }
+
+        private void captureScreenOutputToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var frm = new frmScreenLogView();
+            frm.ScreenOutput = Presenter.GetscreenOutputMonitor();
+            frm.Show();
         }
     }
 }

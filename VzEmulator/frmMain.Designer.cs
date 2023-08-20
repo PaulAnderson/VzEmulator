@@ -51,6 +51,10 @@
             this.saveMemoryImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testPreviewFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.emulationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -89,12 +93,8 @@
             this.Clock4ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Clock5ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Clock6ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.getImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.overlayPanel1 = new VzEmulatorControls.OverlayPanel();
-            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pasteTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.captureScreenOutputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pnlTop.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -330,6 +330,38 @@
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.copyTextToolStripMenuItem,
+            this.copyImageToolStripMenuItem,
+            this.captureScreenOutputToolStripMenuItem,
+            this.pasteTextToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(58, 29);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // copyTextToolStripMenuItem
+            // 
+            this.copyTextToolStripMenuItem.Name = "copyTextToolStripMenuItem";
+            this.copyTextToolStripMenuItem.Size = new System.Drawing.Size(348, 34);
+            this.copyTextToolStripMenuItem.Text = "Copy Screen Text";
+            this.copyTextToolStripMenuItem.Click += new System.EventHandler(this.copyTextToolStripMenuItem_Click);
+            // 
+            // copyImageToolStripMenuItem
+            // 
+            this.copyImageToolStripMenuItem.Name = "copyImageToolStripMenuItem";
+            this.copyImageToolStripMenuItem.Size = new System.Drawing.Size(348, 34);
+            this.copyImageToolStripMenuItem.Text = "Copy Screen Image";
+            this.copyImageToolStripMenuItem.Click += new System.EventHandler(this.copyImageToolStripMenuItem_Click);
+            // 
+            // pasteTextToolStripMenuItem
+            // 
+            this.pasteTextToolStripMenuItem.Name = "pasteTextToolStripMenuItem";
+            this.pasteTextToolStripMenuItem.Size = new System.Drawing.Size(348, 34);
+            this.pasteTextToolStripMenuItem.Text = "Paste Text (Simulate Keypress)";
+            this.pasteTextToolStripMenuItem.Click += new System.EventHandler(this.pasteTextToolStripMenuItem_Click);
+            // 
             // emulationToolStripMenuItem
             // 
             this.emulationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -479,21 +511,21 @@
             // showRegistersToolStripMenuItem
             // 
             this.showRegistersToolStripMenuItem.Name = "showRegistersToolStripMenuItem";
-            this.showRegistersToolStripMenuItem.Size = new System.Drawing.Size(234, 34);
+            this.showRegistersToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.showRegistersToolStripMenuItem.Text = "Show Registers";
             this.showRegistersToolStripMenuItem.Click += new System.EventHandler(this.showRegistersToolStripMenuItem_Click);
             // 
             // showMemoryToolStripMenuItem
             // 
             this.showMemoryToolStripMenuItem.Name = "showMemoryToolStripMenuItem";
-            this.showMemoryToolStripMenuItem.Size = new System.Drawing.Size(234, 34);
+            this.showMemoryToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.showMemoryToolStripMenuItem.Text = "Show Memory";
             this.showMemoryToolStripMenuItem.Click += new System.EventHandler(this.showMemoryToolStripMenuItem_Click);
             // 
             // editDiskToolStripMenuItem
             // 
             this.editDiskToolStripMenuItem.Name = "editDiskToolStripMenuItem";
-            this.editDiskToolStripMenuItem.Size = new System.Drawing.Size(234, 34);
+            this.editDiskToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.editDiskToolStripMenuItem.Text = "Edit Disk";
             this.editDiskToolStripMenuItem.Click += new System.EventHandler(this.editDiskToolStripMenuItem_Click);
             // 
@@ -510,8 +542,7 @@
             this.dosRomToolStripMenuItem,
             this.pOKE307770ToolStripMenuItem,
             this.toggleClockSyncToolStripMenuItem,
-            this.clockSpeedToolStripMenuItem,
-            this.getImageToolStripMenuItem});
+            this.clockSpeedToolStripMenuItem});
             this.developmentToolStripMenuItem.Name = "developmentToolStripMenuItem";
             this.developmentToolStripMenuItem.Size = new System.Drawing.Size(135, 29);
             this.developmentToolStripMenuItem.Text = "Development";
@@ -649,13 +680,6 @@
             this.Clock6ToolStripMenuItem.Text = "Custom";
             this.Clock6ToolStripMenuItem.Click += new System.EventHandler(this.Clock6ToolStripMenuItem_Click);
             // 
-            // getImageToolStripMenuItem
-            // 
-            this.getImageToolStripMenuItem.Name = "getImageToolStripMenuItem";
-            this.getImageToolStripMenuItem.Size = new System.Drawing.Size(283, 34);
-            this.getImageToolStripMenuItem.Text = "Get Image";
-            this.getImageToolStripMenuItem.Click += new System.EventHandler(this.getImageToolStripMenuItem_Click);
-            // 
             // overlayPanel1
             // 
             this.overlayPanel1.Location = new System.Drawing.Point(842, 65);
@@ -664,34 +688,12 @@
             this.overlayPanel1.Size = new System.Drawing.Size(300, 154);
             this.overlayPanel1.TabIndex = 10;
             // 
-            // editToolStripMenuItem
+            // captureScreenOutputToolStripMenuItem
             // 
-            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.copyTextToolStripMenuItem,
-            this.copyImageToolStripMenuItem,
-            this.pasteTextToolStripMenuItem});
-            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(58, 29);
-            this.editToolStripMenuItem.Text = "Edit";
-            // 
-            // copyTextToolStripMenuItem
-            // 
-            this.copyTextToolStripMenuItem.Name = "copyTextToolStripMenuItem";
-            this.copyTextToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
-            this.copyTextToolStripMenuItem.Text = "Copy Text";
-            // 
-            // copyImageToolStripMenuItem
-            // 
-            this.copyImageToolStripMenuItem.Name = "copyImageToolStripMenuItem";
-            this.copyImageToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
-            this.copyImageToolStripMenuItem.Text = "Copy Image";
-            // 
-            // pasteTextToolStripMenuItem
-            // 
-            this.pasteTextToolStripMenuItem.Name = "pasteTextToolStripMenuItem";
-            this.pasteTextToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
-            this.pasteTextToolStripMenuItem.Text = "Paste Text";
-            this.pasteTextToolStripMenuItem.Click += new System.EventHandler(this.pasteTextToolStripMenuItem_Click);
+            this.captureScreenOutputToolStripMenuItem.Name = "captureScreenOutputToolStripMenuItem";
+            this.captureScreenOutputToolStripMenuItem.Size = new System.Drawing.Size(348, 34);
+            this.captureScreenOutputToolStripMenuItem.Text = "Capture Screen Output";
+            this.captureScreenOutputToolStripMenuItem.Click += new System.EventHandler(this.captureScreenOutputToolStripMenuItem_Click);
             // 
             // frmMain
             // 
@@ -781,13 +783,13 @@
         private System.Windows.Forms.ToolStripMenuItem reformatDiskSectorsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editDiskToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem testPreviewFileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem getImageToolStripMenuItem;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button Run;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyTextToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyImageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pasteTextToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem captureScreenOutputToolStripMenuItem;
     }
 }
 

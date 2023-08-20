@@ -313,6 +313,11 @@ namespace VzEmulator
         {
             return _machine.PrinterOutput;
         }
+        internal IMemoryMonitor GetscreenOutputMonitor()
+        {
+            return _machine.ScreenOutput;
+        }
+
         internal IAudioOutput GetSoundOutput()
         {
             return _machine.SoundOutput;
@@ -348,10 +353,32 @@ namespace VzEmulator
             var imagePainter = new ImageGraphicsPainter(_machine.VideoMemory.Content, _machine.OutputLatch, 0, _machine.AuExtendedGraphicsLatch);
             return imagePainter.GetImage();
         }
+        internal string GetScreenText()
+        {
+            var videoMemory = _machine.VideoMemory.Content;
+            //create string based on videomemory
+            var text = "";
+            //loop through display memory and build up a string consisting of multiple lines. The end of a line is the shortest of the end of the line in memory (32 chars), or the last non-space (0x00, 0x20) character in that line
+            for (int line = 0; line < 16; line++)
+            {
+                var lineText = "";
+                for (int charPos = 0; charPos < 32; charPos++)
+                {
+                    var charCode = videoMemory[line * 32 + charPos];
+                    if ((charCode & 0x60) == 0x60) charCode -= 0x40; //map on-screen character set to ascii
+                    lineText += (char)charCode;
+                }
+                lineText = lineText.TrimEnd();
+                text += lineText + "\r\n";
+            }
+            text=text.Trim(new char[] { '\r', '\n' });
+            return text;
+        }
 
         internal void PasteTextAsKeys(string text)
         {
             _machine.Keyboard.QueueKeys(text);
         }
+
     }
 }

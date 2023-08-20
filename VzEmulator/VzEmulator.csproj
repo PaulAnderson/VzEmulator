@@ -121,6 +121,12 @@
     <Compile Include="Debugger\frmProgramView.Designer.cs">
       <DependentUpon>frmProgramView.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmScreenLogView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmScreenLogView.Designer.cs">
+      <DependentUpon>frmScreenLogView.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmPrinterView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -140,14 +146,17 @@
     <Compile Include="MachineRunner.cs" />
     <Compile Include="MachinePresenter.cs" />
     <Compile Include="MachineStats.cs" />
+    <Compile Include="Peripherals\AddressChangedEventArgs.cs" />
     <Compile Include="Peripherals\AudioIn.cs" />
     <Compile Include="Peripherals\DriveStatusChange.cs" />
     <Compile Include="Peripherals\IAudioInput.cs" />
     <Compile Include="Peripherals\IAudioOutput.cs" />
     <Compile Include="Peripherals\ILatchValue.cs" />
+    <Compile Include="Peripherals\IMemoryMonitor.cs" />
     <Compile Include="Peripherals\IPrinterOutput.cs" />
     <Compile Include="Peripherals\Joystick.cs" />
     <Compile Include="Peripherals\InputLatch.cs" />
+    <Compile Include="Peripherals\MemoryMonitor.cs" />
     <Compile Include="Peripherals\PortLatch.cs" />
     <Compile Include="Peripherals\Printer.cs" />
     <Compile Include="Peripherals\AudioOut.cs" />
@@ -214,6 +223,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Debugger\frmDebug.resx">
       <DependentUpon>frmDebug.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmScreenLogView.resx">
+      <DependentUpon>frmScreenLogView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmPrinterView.resx">
       <DependentUpon>frmPrinterView.cs</DependentUpon>
