@@ -5,6 +5,7 @@ namespace VzEmulator
 {
     internal class VzConstants
     {
+        internal const ushort DefaultBasicStart = 0x7AE9;
         internal const ushort UserExecWordPtr = 0x788E;
         internal const ushort StartBasicProgramPtr = 0x78A4;
         internal const ushort EndBasicProgramPtr = 0x78F9;

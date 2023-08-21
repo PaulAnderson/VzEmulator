@@ -24,7 +24,9 @@ namespace VzEmulator.Screen
             if (isGraphicsMode)
             {
                 //todo scale pixels
-                return GraphicsModeRenderer.Render(null,ExtendedGraphicsMode);
+                var bitmap = GraphicsModeRenderer.Render(null, ExtendedGraphicsMode);
+
+                return bitmap.Clone(new Rectangle(0, 0, bitmap.Width, bitmap.Height), System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             }
             else
             {
