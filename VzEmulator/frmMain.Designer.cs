@@ -54,6 +54,7 @@
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.captureScreenOutputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.emulationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -94,7 +95,6 @@
             this.Clock5ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Clock6ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.overlayPanel1 = new VzEmulatorControls.OverlayPanel();
-            this.captureScreenOutputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pnlTop.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -320,7 +320,7 @@
             // 
             this.testPreviewFileToolStripMenuItem.Name = "testPreviewFileToolStripMenuItem";
             this.testPreviewFileToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
-            this.testPreviewFileToolStripMenuItem.Text = "Test - Preview File";
+            this.testPreviewFileToolStripMenuItem.Text = "Open Folder";
             this.testPreviewFileToolStripMenuItem.Click += new System.EventHandler(this.testPreviewFileToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
@@ -354,6 +354,13 @@
             this.copyImageToolStripMenuItem.Size = new System.Drawing.Size(348, 34);
             this.copyImageToolStripMenuItem.Text = "Copy Screen Image";
             this.copyImageToolStripMenuItem.Click += new System.EventHandler(this.copyImageToolStripMenuItem_Click);
+            // 
+            // captureScreenOutputToolStripMenuItem
+            // 
+            this.captureScreenOutputToolStripMenuItem.Name = "captureScreenOutputToolStripMenuItem";
+            this.captureScreenOutputToolStripMenuItem.Size = new System.Drawing.Size(348, 34);
+            this.captureScreenOutputToolStripMenuItem.Text = "Capture Screen Output";
+            this.captureScreenOutputToolStripMenuItem.Click += new System.EventHandler(this.captureScreenOutputToolStripMenuItem_Click);
             // 
             // pasteTextToolStripMenuItem
             // 
@@ -511,21 +518,21 @@
             // showRegistersToolStripMenuItem
             // 
             this.showRegistersToolStripMenuItem.Name = "showRegistersToolStripMenuItem";
-            this.showRegistersToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.showRegistersToolStripMenuItem.Size = new System.Drawing.Size(234, 34);
             this.showRegistersToolStripMenuItem.Text = "Show Registers";
             this.showRegistersToolStripMenuItem.Click += new System.EventHandler(this.showRegistersToolStripMenuItem_Click);
             // 
             // showMemoryToolStripMenuItem
             // 
             this.showMemoryToolStripMenuItem.Name = "showMemoryToolStripMenuItem";
-            this.showMemoryToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.showMemoryToolStripMenuItem.Size = new System.Drawing.Size(234, 34);
             this.showMemoryToolStripMenuItem.Text = "Show Memory";
             this.showMemoryToolStripMenuItem.Click += new System.EventHandler(this.showMemoryToolStripMenuItem_Click);
             // 
             // editDiskToolStripMenuItem
             // 
             this.editDiskToolStripMenuItem.Name = "editDiskToolStripMenuItem";
-            this.editDiskToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.editDiskToolStripMenuItem.Size = new System.Drawing.Size(234, 34);
             this.editDiskToolStripMenuItem.Text = "Edit Disk";
             this.editDiskToolStripMenuItem.Click += new System.EventHandler(this.editDiskToolStripMenuItem_Click);
             // 
@@ -687,13 +694,6 @@
             this.overlayPanel1.Name = "overlayPanel1";
             this.overlayPanel1.Size = new System.Drawing.Size(300, 154);
             this.overlayPanel1.TabIndex = 10;
-            // 
-            // captureScreenOutputToolStripMenuItem
-            // 
-            this.captureScreenOutputToolStripMenuItem.Name = "captureScreenOutputToolStripMenuItem";
-            this.captureScreenOutputToolStripMenuItem.Size = new System.Drawing.Size(348, 34);
-            this.captureScreenOutputToolStripMenuItem.Text = "Capture Screen Output";
-            this.captureScreenOutputToolStripMenuItem.Click += new System.EventHandler(this.captureScreenOutputToolStripMenuItem_Click);
             // 
             // frmMain
             // 

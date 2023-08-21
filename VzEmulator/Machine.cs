@@ -1,8 +1,10 @@
 ﻿using CSCore.Streams;
 using System;
+using System.Resources;
 using System.Threading.Tasks;
 using VzEmulator.Debug;
 using VzEmulator.Peripherals;
+using static System.Windows.Forms.AxHost;
 
 namespace VzEmulator
 {
@@ -115,8 +117,110 @@ namespace VzEmulator
             z80.Memory[nextAddress + 1] = AuExtendedGraphicsLatch.Value;
 
         }
+        public byte[] GetRegistersAndMachineState(ICpu z80)
+        {
+            ushort address = 0;
+            ushort stateLength = 32;
+            var state = new byte[stateLength];
+            SetWordInArray(state, address, stateLength); //First byte of the state is the length of registers etc before memory starts
+            address += 2;
+            SetSWordInArray(state, address, z80.Registers.AF);
+            address += 2;
+            SetSWordInArray(state, address, z80.Registers.BC);
+            address += 2;
+            SetSWordInArray(state, address, z80.Registers.DE);
+            address += 2;
+            SetSWordInArray(state, address, z80.Registers.HL);
+            address += 2;
+            SetSWordInArray(state, address, z80.Registers.IX);
+            address += 2;
+            SetSWordInArray(state, address, z80.Registers.IY);
+            address += 2;
+            SetSWordInArray(state, address, z80.Registers.SP);
+            address += 2;
+            SetWordInArray(state, address, z80.Registers.PC);
+            address += 2;
+            SetSWordInArray(state, address, z80.Registers.AltAF);
+            address += 2;
+            SetSWordInArray(state, address, z80.Registers.AltBC);
+            address += 2;
+            SetSWordInArray(state, address, z80.Registers.AltDE);
+            address += 2;
+            SetSWordInArray(state, address, z80.Registers.AltHL);
+            address += 2;
+            state[address] = OutputLatch.Value;
+            address += 1;
+            state[address] = AuExtendedGraphicsLatch.Value;
+            //TODO interrupt mode, interrupt enabled 
+            return state;
+        }
 
-        public void LoadRegistersFromMemory(ICpu z80)
+        //Applies state of stored registers and machine state. Returns length of state excluding memory
+        public ushort ApplyRegistersAndMachineState(ICpu z80, byte[] state)
+        {
+            ushort address = 0;
+            ushort statelength = GetWordInArray(state, 0);
+
+            //Check minimum supported state length
+            if (statelength < 32)
+                throw new Exception("Invalid state length");
+
+            address += 2;
+            z80.Registers.AF = GetSWordInArray(state,address);
+            address += 2;
+            z80.Registers.BC = GetSWordInArray(state, address);
+            address += 2;
+            z80.Registers.DE = GetSWordInArray(state, address);
+            address += 2;
+            z80.Registers.HL = GetSWordInArray(state, address);
+            address += 2;
+            z80.Registers.IX = GetSWordInArray(state, address);
+            address += 2;
+            z80.Registers.IY = GetSWordInArray(state, address);
+            address += 2;
+            z80.Registers.SP = GetSWordInArray(state, address);
+            address += 2;
+            z80.Registers.PC = GetWordInArray(state,address);
+            address += 2;
+            z80.Registers.AltAF = GetSWordInArray(state, address);
+            address += 2;
+            z80.Registers.AltBC = GetSWordInArray(state, address);
+            address += 2;
+            z80.Registers.AltDE = GetSWordInArray(state, address);
+            address += 2;
+            z80.Registers.AltHL = GetSWordInArray(state, address);
+            address += 2;
+            OutputLatch.Value = state[address];
+            address += 1;
+            AuExtendedGraphicsLatch.Value = state[address];
+
+            return statelength;
+        }
+
+        public void SetSWordInArray(byte[] array, ushort address, short value)
+        {
+            byte[] bytes = BitConverter.GetBytes(value);
+            array[address] = bytes[0];
+            array[address + 1] = bytes[1];
+        }
+
+        public short GetSWordInArray(byte[] array, ushort address)
+        {
+            byte[] bytes = new byte[2] { array[address], array[address + 1] };
+            return BitConverter.ToInt16(bytes, 0);
+        }
+        public void SetWordInArray(byte[] array, ushort address, ushort value)
+        {
+            array[address] = (byte)(value & 0xFF);
+            array[address + 1] = (byte)((value & 0xFF00) >> 8);
+        }
+        public ushort GetWordInArray(byte[] array, ushort address)
+        {
+            var result = (ushort)(array[address + 1] << 8 | array[address]);
+            return result;
+        }
+
+    public void LoadRegistersFromMemory(ICpu z80)
         {
             ushort nextAddress = Memory.LoadRegistersFromMemory(z80.Registers, 0);
             OutputLatch.Value = z80.Memory[nextAddress];

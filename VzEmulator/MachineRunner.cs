@@ -176,6 +176,48 @@ namespace VzEmulator
             });
         }
 
+        public byte[] LatestSnapshot;
+        public void GetSnapshot()
+        {
+            LatestSnapshot = null;
+
+            _machine.SetAfterInstructionExecutionCallback(() =>
+            {
+                //Save registers to memory
+                _machine.SaveRegistersToMemory(_machine.Cpu);
+
+                //Write memory to file
+                var memorySize = 0x10000; //64k. todo extended video memory
+                var machineState = _machine.GetRegistersAndMachineState(_machine.Cpu);
+                var memory = new Byte[memorySize+machineState.Length];
+                
+                _machine.Cpu.Memory.GetContents(0, 0x10000).CopyTo(memory, machineState.Length-1); //Shift memory by size of machine state
+                machineState.CopyTo(memory, 0); //copy machine state to start of memory array
+                LatestSnapshot = memory;
+            });
+        }
+
+        public void ApplySnapshot(byte[] snapShot)
+        {
+            _machine.StopCpuAfterNextInstruction();
+
+            var z80 = _machine.Cpu;
+
+            while (z80.State == CpuState.Running)
+                System.Threading.Thread.Sleep(0);
+
+            //Read image
+            var snapshotSize = _machine.ApplyRegistersAndMachineState(_machine.Cpu, snapShot);
+            _machine.Cpu.Memory.SetContents(0, new byte[0x10000]); //clear memory
+            _machine.Cpu.Memory.SetContents(0, snapShot, snapshotSize-1, 0x10000);
+
+            //Refresh video memory
+            _machine.VideoMemory.UpdateVideoMemoryFromMainMemory();
+
+            _machine.StartCpuTask();
+        }
+
+
         public void KeyDown(int keyValue, Keys keyData)
         {
             _machine.Keyboard.SetKeyState(new Keyboard.KeyState(keyValue, keyData));
@@ -232,12 +274,24 @@ namespace VzEmulator
 
             var address= LoadFile(filename);
 
+            Run(address.Start);
+
+        }
+        public void Run(ushort address, bool setBasicPointer = false)
+        {
+            if (setBasicPointer)
+            {
+                _machine.Cpu.Memory[VzConstants.StartBasicProgramPtr] = (byte)((address & 0xFF00) >> 8);
+                _machine.Cpu.Memory[VzConstants.StartBasicProgramPtr + 1] = (byte)(address & 0xFF);
+
+            }
+
             if (_machine.Cpu.Memory[VzConstants.StartBasicProgramPtr] > 0)
             {
                 _machine.Cpu.Registers.AF = 68;
                 _machine.Cpu.Registers.BC = 7454;
-                _machine.Cpu.Registers.DE = (short)(address.Start - 1);//31464;
-                _machine.Cpu.Registers.HL = (short)address.Start;//31465;
+                _machine.Cpu.Registers.DE = (short)(address - 1);//31464 0x7AE8;
+                _machine.Cpu.Registers.HL = (short)address;//31465 0x7AE9;
                 _machine.Cpu.Registers.AltAF = 0;
                 _machine.Cpu.Registers.AltBC = 0;
                 _machine.Cpu.Registers.AltDE = 7515;
@@ -247,11 +301,12 @@ namespace VzEmulator
                 //todo ensure correct values in registers based on loaded program address
                 //todo first load always errors. 2nd works
                 //todo handle graphics mode
-            } else
+            }
+            else
             {
                 _machine.Cpu.Registers.PC = (ushort)((_machine.Cpu.Memory[VzConstants.UserExecWordPtr + 1] << 8) +
                                                 _machine.Cpu.Memory[VzConstants.UserExecWordPtr]);
-                
+
             }
             //_machine.Call(0x1D37); //todo stop on return, change to run program call
             if (_machine.Cpu.State != CpuState.Running)
@@ -264,7 +319,6 @@ namespace VzEmulator
                 //Get image
                 LatestImage = graphicsPainter.GetImage();
             }, 3540000);
-
         }
 
         public AddressRange LoadFile(string fileName)

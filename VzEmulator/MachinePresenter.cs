@@ -286,7 +286,7 @@ namespace VzEmulator
                 graphicsPainter.UseSmoothing = !graphicsPainter.UseSmoothing;
         }
 
-        internal void ToggleGrahpicsMode()
+        internal void ToggleGraphicsMode()
         {
             _machine.OutputLatch.Value ^= (byte)VzConstants.OutputLatchBits.GraphicsMode; //toggle graphics mode
         }

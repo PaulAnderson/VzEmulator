@@ -284,7 +284,7 @@ namespace VzEmulator
 
         private void toggleGraphicsModeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Presenter.ToggleGrahpicsMode();
+            Presenter.ToggleGraphicsMode();
         }
 
         private void colourToolStripMenuItem_Click(object sender, EventArgs e)
@@ -428,6 +428,30 @@ namespace VzEmulator
         MachineRunner previewRunner;
         private void testPreviewFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //todo new dialog to select file
+            //User can browse to a folder, and preview all support files in that folder
+            //Option to create thumbnails?
+            //.vz files, .wav files?, disk images, rom files, memory images
+            //todo virtual disk support - mount folder of .vz as disk image
+
+            //Im thinking 2 panes - folder browse, and selected folder view, with a thumbnail and info for each file in a repeating tile
+            //Filename, size, date, type (MC/Basic/Other), thumbnail, preview button, open button
+
+            //Also - ability to save data files?  
+            //Separate to this task - try bringing in the graphics chip from the ? (other emulator) and load the rom, see if it works
+            //for disks, show the file list and perhaps the preview of each file on disk, or the first one
+            //extract text and allow keyword search of all files seen
+
+            var fbd = new FolderBrowserDialog();
+            var result = fbd.ShowDialog(this);
+            if (result==DialogResult.OK)
+            {
+                var frmFolderView = new frmFolderView(this,fbd.SelectedPath);
+                frmFolderView.Show();
+                //todo add a callback to load file
+            }
+            return;
+
             string dosRomFileName = "Roms/VZDOS.ROM";
             string romFilename = "Roms/VZ300.ROM";
 
