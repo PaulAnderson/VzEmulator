@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Konamiman.Z80dotNet;
+using System;
 
 namespace VzEmulator
 {
@@ -39,6 +40,9 @@ namespace VzEmulator
         short IX { get; set; }
         short IY { get; set; }
         short SP { get; set; }
+
+        bool IFF1 { get; set; }
+        bool IFF2 { get; set; }
     }
 
     public enum CpuState

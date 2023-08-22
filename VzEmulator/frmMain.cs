@@ -442,11 +442,11 @@ namespace VzEmulator
             //for disks, show the file list and perhaps the preview of each file on disk, or the first one
             //extract text and allow keyword search of all files seen
 
-            var fbd = new FolderBrowserDialog();
+            var fbd = new FolderBrowserDialog() ;
             var result = fbd.ShowDialog(this);
             if (result==DialogResult.OK)
             {
-                var frmFolderView = new frmFolderView(this,fbd.SelectedPath);
+                var frmFolderView = new frmFolderView(this,Presenter, fbd.SelectedPath);
                 frmFolderView.Show();
                 //todo add a callback to load file
             }

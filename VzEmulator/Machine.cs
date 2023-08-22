@@ -10,6 +10,7 @@ namespace VzEmulator
 {
     public class Machine
     {
+        public String Tag { get; set; }
         public ICpu Cpu { get; } = new Z80dotNetCpuAdapter();
 
         internal MemUtils Memory { get; private set; }
@@ -86,7 +87,7 @@ namespace VzEmulator
             IntSource = Cpu.InterruptEnableFlag;
             Keyboard = new Keyboard(IntSource);
             AudioInp = new AudioIn(Cpu);
-            InpLatch = new InputLatch(Keyboard, AudioInp, IntSource); 
+            InpLatch = new InputLatch(Keyboard, AudioInp, IntSource) { Tag = Tag }; 
             memory = Cpu.Memory;
             VideoMemory = new VideoMemory(memory, AuExtendedGraphicsLatch);
             DeExtendedGraphicsLatch.LinkedLatch = AuExtendedGraphicsLatch; //De Latch stores bits 0,1 value in Au latch
@@ -148,6 +149,9 @@ namespace VzEmulator
             address += 2;
             SetSWordInArray(state, address, z80.Registers.AltHL);
             address += 2;
+            state[address] = z80.Registers.IFF1 ? (byte)1 : (byte)0;
+            state[address] |= z80.Registers.IFF2 ? (byte)2 : (byte)0;
+            address += 1;
             state[address] = OutputLatch.Value;
             address += 1;
             state[address] = AuExtendedGraphicsLatch.Value;
@@ -190,6 +194,9 @@ namespace VzEmulator
             address += 2;
             z80.Registers.AltHL = GetSWordInArray(state, address);
             address += 2;
+            z80.Registers.IFF1 = (state[address] & 1) == 1;
+            z80.Registers.IFF1 = (state[address] & 2) == 2;
+            address += 1;
             OutputLatch.Value = state[address];
             address += 1;
             AuExtendedGraphicsLatch.Value = state[address];
@@ -209,6 +216,7 @@ namespace VzEmulator
             byte[] bytes = new byte[2] { array[address], array[address + 1] };
             return BitConverter.ToInt16(bytes, 0);
         }
+       
         public void SetWordInArray(byte[] array, ushort address, ushort value)
         {
             array[address] = (byte)(value & 0xFF);
@@ -231,6 +239,10 @@ namespace VzEmulator
         {
             _afterInstructionExecutionCallback = action;
         }
+        public void SetAfterRetiInstructionExecutionCallback(Action action)
+        {
+            _afterRetiInstructionExecutionCallback = action;
+        }
         public void SetCyclesCallback(Action action, int cycles)
         {
             _afterCyclesCallback = action;
@@ -238,6 +250,7 @@ namespace VzEmulator
         }
 
         private Action _afterInstructionExecutionCallback;
+        private Action _afterRetiInstructionExecutionCallback;
         private Action _afterCyclesCallback;
         private double _afterCyclesCount;
         private bool _stopAfterNext;
@@ -267,12 +280,12 @@ namespace VzEmulator
 
             //reset INT on EI (enable interrupts)
             //if (memory[z80.Registers.PC] == 0xFB)
-            if (args.OpCode[0] == 0xFB)
+            if (args.OpCode[0] == 0xFB) //EI
             {
 #if DEBUG
                 //Console.WriteLine($"EI at {args.Address:X4} : 0xFB");
 #endif
-
+                //Clear interupt line, read for the next interrupt.
                 IntSource.IsEnabled = false;
             }
             /*
@@ -304,7 +317,15 @@ namespace VzEmulator
                 _afterInstructionExecutionCallback = null;
                 callback.Invoke();
             }
-
+            if (args.OpCode[0]==0xED && args.OpCode[1]==0x4D)
+            {
+                if (_afterRetiInstructionExecutionCallback != null)
+                {
+                    var callback = _afterRetiInstructionExecutionCallback;
+                    _afterRetiInstructionExecutionCallback = null;
+                    callback.Invoke();
+                }
+            }
             if (_afterCyclesCallback !=null && ClockCycleCount>_afterCyclesCount)
             {
                 var callback = _afterCyclesCallback;
@@ -325,6 +346,22 @@ namespace VzEmulator
 
         private void CpuOnBeforeInstructionExecution(object sender, InstructionEventArgs args)
         {
+        
+        if (args.Address == 0x1D37)//RUN keyword
+            {
+                Console.WriteLine($"{args.Address:X4}  " +
+                       $"A:{Cpu.Registers.AF:X4}," +
+                       $"BC:{Cpu.Registers.BC:X4}," +
+                       $"DE:{Cpu.Registers.DE:X4}," +
+                       $"HL:{Cpu.Registers.HL:X4}," +
+                       $"IX:{Cpu.Registers.IX:X4}," +
+                       $"IY:{Cpu.Registers.IY:X4}," +
+                       $"SP:{Cpu.Registers.SP:X4}," +
+                       $"PC:{Cpu.Registers.PC:X4}," +
+                       $"Int State:{Cpu.InterruptEnableFlag.IsEnabled:X2}," + 
+                        $"IFF1:{Cpu.Registers.IFF1:X2},");
+
+            }
 #if DEBUG_TRACE
             if (args.OpCode[0] == 0xC4 ||
                 args.OpCode[0] == 0xD4 ||

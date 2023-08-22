@@ -198,6 +198,9 @@ namespace VzEmulator
             public short SP { get => _registers.SP; set => _registers.SP = value; }
             public ushort PC { get => _registers.PC; set => _registers.PC = value; }
 
+            public bool IFF1 { get => _registers.IFF1; set => _registers.IFF1 = value; }
+            public bool IFF2 { get => _registers.IFF2; set => _registers.IFF2 = value; }
+
         }
     }
 }

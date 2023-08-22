@@ -36,6 +36,7 @@ namespace VzEmulator
             Memory[address] = bytes[0];
             Memory[address + 1] = bytes[1];
         }
+ 
         public  short GetSWordAtAddress(ushort address)
         {
             byte[] bytes = new byte[2] { Memory[address], Memory[address + 1] };
@@ -110,6 +111,7 @@ namespace VzEmulator
             SetSWordAtAddress(address, registers.AltHL);
             return address;
         }
+
         public ushort LoadRegistersFromMemory(IRegisters registers, ushort startAddress)
         {
             ushort address = startAddress;

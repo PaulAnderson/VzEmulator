@@ -168,6 +168,27 @@ namespace VzEmulator
         {
             _machine.Cpu.Memory.SetContents(startAddress, content);
         }
+
+        public void ApplySnapshot(byte[] snapShot)
+        {
+            _machine.StopCpuAfterNextInstruction();
+
+            var z80 = _machine.Cpu;
+
+            while (z80.State == CpuState.Running)
+                System.Threading.Thread.Sleep(0);
+
+            //Read image
+            var snapshotSize = _machine.ApplyRegistersAndMachineState(_machine.Cpu, snapShot);
+            _machine.Cpu.Memory.SetContents(0, new byte[0x10000]); //clear memory
+            _machine.Cpu.Memory.SetContents(0, snapShot, snapshotSize - 1, 0x10000);
+
+            //Refresh video memory
+            _machine.VideoMemory.UpdateVideoMemoryFromMainMemory();
+
+            _machine.StartCpuTask();
+        }
+
         public void LoadImage(string fileName)
         {
             _machine.StopCpuAfterNextInstruction();

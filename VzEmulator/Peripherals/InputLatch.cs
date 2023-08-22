@@ -10,6 +10,7 @@ namespace VzEmulator.Peripherals
 {
     public class InputLatch : IPeripheral, ILatchValue, IClockSynced
     {
+        public String Tag { get; set; }
         public IPeripheral keyboard;
         public IAudioInput audioInput;
         public IInterruptEnableFlag intSource { get; set; }

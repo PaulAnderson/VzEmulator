@@ -181,20 +181,27 @@ namespace VzEmulator
         {
             LatestSnapshot = null;
 
-            _machine.SetAfterInstructionExecutionCallback(() =>
+            if (_machine.Cpu.State == CpuState.Running)
             {
-                //Save registers to memory
-                _machine.SaveRegistersToMemory(_machine.Cpu);
-
+                _machine.SetAfterInstructionExecutionCallback(() =>
+                {
+                    DoSnapshot();
+                });
+            } else
+            {
+                DoSnapshot();
+            }
+            void DoSnapshot()
+            {
                 //Write memory to file
                 var memorySize = 0x10000; //64k. todo extended video memory
                 var machineState = _machine.GetRegistersAndMachineState(_machine.Cpu);
-                var memory = new Byte[memorySize+machineState.Length];
-                
-                _machine.Cpu.Memory.GetContents(0, 0x10000).CopyTo(memory, machineState.Length-1); //Shift memory by size of machine state
+                var memory = new Byte[memorySize + machineState.Length];
+
+                _machine.Cpu.Memory.GetContents(0, 0x10000).CopyTo(memory, machineState.Length - 1); //Shift memory by size of machine state
                 machineState.CopyTo(memory, 0); //copy machine state to start of memory array
                 LatestSnapshot = memory;
-            });
+            }
         }
 
         public void ApplySnapshot(byte[] snapShot)
@@ -285,22 +292,24 @@ namespace VzEmulator
                 _machine.Cpu.Memory[VzConstants.StartBasicProgramPtr + 1] = (byte)(address & 0xFF);
 
             }
-
             if (_machine.Cpu.Memory[VzConstants.StartBasicProgramPtr] > 0)
             {
-                _machine.Cpu.Registers.AF = 68;
-                _machine.Cpu.Registers.BC = 7454;
+                _machine.Cpu.Registers.AF = 0x44;
+                _machine.Cpu.Registers.BC = 0x1D1E;
                 _machine.Cpu.Registers.DE = (short)(address - 1);//31464 0x7AE8;
                 _machine.Cpu.Registers.HL = (short)address;//31465 0x7AE9;
+                _machine.Cpu.Registers.IX = 0;
+                _machine.Cpu.Registers.SP = unchecked((short)0xFE94);
                 _machine.Cpu.Registers.AltAF = 0;
                 _machine.Cpu.Registers.AltBC = 0;
                 _machine.Cpu.Registers.AltDE = 7515;
                 _machine.Cpu.Registers.AltHL = 0;
                 _machine.Cpu.Registers.PC = 0x1D37;
-                //_machine.Call(0x1D37);
+                _machine.Cpu.InterruptEnableFlag.IsEnabled = false;
+                _machine.Cpu.Registers.IFF1 = true;
+                    //_machine.Call(0x1D37);
                 //todo ensure correct values in registers based on loaded program address
                 //todo first load always errors. 2nd works
-                //todo handle graphics mode
             }
             else
             {
@@ -320,6 +329,21 @@ namespace VzEmulator
                 LatestImage = graphicsPainter.GetImage();
             }, 3540000);
         }
+        public void run1s()
+        {
+            LatestImage = null;
+
+            if (_machine.Cpu.State != CpuState.Running)
+                _machine.StartCpuTask();
+
+            _machine.SetCyclesCallback(() =>
+                {
+                _machine.Pause();
+
+                    //Get image
+                    LatestImage = graphicsPainter.GetImage();
+                }, 3540000);
+                   }
 
         public AddressRange LoadFile(string fileName)
         {

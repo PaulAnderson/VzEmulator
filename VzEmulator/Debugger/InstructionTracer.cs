@@ -16,7 +16,7 @@ namespace VzEmulator.Debug
         {
             var instruction = GetNextInstruction(_z80);
             var flags = GetFlags(_z80.Registers);
-            WriteTrace(_z80.Registers, instruction, flags);
+            WriteTrace(_z80.Registers, instruction, flags, _z80.InterruptEnableFlag);
         }
 
         private object GetNextInstruction(ICpu z80)
@@ -61,15 +61,17 @@ namespace VzEmulator.Debug
             return flags;
         }
 
-        private void WriteTrace(IRegisters registers, object instruction, string flags)
+        private void WriteTrace(IRegisters registers, object instruction, string flags,IInterruptEnableFlag interruptsEnabled)
         {
-            Console.WriteLine("{0:X4} : {1} FLG: {2} A:{3:X2} BC:{4:X4} DE:{5:X4} HL:{6:X4} IX:{7:X4} IY:{8:X4}",
+            Console.WriteLine("{0:X4} : {1} FLG: {2} A:{3:X2} BC:{4:X4} DE:{5:X4} HL:{6:X4} IX:{7:X4} IY:{8:X4} IFF1: {9} IFF2: {10} IntState: {11} ",
             registers.PC,
             instruction,
             flags,
             registers.A, registers.BC,
             registers.DE, registers.HL,
-            registers.IX, registers.IY);
+            registers.IX, registers.IY,
+            registers.IFF1,registers.IFF2,
+            interruptsEnabled.IsEnabled ? 0 : 1);
         }
     }
 }
