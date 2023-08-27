@@ -20,7 +20,7 @@ namespace VzEmulator
     {
         public frmMain FrmMain { get; }
         string selectedPath;
-        public string SelectedPath { get => SelectedPath; set
+        public string SelectedPath { get => selectedPath; set
             {
                 selectedPath = value;
                 this.Text = "Folder View - " + selectedPath;
@@ -84,15 +84,27 @@ namespace VzEmulator
 
             return files;
         }
+        private bool abortCacheOperation = false;
         private void CacheFiles(string[] files)
         {
-            //TODO abort thread when selected directory changed
+            var swAbort = new Stopwatch();
+            swAbort.Start();
+            while (abortCacheOperation && swAbort.ElapsedMilliseconds<1000)
+            {
+                Thread.Sleep(0);
+            }
 
             //Run new thread which iterates over files and loads them into the emulator, populating imageCache in the background
             new Thread(() =>
             {
                 foreach (var file in files)
                 {
+                    if (abortCacheOperation)
+                    {
+                        abortCacheOperation = false; 
+                        return;
+                    }
+
                     if (!imageCache.ContainsKey(file))
 
                     previewRunner2.LatestImage = null;
@@ -108,7 +120,7 @@ namespace VzEmulator
                     }
                     var sw = new Stopwatch();
                     sw.Start();
-                    while (previewRunner2.LatestImage == null && sw.ElapsedMilliseconds<1000)
+                    while (previewRunner2.LatestImage == null && sw.ElapsedMilliseconds<1000 && !abortCacheOperation)
                     {
                         Thread.Sleep(0);
                     }
@@ -119,10 +131,11 @@ namespace VzEmulator
                     //todo get machine snapshot and cache it
                     previewRunner2.GetSnapshot();
                     sw.Restart();
-                    while (previewRunner2.LatestSnapshot == null && sw.ElapsedMilliseconds < 1000)
+                    while (previewRunner2.LatestSnapshot == null && sw.ElapsedMilliseconds < 1000 && !abortCacheOperation)
                     {
                         Thread.Sleep(0);
                     }
+                    if (previewRunner2.LatestSnapshot == null) continue;
                     try
                     {
                         imageCache.Add(file, (image,previewRunner2.LatestSnapshot));
@@ -172,6 +185,8 @@ namespace VzEmulator
             var shortName = listView1.SelectedItems[0].Text;
             if (shortName.EndsWith(Path.DirectorySeparatorChar.ToString()))
             {
+                abortCacheOperation=true;
+
                 //Hide preview image
                 panel1.BackgroundImage = null;
                 panel1.Hide();
