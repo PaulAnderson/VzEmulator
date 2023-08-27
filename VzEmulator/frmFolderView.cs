@@ -18,6 +18,10 @@ namespace VzEmulator
 {
     public partial class frmFolderView : Form
     {
+        readonly string VZ_FILE_IMAGE = "VZ";
+        readonly string DSK_FILE_IMAGE = "DSK";
+        readonly string FOLDER_IMAGE = "FOLDER";
+
         public frmMain FrmMain { get; }
         string selectedPath;
         public string SelectedPath { get => selectedPath; set
@@ -58,6 +62,10 @@ namespace VzEmulator
         private String[] PopulateListView(string path)
         {
             listView1.Clear();
+            listView1.Columns.Add("Filename", 200);
+            listView1.Columns.Add("Size", 200);
+            listView1.Columns.Add("Type", 200);
+            listView1.Columns.Add("StartAddress", 200);
 
             //Get list of files in selectedPath
             var files = System.IO.Directory.GetFiles(path, "*.vz");
@@ -66,24 +74,67 @@ namespace VzEmulator
             //Add item to listbox1 for each file
             foreach (var file in files)
             {
+                var fileDetails = GetFileDetails(file);
+
                 //convert file to a listviewitem
                 var fileName = Path.GetFileName(file);
-                var item = new ListViewItem(fileName);
+                var item = new ListViewItem(fileDetails );
                 item.Tag = file;
+                item.ImageKey = VZ_FILE_IMAGE;
 
                 listView1.Items.Add(item);
+
             }
             foreach (var folder in folders)
             {
                 //convert file to a listviewitem
                 var folderName = Path.GetFileName(folder) + Path.DirectorySeparatorChar;
-                var item = new ListViewItem(folderName);
+                var item = new ListViewItem(new string[] { folderName ,"", "folder" });
                 item.Tag = folder;
+                item.ImageKey = FOLDER_IMAGE;
+
                 listView1.Items.Add(item);
             }
 
             return files;
         }
+
+        private string[] GetFileDetails(string file)
+        {
+            var fileName = Path.GetFileName(file);
+
+            try
+            {
+                //Get file size for file
+                var fileInfo = new FileInfo(file);
+                var fileSize = fileInfo.Length;
+                //Read file and confirm header info and file type
+                var fileStream = new FileStream(file, FileMode.Open);
+                var fileReader = new BinaryReader(fileStream);
+                byte[] header = new byte[24];
+                //Read 24 bytes into array
+                fileReader.Read(header, 0, 24);
+                var vzFile = new VzFile() { content = header };
+                fileReader.Close();
+                fileStream.Close();
+
+                return new string[]
+                {
+                fileName,
+                fileSize.ToString() + " bytes",
+                $"{vzFile.fileType:X2}",
+                $"{vzFile.startaddr_h:X2}{vzFile.startaddr_l:X2}"
+                };
+            } catch   
+            { 
+                return new string[]
+                {
+                    fileName
+                };
+            }
+
+        }
+
         private bool abortCacheOperation = false;
         private void CacheFiles(string[] files)
         {
@@ -347,6 +398,18 @@ namespace VzEmulator
                 Monitor.Exit(lockObjpreviewRunner3);
             }
             
+        }
+
+        private void toolStripButton5_Click(object sender, EventArgs e)
+        {
+            if ((int)listView1.View==4)
+            {
+                  listView1.View = View.LargeIcon;
+            } else
+            {
+                listView1.View = (View)((int)listView1.View + 1);
+            }
+            Text = listView1.View.ToString();
         }
     }
 }
