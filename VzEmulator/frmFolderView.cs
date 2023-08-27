@@ -62,10 +62,10 @@ namespace VzEmulator
         private String[] PopulateListView(string path)
         {
             listView1.Clear();
-            listView1.Columns.Add("Filename", 200);
-            listView1.Columns.Add("Size", 200);
-            listView1.Columns.Add("Type", 200);
-            listView1.Columns.Add("StartAddress", 200);
+            listView1.Columns.Add("Filename", 150);
+            listView1.Columns.Add("Size", 50);
+            listView1.Columns.Add("Type", 50);
+            listView1.Columns.Add("Start Address", 70);
 
             //Get list of files in selectedPath
             var files = System.IO.Directory.GetFiles(path, "*.vz");
@@ -107,7 +107,8 @@ namespace VzEmulator
             {
                 //Get file size for file
                 var fileInfo = new FileInfo(file);
-                var fileSize = fileInfo.Length;
+                var fileSize = fileInfo.Length/1024.0;
+                if (fileSize<1) fileSize = 1;
                 //Read file and confirm header info and file type
                 var fileStream = new FileStream(file, FileMode.Open);
                 var fileReader = new BinaryReader(fileStream);
@@ -121,7 +122,7 @@ namespace VzEmulator
                 return new string[]
                 {
                 fileName,
-                fileSize.ToString() + " bytes",
+                $"{fileSize:F0} KB",
                 $"{vzFile.fileType:X2}",
                 $"{vzFile.startaddr_h:X2}{vzFile.startaddr_l:X2}"
                 };
