@@ -218,6 +218,18 @@
     <Compile Include="VzFile.cs" />
     <Compile Include="FileIO.cs" />
     <Compile Include="Screen\TextModeRenderer.cs" />
+    <None Include="UI Images\runMachineCode.png" />
+    <None Include="UI Images\unpause.png" />
+    <None Include="UI Images\Pause.png" />
+    <None Include="UI Images\Run.png" />
+    <None Include="UI Images\ExtractText.ico" />
+    <None Include="UI Images\key2.ico" />
+    <None Include="UI Images\key.ico" />
+    <None Include="UI Images\paste.ico" />
+    <None Include="UI Images\CopyImage.ico" />
+    <None Include="UI Images\CopyText.ico" />
+    <None Include="UI Images\greenFolderOpen.ico" />
+    <None Include="UI Images\greenFolder.ico" />
     <EmbeddedResource Include="Debugger\frmDriveWatcher.resx">
       <DependentUpon>frmDriveWatcher.cs</DependentUpon>
     </EmbeddedResource>

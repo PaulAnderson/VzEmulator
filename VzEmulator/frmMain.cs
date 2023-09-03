@@ -442,7 +442,7 @@ namespace VzEmulator
             //for disks, show the file list and perhaps the preview of each file on disk, or the first one
             //extract text and allow keyword search of all files seen
 
-            var fbd = new FolderBrowserDialog() ;
+            var fbd = new FolderBrowserDialog() { SelectedPath = "C:\\git\\vz200\\" };
             var result = fbd.ShowDialog(this);
             if (result==DialogResult.OK)
             {
@@ -519,6 +519,11 @@ namespace VzEmulator
             var frm = new frmScreenLogView();
             frm.ScreenOutput = Presenter.GetscreenOutputMonitor();
             frm.Show();
+        }
+
+        private void toolStripTextBox1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
