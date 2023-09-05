@@ -29,30 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            this.pnlTop = new System.Windows.Forms.Panel();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
-            this.Run = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.StatusLabel = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtMCEnd = new System.Windows.Forms.TextBox();
-            this.txtMCStart = new System.Windows.Forms.TextBox();
-            this.btnQuickLoad = new System.Windows.Forms.Button();
-            this.btnQuickSave = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openDiskImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveDiskImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reformatDiskSectorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openvzFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveBasicProgramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveMachinecodeProgramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openMemoryImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveMemoryImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.emulationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.displayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -90,22 +68,31 @@
             this.Clock6ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
+            this.txtMCStart = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
+            this.txtMCEnd = new System.Windows.Forms.ToolStripTextBox();
             this.overlayPanel1 = new VzEmulatorControls.OverlayPanel();
-            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.qweqweToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.asdasdToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
-            this.asdasdToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.asdasdToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.StatusLabel = new System.Windows.Forms.Label();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.pnlTop = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSplitButton2 = new System.Windows.Forms.ToolStripSplitButton();
-            this.asdasdToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.asdasdToolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnQuickSave = new System.Windows.Forms.ToolStripButton();
+            this.btnQuickLoad = new System.Windows.Forms.ToolStripSplitButton();
+            this.btnExecMachineCode = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.openDiskImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveDiskImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reformatDiskSectorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openvzFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveBasicProgramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveMachinecodeProgramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openMemoryImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveMemoryImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testPreviewFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.captureScreenOutputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -114,152 +101,13 @@
             this.pauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unPauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.execMachinecodeProgramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pnlTop.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
+            this.pnlTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // pnlTop
-            // 
-            this.pnlTop.Controls.Add(this.statusStrip1);
-            this.pnlTop.Controls.Add(this.Run);
-            this.pnlTop.Controls.Add(this.button1);
-            this.pnlTop.Controls.Add(this.StatusLabel);
-            this.pnlTop.Controls.Add(this.label5);
-            this.pnlTop.Controls.Add(this.label4);
-            this.pnlTop.Controls.Add(this.txtMCEnd);
-            this.pnlTop.Controls.Add(this.txtMCStart);
-            this.pnlTop.Controls.Add(this.btnQuickLoad);
-            this.pnlTop.Controls.Add(this.btnQuickSave);
-            this.pnlTop.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlTop.Location = new System.Drawing.Point(0, 973);
-            this.pnlTop.Name = "pnlTop";
-            this.pnlTop.Size = new System.Drawing.Size(1200, 92);
-            this.pnlTop.TabIndex = 8;
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1,
-            this.toolStripProgressBar1,
-            this.toolStripDropDownButton1,
-            this.toolStripSplitButton1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 60);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1200, 32);
-            this.statusStrip1.TabIndex = 14;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(179, 25);
-            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
-            // 
-            // toolStripProgressBar1
-            // 
-            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 24);
-            // 
-            // Run
-            // 
-            this.Run.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.Run.Location = new System.Drawing.Point(842, 19);
-            this.Run.Name = "Run";
-            this.Run.Size = new System.Drawing.Size(99, 37);
-            this.Run.TabIndex = 13;
-            this.Run.Text = "Run";
-            this.Run.UseVisualStyleBackColor = true;
-            this.Run.Click += new System.EventHandler(this.Run_Click);
-            // 
-            // button1
-            // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button1.Location = new System.Drawing.Point(737, 19);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(99, 37);
-            this.button1.TabIndex = 13;
-            this.button1.Text = "Exec";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // StatusLabel
-            // 
-            this.StatusLabel.AutoSize = true;
-            this.StatusLabel.Location = new System.Drawing.Point(6, 9);
-            this.StatusLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.StatusLabel.Name = "StatusLabel";
-            this.StatusLabel.Size = new System.Drawing.Size(0, 20);
-            this.StatusLabel.TabIndex = 12;
-            // 
-            // label5
-            // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(582, 30);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(38, 20);
-            this.label5.TabIndex = 11;
-            this.label5.Text = "End";
-            // 
-            // label4
-            // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(249, 32);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(211, 20);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "Machine-code program Start";
-            // 
-            // txtMCEnd
-            // 
-            this.txtMCEnd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtMCEnd.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMCEnd.Location = new System.Drawing.Point(628, 22);
-            this.txtMCEnd.Name = "txtMCEnd";
-            this.txtMCEnd.Size = new System.Drawing.Size(103, 31);
-            this.txtMCEnd.TabIndex = 8;
-            this.txtMCEnd.Leave += new System.EventHandler(this.txtMCEnd_Leave);
-            this.txtMCEnd.Validating += new System.ComponentModel.CancelEventHandler(this.txtMCEnd_Validating);
-            // 
-            // txtMCStart
-            // 
-            this.txtMCStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtMCStart.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMCStart.Location = new System.Drawing.Point(468, 22);
-            this.txtMCStart.Name = "txtMCStart";
-            this.txtMCStart.Size = new System.Drawing.Size(103, 31);
-            this.txtMCStart.TabIndex = 8;
-            this.txtMCStart.Leave += new System.EventHandler(this.txtMCStart_Leave);
-            this.txtMCStart.Validating += new System.ComponentModel.CancelEventHandler(this.txtMCStart_Validating);
-            // 
-            // btnQuickLoad
-            // 
-            this.btnQuickLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnQuickLoad.Location = new System.Drawing.Point(108, 22);
-            this.btnQuickLoad.Name = "btnQuickLoad";
-            this.btnQuickLoad.Size = new System.Drawing.Size(99, 37);
-            this.btnQuickLoad.TabIndex = 5;
-            this.btnQuickLoad.Text = "Quickload";
-            this.btnQuickLoad.UseVisualStyleBackColor = true;
-            this.btnQuickLoad.Click += new System.EventHandler(this.btnQuickLoad_Click);
-            // 
-            // btnQuickSave
-            // 
-            this.btnQuickSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnQuickSave.Location = new System.Drawing.Point(3, 22);
-            this.btnQuickSave.Name = "btnQuickSave";
-            this.btnQuickSave.Size = new System.Drawing.Size(99, 37);
-            this.btnQuickSave.TabIndex = 5;
-            this.btnQuickSave.Text = "Quicksave";
-            this.btnQuickSave.UseVisualStyleBackColor = true;
-            this.btnQuickSave.Click += new System.EventHandler(this.btnQuickSave_Click);
             // 
             // menuStrip1
             // 
@@ -275,7 +123,7 @@
             this.developmentToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1200, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(1239, 33);
             this.menuStrip1.TabIndex = 9;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -295,70 +143,6 @@
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 29);
             this.fileToolStripMenuItem.Text = "File";
-            // 
-            // openDiskImageToolStripMenuItem
-            // 
-            this.openDiskImageToolStripMenuItem.Name = "openDiskImageToolStripMenuItem";
-            this.openDiskImageToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
-            this.openDiskImageToolStripMenuItem.Text = "Open Disk Image";
-            this.openDiskImageToolStripMenuItem.Click += new System.EventHandler(this.openDiskImageToolStripMenuItem_Click);
-            // 
-            // saveDiskImageToolStripMenuItem
-            // 
-            this.saveDiskImageToolStripMenuItem.BackColor = System.Drawing.SystemColors.Control;
-            this.saveDiskImageToolStripMenuItem.Name = "saveDiskImageToolStripMenuItem";
-            this.saveDiskImageToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
-            this.saveDiskImageToolStripMenuItem.Text = "Save Disk Image";
-            this.saveDiskImageToolStripMenuItem.Click += new System.EventHandler(this.saveDiskImageToolStripMenuItem_Click);
-            // 
-            // reformatDiskSectorsToolStripMenuItem
-            // 
-            this.reformatDiskSectorsToolStripMenuItem.Name = "reformatDiskSectorsToolStripMenuItem";
-            this.reformatDiskSectorsToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
-            this.reformatDiskSectorsToolStripMenuItem.Text = "Save Disk image with reformat";
-            this.reformatDiskSectorsToolStripMenuItem.Click += new System.EventHandler(this.reformatDiskSectorsToolStripMenuItem_Click);
-            // 
-            // openvzFileToolStripMenuItem
-            // 
-            this.openvzFileToolStripMenuItem.Name = "openvzFileToolStripMenuItem";
-            this.openvzFileToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
-            this.openvzFileToolStripMenuItem.Text = "Open .vz File";
-            this.openvzFileToolStripMenuItem.Click += new System.EventHandler(this.openvzFileToolStripMenuItem_Click);
-            // 
-            // saveBasicProgramToolStripMenuItem
-            // 
-            this.saveBasicProgramToolStripMenuItem.Name = "saveBasicProgramToolStripMenuItem";
-            this.saveBasicProgramToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
-            this.saveBasicProgramToolStripMenuItem.Text = "Save Basic Program";
-            this.saveBasicProgramToolStripMenuItem.Click += new System.EventHandler(this.saveBasicProgramToolStripMenuItem_Click);
-            // 
-            // saveMachinecodeProgramToolStripMenuItem
-            // 
-            this.saveMachinecodeProgramToolStripMenuItem.Name = "saveMachinecodeProgramToolStripMenuItem";
-            this.saveMachinecodeProgramToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
-            this.saveMachinecodeProgramToolStripMenuItem.Text = "Save Machine-code program";
-            this.saveMachinecodeProgramToolStripMenuItem.Click += new System.EventHandler(this.saveMachinecodeProgramToolStripMenuItem_Click);
-            // 
-            // openMemoryImageToolStripMenuItem
-            // 
-            this.openMemoryImageToolStripMenuItem.Name = "openMemoryImageToolStripMenuItem";
-            this.openMemoryImageToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
-            this.openMemoryImageToolStripMenuItem.Text = "Open Memory Image";
-            this.openMemoryImageToolStripMenuItem.Click += new System.EventHandler(this.openMemoryImageToolStripMenuItem_Click);
-            // 
-            // saveMemoryImageToolStripMenuItem
-            // 
-            this.saveMemoryImageToolStripMenuItem.Name = "saveMemoryImageToolStripMenuItem";
-            this.saveMemoryImageToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
-            this.saveMemoryImageToolStripMenuItem.Text = "Save Memory Image";
-            this.saveMemoryImageToolStripMenuItem.Click += new System.EventHandler(this.saveMemoryImageToolStripMenuItem_Click);
-            // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
-            this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
@@ -663,40 +447,56 @@
             // 
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton1,
+            this.btnQuickSave,
             this.toolStripSeparator1,
+            this.btnQuickLoad,
+            this.toolStripSeparator2,
+            this.toolStripLabel2,
+            this.txtMCStart,
             this.toolStripLabel1,
-            this.toolStripSplitButton2,
-            this.toolStripComboBox1,
-            this.toolStripTextBox1});
+            this.txtMCEnd,
+            this.btnExecMachineCode,
+            this.toolStripButton3});
             this.toolStrip1.Location = new System.Drawing.Point(0, 33);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1200, 33);
+            this.toolStrip1.Size = new System.Drawing.Size(1239, 34);
             this.toolStrip1.TabIndex = 11;
             this.toolStrip1.Text = "toolStrip1";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 33);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 34);
+            // 
+            // toolStripLabel2
+            // 
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(150, 29);
+            this.toolStripLabel2.Text = "MC Start Address";
+            // 
+            // txtMCStart
+            // 
+            this.txtMCStart.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtMCStart.Name = "txtMCStart";
+            this.txtMCStart.Size = new System.Drawing.Size(100, 34);
+            this.txtMCStart.Leave += new System.EventHandler(this.txtMCStart_Leave);
+            this.txtMCStart.Validating += new System.ComponentModel.CancelEventHandler(this.txtMCStart_Validating);
             // 
             // toolStripLabel1
             // 
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(131, 28);
-            this.toolStripLabel1.Text = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(42, 29);
+            this.toolStripLabel1.Text = "End";
+            this.toolStripLabel1.Click += new System.EventHandler(this.toolStripLabel1_Click);
             // 
-            // toolStripComboBox1
+            // txtMCEnd
             // 
-            this.toolStripComboBox1.Name = "toolStripComboBox1";
-            this.toolStripComboBox1.Size = new System.Drawing.Size(121, 33);
-            // 
-            // toolStripTextBox1
-            // 
-            this.toolStripTextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBox1.Name = "toolStripTextBox1";
-            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 33);
-            this.toolStripTextBox1.Click += new System.EventHandler(this.toolStripTextBox1_Click);
+            this.txtMCEnd.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtMCEnd.Name = "txtMCEnd";
+            this.txtMCEnd.Size = new System.Drawing.Size(100, 34);
+            this.txtMCEnd.Leave += new System.EventHandler(this.txtMCEnd_Leave);
+            this.txtMCEnd.Validating += new System.ComponentModel.CancelEventHandler(this.txtMCEnd_Validating);
+            this.txtMCEnd.Click += new System.EventHandler(this.toolStripTextBox1_Click);
             // 
             // overlayPanel1
             // 
@@ -706,96 +506,171 @@
             this.overlayPanel1.Size = new System.Drawing.Size(300, 154);
             this.overlayPanel1.TabIndex = 10;
             // 
-            // toolStripDropDownButton1
+            // StatusLabel
             // 
-            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.qweqweToolStripMenuItem,
-            this.asdasdToolStripMenuItem2});
-            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
-            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(42, 28);
-            this.toolStripDropDownButton1.Text = "toolStripDropDownButton1";
+            this.StatusLabel.AutoSize = true;
+            this.StatusLabel.Location = new System.Drawing.Point(6, 9);
+            this.StatusLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.StatusLabel.Name = "StatusLabel";
+            this.StatusLabel.Size = new System.Drawing.Size(0, 20);
+            this.StatusLabel.TabIndex = 12;
             // 
-            // qweqweToolStripMenuItem
+            // statusStrip1
             // 
-            this.qweqweToolStripMenuItem.Name = "qweqweToolStripMenuItem";
-            this.qweqweToolStripMenuItem.Size = new System.Drawing.Size(180, 34);
-            this.qweqweToolStripMenuItem.Text = "qweqwe";
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1,
+            this.toolStripStatusLabel2});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 5);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1239, 32);
+            this.statusStrip1.TabIndex = 14;
+            this.statusStrip1.Text = "statusStrip1";
             // 
-            // asdasdToolStripMenuItem2
+            // toolStripStatusLabel1
             // 
-            this.asdasdToolStripMenuItem2.Name = "asdasdToolStripMenuItem2";
-            this.asdasdToolStripMenuItem2.Size = new System.Drawing.Size(180, 34);
-            this.asdasdToolStripMenuItem2.Text = "asdasd";
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(179, 25);
+            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
-            // toolStripSplitButton1
+            // toolStripStatusLabel2
             // 
-            this.toolStripSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.asdasdToolStripMenuItem1,
-            this.asdasdToolStripMenuItem});
-            this.toolStripSplitButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButton1.Image")));
-            this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripSplitButton1.Name = "toolStripSplitButton1";
-            this.toolStripSplitButton1.Size = new System.Drawing.Size(45, 28);
-            this.toolStripSplitButton1.Text = "toolStripSplitButton1";
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(1045, 25);
+            this.toolStripStatusLabel2.Spring = true;
+            this.toolStripStatusLabel2.Text = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // asdasdToolStripMenuItem1
+            // pnlTop
             // 
-            this.asdasdToolStripMenuItem1.Name = "asdasdToolStripMenuItem1";
-            this.asdasdToolStripMenuItem1.Size = new System.Drawing.Size(170, 34);
-            this.asdasdToolStripMenuItem1.Text = "asdasd";
-            // 
-            // asdasdToolStripMenuItem
-            // 
-            this.asdasdToolStripMenuItem.Name = "asdasdToolStripMenuItem";
-            this.asdasdToolStripMenuItem.Size = new System.Drawing.Size(170, 34);
-            this.asdasdToolStripMenuItem.Text = "asdasd";
+            this.pnlTop.Controls.Add(this.statusStrip1);
+            this.pnlTop.Controls.Add(this.StatusLabel);
+            this.pnlTop.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlTop.Location = new System.Drawing.Point(0, 1037);
+            this.pnlTop.Name = "pnlTop";
+            this.pnlTop.Size = new System.Drawing.Size(1239, 37);
+            this.pnlTop.TabIndex = 8;
             // 
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Black;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 66);
+            this.pictureBox1.Location = new System.Drawing.Point(0, 67);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1200, 999);
+            this.pictureBox1.Size = new System.Drawing.Size(1239, 1007);
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
             // 
-            // toolStripButton1
+            // btnQuickSave
             // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(34, 28);
-            this.toolStripButton1.Text = "toolStripButton1";
+            this.btnQuickSave.Image = global::VzEmulator.Properties.Resources.Save;
+            this.btnQuickSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnQuickSave.Name = "btnQuickSave";
+            this.btnQuickSave.Size = new System.Drawing.Size(127, 29);
+            this.btnQuickSave.Text = "Quick Save";
+            this.btnQuickSave.Click += new System.EventHandler(this.btnQuickSave_Click);
             // 
-            // toolStripSplitButton2
+            // btnQuickLoad
             // 
-            this.toolStripSplitButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripSplitButton2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.asdasdToolStripMenuItem3,
-            this.asdasdToolStripMenuItem4});
-            this.toolStripSplitButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButton2.Image")));
-            this.toolStripSplitButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripSplitButton2.Name = "toolStripSplitButton2";
-            this.toolStripSplitButton2.Size = new System.Drawing.Size(45, 28);
-            this.toolStripSplitButton2.Text = "toolStripSplitButton2";
+            this.btnQuickLoad.Image = global::VzEmulator.Properties.Resources.Open;
+            this.btnQuickLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnQuickLoad.Name = "btnQuickLoad";
+            this.btnQuickLoad.Size = new System.Drawing.Size(146, 29);
+            this.btnQuickLoad.Text = "Quick Load";
+            this.btnQuickLoad.ButtonClick += new System.EventHandler(this.btnQuickLoad_Click);
             // 
-            // asdasdToolStripMenuItem3
+            // btnExecMachineCode
             // 
-            this.asdasdToolStripMenuItem3.Name = "asdasdToolStripMenuItem3";
-            this.asdasdToolStripMenuItem3.Size = new System.Drawing.Size(170, 34);
-            this.asdasdToolStripMenuItem3.Text = "asdasd";
+            this.btnExecMachineCode.Image = global::VzEmulator.Properties.Resources.runMachineCode;
+            this.btnExecMachineCode.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnExecMachineCode.Name = "btnExecMachineCode";
+            this.btnExecMachineCode.Size = new System.Drawing.Size(192, 29);
+            this.btnExecMachineCode.Text = "Exec Machine Code";
+            this.btnExecMachineCode.Click += new System.EventHandler(this.btnExecMachineCode_Click);
             // 
-            // asdasdToolStripMenuItem4
+            // toolStripButton3
             // 
-            this.asdasdToolStripMenuItem4.Name = "asdasdToolStripMenuItem4";
-            this.asdasdToolStripMenuItem4.Size = new System.Drawing.Size(170, 34);
-            this.asdasdToolStripMenuItem4.Text = "asdasd";
+            this.toolStripButton3.Image = global::VzEmulator.Properties.Resources.Run;
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(189, 29);
+            this.toolStripButton3.Text = "Run Basic Program";
+            this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
+            // 
+            // openDiskImageToolStripMenuItem
+            // 
+            this.openDiskImageToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.OpenDiskImage;
+            this.openDiskImageToolStripMenuItem.Name = "openDiskImageToolStripMenuItem";
+            this.openDiskImageToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
+            this.openDiskImageToolStripMenuItem.Text = "Open Disk Image";
+            this.openDiskImageToolStripMenuItem.ToolTipText = "Load a disk image into the current drive, overwrites the current drive content in" +
+    " memory.";
+            this.openDiskImageToolStripMenuItem.Click += new System.EventHandler(this.openDiskImageToolStripMenuItem_Click);
+            // 
+            // saveDiskImageToolStripMenuItem
+            // 
+            this.saveDiskImageToolStripMenuItem.BackColor = System.Drawing.SystemColors.Control;
+            this.saveDiskImageToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.SaveDiskImage;
+            this.saveDiskImageToolStripMenuItem.Name = "saveDiskImageToolStripMenuItem";
+            this.saveDiskImageToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
+            this.saveDiskImageToolStripMenuItem.Text = "Save Disk Image";
+            this.saveDiskImageToolStripMenuItem.ToolTipText = "Save the current drive content to a disk image file";
+            this.saveDiskImageToolStripMenuItem.Click += new System.EventHandler(this.saveDiskImageToolStripMenuItem_Click);
+            // 
+            // reformatDiskSectorsToolStripMenuItem
+            // 
+            this.reformatDiskSectorsToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.SaveDiskImage2;
+            this.reformatDiskSectorsToolStripMenuItem.Name = "reformatDiskSectorsToolStripMenuItem";
+            this.reformatDiskSectorsToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
+            this.reformatDiskSectorsToolStripMenuItem.Text = "Save Disk image with reformat";
+            this.reformatDiskSectorsToolStripMenuItem.ToolTipText = "Reformat the current drive content into standard sector format and save it to a d" +
+    "isk image file";
+            this.reformatDiskSectorsToolStripMenuItem.Click += new System.EventHandler(this.reformatDiskSectorsToolStripMenuItem_Click);
+            // 
+            // openvzFileToolStripMenuItem
+            // 
+            this.openvzFileToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.OpenVzFile;
+            this.openvzFileToolStripMenuItem.Name = "openvzFileToolStripMenuItem";
+            this.openvzFileToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
+            this.openvzFileToolStripMenuItem.Text = "Open .vz File";
+            this.openvzFileToolStripMenuItem.ToolTipText = "Read a .vz file into memory";
+            this.openvzFileToolStripMenuItem.Click += new System.EventHandler(this.openvzFileToolStripMenuItem_Click);
+            // 
+            // saveBasicProgramToolStripMenuItem
+            // 
+            this.saveBasicProgramToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.SaveBasicProgram;
+            this.saveBasicProgramToolStripMenuItem.Name = "saveBasicProgramToolStripMenuItem";
+            this.saveBasicProgramToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
+            this.saveBasicProgramToolStripMenuItem.Text = "Save Basic Program";
+            this.saveBasicProgramToolStripMenuItem.ToolTipText = "Save the current basic program into a .vz file";
+            this.saveBasicProgramToolStripMenuItem.Click += new System.EventHandler(this.saveBasicProgramToolStripMenuItem_Click);
+            // 
+            // saveMachinecodeProgramToolStripMenuItem
+            // 
+            this.saveMachinecodeProgramToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.SaveMachineCode;
+            this.saveMachinecodeProgramToolStripMenuItem.Name = "saveMachinecodeProgramToolStripMenuItem";
+            this.saveMachinecodeProgramToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
+            this.saveMachinecodeProgramToolStripMenuItem.Text = "Save Machine-code program";
+            this.saveMachinecodeProgramToolStripMenuItem.ToolTipText = "Save the current machine-code program into a .vz file";
+            this.saveMachinecodeProgramToolStripMenuItem.Click += new System.EventHandler(this.saveMachinecodeProgramToolStripMenuItem_Click);
+            // 
+            // openMemoryImageToolStripMenuItem
+            // 
+            this.openMemoryImageToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.Open;
+            this.openMemoryImageToolStripMenuItem.Name = "openMemoryImageToolStripMenuItem";
+            this.openMemoryImageToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
+            this.openMemoryImageToolStripMenuItem.Text = "Open Memory Image";
+            this.openMemoryImageToolStripMenuItem.ToolTipText = "Read all memory from a file";
+            this.openMemoryImageToolStripMenuItem.Click += new System.EventHandler(this.openMemoryImageToolStripMenuItem_Click);
+            // 
+            // saveMemoryImageToolStripMenuItem
+            // 
+            this.saveMemoryImageToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.Save;
+            this.saveMemoryImageToolStripMenuItem.Name = "saveMemoryImageToolStripMenuItem";
+            this.saveMemoryImageToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
+            this.saveMemoryImageToolStripMenuItem.Text = "Save Memory Image";
+            this.saveMemoryImageToolStripMenuItem.ToolTipText = "Save all memory to a file";
+            this.saveMemoryImageToolStripMenuItem.Click += new System.EventHandler(this.saveMemoryImageToolStripMenuItem_Click);
             // 
             // testPreviewFileToolStripMenuItem
             // 
@@ -803,7 +678,16 @@
             this.testPreviewFileToolStripMenuItem.Name = "testPreviewFileToolStripMenuItem";
             this.testPreviewFileToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
             this.testPreviewFileToolStripMenuItem.Text = "Open Folder";
+            this.testPreviewFileToolStripMenuItem.ToolTipText = "Open a folder of .vz files with quick preview";
             this.testPreviewFileToolStripMenuItem.Click += new System.EventHandler(this.testPreviewFileToolStripMenuItem_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.exit;
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // copyTextToolStripMenuItem
             // 
@@ -871,16 +755,22 @@
             this.execMachinecodeProgramToolStripMenuItem.Text = "Exec machine-code program";
             this.execMachinecodeProgramToolStripMenuItem.Click += new System.EventHandler(this.execMachinecodeProgramToolStripMenuItem_Click);
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 34);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1200, 1065);
+            this.ClientSize = new System.Drawing.Size(1239, 1074);
             this.Controls.Add(this.pnlTop);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.overlayPanel1);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "frmMain";
@@ -889,14 +779,14 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.frmMain_KeyUp);
             this.Resize += new System.EventHandler(this.frmMain_Resize);
-            this.pnlTop.ResumeLayout(false);
-            this.pnlTop.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
+            this.pnlTop.ResumeLayout(false);
+            this.pnlTop.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -905,11 +795,6 @@
 
         #endregion
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Panel pnlTop;
-        private System.Windows.Forms.TextBox txtMCEnd;
-        private System.Windows.Forms.TextBox txtMCStart;
-        private System.Windows.Forms.Button btnQuickSave;
-        private System.Windows.Forms.Button btnQuickLoad;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem emulationToolStripMenuItem;
@@ -937,12 +822,9 @@
         private System.Windows.Forms.ToolStripMenuItem showFontToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem traceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem soundEnabledToolStripMenuItem;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ToolStripMenuItem diskStatusToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem numberConversionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem basicProgramListingToolStripMenuItem;
-        private System.Windows.Forms.Label StatusLabel;
         private System.Windows.Forms.ToolStripMenuItem showStatsToolStripMenuItem;
         private VzEmulatorControls.OverlayPanel overlayPanel1;
         private System.Windows.Forms.ToolStripMenuItem printerToolStripMenuItem;
@@ -964,31 +846,27 @@
         private System.Windows.Forms.ToolStripMenuItem reformatDiskSectorsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editDiskToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem testPreviewFileToolStripMenuItem;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button Run;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyTextToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyImageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pasteTextToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem captureScreenOutputToolStripMenuItem;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
-        private System.Windows.Forms.ToolStripMenuItem qweqweToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem asdasdToolStripMenuItem2;
-        private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton1;
-        private System.Windows.Forms.ToolStripMenuItem asdasdToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem asdasdToolStripMenuItem;
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton btnQuickSave;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
-        private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton2;
-        private System.Windows.Forms.ToolStripMenuItem asdasdToolStripMenuItem3;
-        private System.Windows.Forms.ToolStripMenuItem asdasdToolStripMenuItem4;
-        private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
+        private System.Windows.Forms.ToolStripSplitButton btnQuickLoad;
+        private System.Windows.Forms.ToolStripTextBox txtMCEnd;
+        private System.Windows.Forms.ToolStripTextBox txtMCStart;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel2;
+        private System.Windows.Forms.ToolStripButton btnExecMachineCode;
+        private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private System.Windows.Forms.Label StatusLabel;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.Panel pnlTop;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }
 

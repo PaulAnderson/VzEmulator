@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using VzEmulator.Debugger;
 
@@ -69,6 +70,9 @@ namespace VzEmulator
             {
                 ctrl.PreviewKeyDown += Button_PreviewKeyDown;
             }
+
+            toolStripStatusLabel1.Text = "";
+            toolStripStatusLabel2.Text = "";
 
             StartEmulation();
         }
@@ -144,7 +148,7 @@ namespace VzEmulator
 
         private void Toast(string message)
         {
-            StatusLabel.Text = message;
+            toolStripStatusLabel1.Text = message;
         }
 
         private void startToolStripMenuItem_Click(object sender, EventArgs e)
@@ -157,7 +161,15 @@ namespace VzEmulator
             Presenter.SoundEnabled = soundEnabledToolStripMenuItem.Checked;
 
             Presenter.Start();
-            
+
+            if (startToolStripMenuItem.Text == "Reset")
+            {
+                toolStripStatusLabel1.Text = "Emulation Reset";
+            } else
+            {
+                toolStripStatusLabel1.Text = "Emulation started";
+            }
+
             startToolStripMenuItem.Text = "Reset";
             pauseToolStripMenuItem.Enabled = true;
             unPauseToolStripMenuItem.Enabled = true;
@@ -166,11 +178,13 @@ namespace VzEmulator
         private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Presenter.Pause();
+            toolStripStatusLabel1.Text = "Emulation paused";
         }
 
         private void unPauseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Presenter.UnPause();
+            toolStripStatusLabel1.Text = "Emulation resumed";
         }
 
         private void execMachinecodeProgramToolStripMenuItem_Click(object sender, EventArgs e)
@@ -184,6 +198,8 @@ namespace VzEmulator
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 Presenter.LoadDiskImage(openFileDialog.FileName);
+                var fileName = Path.GetFileName(openFileDialog.FileName);
+                toolStripStatusLabel1.Text = $"Opened Disk image {fileName}.";
             }
         }
 
@@ -193,6 +209,8 @@ namespace VzEmulator
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 Presenter.SaveDiskImage(saveFileDialog.FileName);
+                var fileName = Path.GetFileName(saveFileDialog.FileName);
+                toolStripStatusLabel1.Text = $"Saved  Disk image {fileName}";
             }
         }
 
@@ -202,7 +220,9 @@ namespace VzEmulator
             var saveFileDialog = new SaveFileDialog();
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                Presenter.SaveDiskImage(saveFileDialog.FileName, reFormat: true) ;
+                Presenter.SaveDiskImage(saveFileDialog.FileName, reFormat: true);
+                var fileName = Path.GetFileName(saveFileDialog.FileName);
+                toolStripStatusLabel1.Text = $"Saved {fileName} in stardard sector format";
             }
         }
 
@@ -212,6 +232,8 @@ namespace VzEmulator
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 Presenter.LoadImage(dlg.FileName);
+                var fileName = Path.GetFileName(dlg.FileName);
+                toolStripStatusLabel1.Text = $"Opened memory image {fileName} ";
             }
         }
 
@@ -221,6 +243,8 @@ namespace VzEmulator
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 Presenter.SaveImage(dlg.FileName);
+                var fileName = Path.GetFileName(dlg.FileName);
+                toolStripStatusLabel1.Text = $"Saved memory image {fileName} ";
             }
         }
 
@@ -230,8 +254,15 @@ namespace VzEmulator
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 var addressRange = Presenter.LoadFile(dlg.FileName);
-                ((IMachineView)this).UpdateMCStart(addressRange.Start);
-                ((IMachineView)this).UpdateMcEnd(addressRange.End);
+                txtMCStart.Text = $"{addressRange.Start:X4}";
+                txtMCEnd.Text = $"{addressRange.End:X4}";
+                pictureBox1.Focus();
+
+                //((IMachineView)this).UpdateMCStart(addressRange.Start);
+                //((IMachineView)this).UpdateMcEnd(addressRange.End);
+
+                var fileName = Path.GetFileName(dlg.FileName);
+                toolStripStatusLabel1.Text = $"Opened program {fileName} ";
 
             }
         }
@@ -242,6 +273,9 @@ namespace VzEmulator
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 Presenter.SaveBasicFile(dlg.FileName);
+
+                var fileName = Path.GetFileName(dlg.FileName);
+                toolStripStatusLabel1.Text = $"Saved basic program {fileName} ";
             }
         }
 
@@ -251,6 +285,9 @@ namespace VzEmulator
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 Presenter.SaveMcFile(dlg.FileName);
+
+                var fileName = Path.GetFileName(dlg.FileName);
+                toolStripStatusLabel1.Text = $"Saved MC program {fileName} ";
             }
         }
 
@@ -312,7 +349,7 @@ namespace VzEmulator
         }
         private void frmMain_Resize(object sender, EventArgs e)
         {
-            StatusLabel.Text = $"Width: {Width}, Height: {Height}";
+            Toast($"Width: {Width}, Height: {Height}");
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -484,10 +521,7 @@ namespace VzEmulator
             frm.BackgroundImage = previewRunner.LatestImage;
             frm.Show();
         }
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Presenter.JumpToUsrExec();
-        }
+     
 
         private void Run_Click(object sender, EventArgs e)
         {
@@ -525,6 +559,22 @@ namespace VzEmulator
         {
 
         }
+
+        private void toolStripLabel1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnExecMachineCode_Click(object sender, EventArgs e)
+        {
+            Presenter.JumpToUsrExec();
+        }
+
+        private void toolStripButton3_Click(object sender, EventArgs e)
+        {
+            Presenter.TestExecRun(); //todo fix
+        }
+
     }
 }
  

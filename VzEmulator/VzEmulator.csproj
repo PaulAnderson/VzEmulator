@@ -218,6 +218,15 @@
     <Compile Include="VzFile.cs" />
     <Compile Include="FileIO.cs" />
     <Compile Include="Screen\TextModeRenderer.cs" />
+    <None Include="UI Images\OpenVzFile.png" />
+    <None Include="UI Images\SaveBasicProgram.png" />
+    <None Include="UI Images\exit.png" />
+    <None Include="UI Images\SaveDiskImage2.png" />
+    <None Include="UI Images\SaveDiskImage.jpg" />
+    <None Include="UI Images\OpenDiskImage.png" />
+    <None Include="UI Images\SaveMachineCode.png" />
+    <None Include="UI Images\Open.png" />
+    <None Include="UI Images\Save.png" />
     <None Include="UI Images\runMachineCode.png" />
     <None Include="UI Images\unpause.png" />
     <None Include="UI Images\Pause.png" />
