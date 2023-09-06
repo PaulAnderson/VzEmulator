@@ -572,7 +572,7 @@ namespace VzEmulator
 
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
-            Presenter.TestExecRun(); //todo fix
+            Presenter.RunBasic();
         }
 
     }

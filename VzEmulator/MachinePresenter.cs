@@ -400,6 +400,24 @@ namespace VzEmulator
         {
             _machine.Keyboard.QueueKeys(text);
         }
-
+        public void RunBasic( )
+        {
+            var address = (ushort)(_machine.Cpu.Memory[VzConstants.StartBasicProgramPtr] + (_machine.Cpu.Memory[VzConstants.StartBasicProgramPtr + 1] << 8));
+            _machine.Cpu.Registers.AF = 0x44;
+            _machine.Cpu.Registers.BC = 0x1D1E;
+            _machine.Cpu.Registers.DE = (short)(address - 1);//31464 0x7AE8;
+            _machine.Cpu.Registers.HL = (short)address;//31465 0x7AE9;
+            _machine.Cpu.Registers.IX = 0;
+            _machine.Cpu.Registers.SP = unchecked((short)0xFE94);
+            _machine.Cpu.Registers.AltAF = 0;
+            _machine.Cpu.Registers.AltBC = 0;
+            _machine.Cpu.Registers.AltDE = 7515;
+            _machine.Cpu.Registers.AltHL = 0;
+            _machine.Cpu.Registers.PC = 0x1D37;
+            _machine.Cpu.InterruptEnableFlag.IsEnabled = false;
+            _machine.Cpu.Registers.IFF1 = true;
+            if (_machine.Cpu.State != CpuState.Running)
+                _machine.StartCpuTask();
+        }
     }
 }
