@@ -31,8 +31,26 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openDiskImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveDiskImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reformatDiskSectorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openvzFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveBasicProgramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveMachinecodeProgramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openMemoryImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveMemoryImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testPreviewFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.captureScreenOutputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.emulationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.unPauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.execMachinecodeProgramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.displayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.integerScalingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.smoothingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,11 +85,16 @@
             this.Clock5ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Clock6ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.btnQuickSave = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnQuickLoad = new System.Windows.Forms.ToolStripSplitButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.txtMCStart = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.txtMCEnd = new System.Windows.Forms.ToolStripTextBox();
+            this.btnExecMachineCode = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.overlayPanel1 = new VzEmulatorControls.OverlayPanel();
             this.StatusLabel = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -79,29 +102,8 @@
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.pnlTop = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btnQuickSave = new System.Windows.Forms.ToolStripButton();
-            this.btnQuickLoad = new System.Windows.Forms.ToolStripSplitButton();
-            this.btnExecMachineCode = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.openDiskImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveDiskImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reformatDiskSectorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openvzFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveBasicProgramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveMachinecodeProgramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openMemoryImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveMemoryImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.testPreviewFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.captureScreenOutputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pasteTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.unPauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.execMachinecodeProgramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.inDrive1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.inDrive2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -144,6 +146,98 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 29);
             this.fileToolStripMenuItem.Text = "File";
             // 
+            // openDiskImageToolStripMenuItem
+            // 
+            this.openDiskImageToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.OpenDiskImage;
+            this.openDiskImageToolStripMenuItem.Name = "openDiskImageToolStripMenuItem";
+            this.openDiskImageToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
+            this.openDiskImageToolStripMenuItem.Text = "Open Disk Image";
+            this.openDiskImageToolStripMenuItem.ToolTipText = "Load a disk image into the current drive, overwrites the current drive content in" +
+    " memory.";
+            this.openDiskImageToolStripMenuItem.Click += new System.EventHandler(this.openDiskImageToolStripMenuItem_Click);
+            // 
+            // saveDiskImageToolStripMenuItem
+            // 
+            this.saveDiskImageToolStripMenuItem.BackColor = System.Drawing.SystemColors.Control;
+            this.saveDiskImageToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.SaveDiskImage;
+            this.saveDiskImageToolStripMenuItem.Name = "saveDiskImageToolStripMenuItem";
+            this.saveDiskImageToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
+            this.saveDiskImageToolStripMenuItem.Text = "Save Disk Image";
+            this.saveDiskImageToolStripMenuItem.ToolTipText = "Save the current drive content to a disk image file";
+            this.saveDiskImageToolStripMenuItem.Click += new System.EventHandler(this.saveDiskImageToolStripMenuItem_Click);
+            // 
+            // reformatDiskSectorsToolStripMenuItem
+            // 
+            this.reformatDiskSectorsToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.SaveDiskImage2;
+            this.reformatDiskSectorsToolStripMenuItem.Name = "reformatDiskSectorsToolStripMenuItem";
+            this.reformatDiskSectorsToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
+            this.reformatDiskSectorsToolStripMenuItem.Text = "Save Disk image with reformat";
+            this.reformatDiskSectorsToolStripMenuItem.ToolTipText = "Reformat the current drive content into standard sector format and save it to a d" +
+    "isk image file";
+            this.reformatDiskSectorsToolStripMenuItem.Click += new System.EventHandler(this.reformatDiskSectorsToolStripMenuItem_Click);
+            // 
+            // openvzFileToolStripMenuItem
+            // 
+            this.openvzFileToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.OpenVzFile;
+            this.openvzFileToolStripMenuItem.Name = "openvzFileToolStripMenuItem";
+            this.openvzFileToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
+            this.openvzFileToolStripMenuItem.Text = "Open .vz File";
+            this.openvzFileToolStripMenuItem.ToolTipText = "Read a .vz file into memory";
+            this.openvzFileToolStripMenuItem.Click += new System.EventHandler(this.openvzFileToolStripMenuItem_Click);
+            // 
+            // saveBasicProgramToolStripMenuItem
+            // 
+            this.saveBasicProgramToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.SaveBasicProgram;
+            this.saveBasicProgramToolStripMenuItem.Name = "saveBasicProgramToolStripMenuItem";
+            this.saveBasicProgramToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
+            this.saveBasicProgramToolStripMenuItem.Text = "Save Basic Program";
+            this.saveBasicProgramToolStripMenuItem.ToolTipText = "Save the current basic program into a .vz file";
+            this.saveBasicProgramToolStripMenuItem.Click += new System.EventHandler(this.saveBasicProgramToolStripMenuItem_Click);
+            // 
+            // saveMachinecodeProgramToolStripMenuItem
+            // 
+            this.saveMachinecodeProgramToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.SaveMachineCode;
+            this.saveMachinecodeProgramToolStripMenuItem.Name = "saveMachinecodeProgramToolStripMenuItem";
+            this.saveMachinecodeProgramToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
+            this.saveMachinecodeProgramToolStripMenuItem.Text = "Save Machine-code program";
+            this.saveMachinecodeProgramToolStripMenuItem.ToolTipText = "Save the current machine-code program into a .vz file";
+            this.saveMachinecodeProgramToolStripMenuItem.Click += new System.EventHandler(this.saveMachinecodeProgramToolStripMenuItem_Click);
+            // 
+            // openMemoryImageToolStripMenuItem
+            // 
+            this.openMemoryImageToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.Open;
+            this.openMemoryImageToolStripMenuItem.Name = "openMemoryImageToolStripMenuItem";
+            this.openMemoryImageToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
+            this.openMemoryImageToolStripMenuItem.Text = "Open Memory Image";
+            this.openMemoryImageToolStripMenuItem.ToolTipText = "Read all memory from a file";
+            this.openMemoryImageToolStripMenuItem.Click += new System.EventHandler(this.openMemoryImageToolStripMenuItem_Click);
+            // 
+            // saveMemoryImageToolStripMenuItem
+            // 
+            this.saveMemoryImageToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.Save;
+            this.saveMemoryImageToolStripMenuItem.Name = "saveMemoryImageToolStripMenuItem";
+            this.saveMemoryImageToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
+            this.saveMemoryImageToolStripMenuItem.Text = "Save Memory Image";
+            this.saveMemoryImageToolStripMenuItem.ToolTipText = "Save all memory to a file";
+            this.saveMemoryImageToolStripMenuItem.Click += new System.EventHandler(this.saveMemoryImageToolStripMenuItem_Click);
+            // 
+            // testPreviewFileToolStripMenuItem
+            // 
+            this.testPreviewFileToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.greenFolderOpen;
+            this.testPreviewFileToolStripMenuItem.Name = "testPreviewFileToolStripMenuItem";
+            this.testPreviewFileToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
+            this.testPreviewFileToolStripMenuItem.Text = "Open Folder";
+            this.testPreviewFileToolStripMenuItem.ToolTipText = "Open a folder of .vz files with quick preview";
+            this.testPreviewFileToolStripMenuItem.Click += new System.EventHandler(this.testPreviewFileToolStripMenuItem_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.exit;
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -155,6 +249,38 @@
             this.editToolStripMenuItem.Size = new System.Drawing.Size(58, 29);
             this.editToolStripMenuItem.Text = "Edit";
             // 
+            // copyTextToolStripMenuItem
+            // 
+            this.copyTextToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.CopyText;
+            this.copyTextToolStripMenuItem.Name = "copyTextToolStripMenuItem";
+            this.copyTextToolStripMenuItem.Size = new System.Drawing.Size(348, 34);
+            this.copyTextToolStripMenuItem.Text = "Copy Screen Text";
+            this.copyTextToolStripMenuItem.Click += new System.EventHandler(this.copyTextToolStripMenuItem_Click);
+            // 
+            // copyImageToolStripMenuItem
+            // 
+            this.copyImageToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.CopyImage;
+            this.copyImageToolStripMenuItem.Name = "copyImageToolStripMenuItem";
+            this.copyImageToolStripMenuItem.Size = new System.Drawing.Size(348, 34);
+            this.copyImageToolStripMenuItem.Text = "Copy Screen Image";
+            this.copyImageToolStripMenuItem.Click += new System.EventHandler(this.copyImageToolStripMenuItem_Click);
+            // 
+            // captureScreenOutputToolStripMenuItem
+            // 
+            this.captureScreenOutputToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.ExtractText;
+            this.captureScreenOutputToolStripMenuItem.Name = "captureScreenOutputToolStripMenuItem";
+            this.captureScreenOutputToolStripMenuItem.Size = new System.Drawing.Size(348, 34);
+            this.captureScreenOutputToolStripMenuItem.Text = "Capture Screen Output";
+            this.captureScreenOutputToolStripMenuItem.Click += new System.EventHandler(this.captureScreenOutputToolStripMenuItem_Click);
+            // 
+            // pasteTextToolStripMenuItem
+            // 
+            this.pasteTextToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.key2;
+            this.pasteTextToolStripMenuItem.Name = "pasteTextToolStripMenuItem";
+            this.pasteTextToolStripMenuItem.Size = new System.Drawing.Size(348, 34);
+            this.pasteTextToolStripMenuItem.Text = "Paste Text (Simulate Keypress)";
+            this.pasteTextToolStripMenuItem.Click += new System.EventHandler(this.pasteTextToolStripMenuItem_Click);
+            // 
             // emulationToolStripMenuItem
             // 
             this.emulationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -165,6 +291,40 @@
             this.emulationToolStripMenuItem.Name = "emulationToolStripMenuItem";
             this.emulationToolStripMenuItem.Size = new System.Drawing.Size(107, 29);
             this.emulationToolStripMenuItem.Text = "Emulation";
+            // 
+            // startToolStripMenuItem
+            // 
+            this.startToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.Run;
+            this.startToolStripMenuItem.Name = "startToolStripMenuItem";
+            this.startToolStripMenuItem.Size = new System.Drawing.Size(340, 34);
+            this.startToolStripMenuItem.Text = "Start";
+            this.startToolStripMenuItem.Click += new System.EventHandler(this.startToolStripMenuItem_Click);
+            // 
+            // pauseToolStripMenuItem
+            // 
+            this.pauseToolStripMenuItem.Enabled = false;
+            this.pauseToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.Pause;
+            this.pauseToolStripMenuItem.Name = "pauseToolStripMenuItem";
+            this.pauseToolStripMenuItem.Size = new System.Drawing.Size(340, 34);
+            this.pauseToolStripMenuItem.Text = "Pause";
+            this.pauseToolStripMenuItem.Click += new System.EventHandler(this.pauseToolStripMenuItem_Click);
+            // 
+            // unPauseToolStripMenuItem
+            // 
+            this.unPauseToolStripMenuItem.Enabled = false;
+            this.unPauseToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.unpause;
+            this.unPauseToolStripMenuItem.Name = "unPauseToolStripMenuItem";
+            this.unPauseToolStripMenuItem.Size = new System.Drawing.Size(340, 34);
+            this.unPauseToolStripMenuItem.Text = "Un-Pause";
+            this.unPauseToolStripMenuItem.Click += new System.EventHandler(this.unPauseToolStripMenuItem_Click);
+            // 
+            // execMachinecodeProgramToolStripMenuItem
+            // 
+            this.execMachinecodeProgramToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.runMachineCode;
+            this.execMachinecodeProgramToolStripMenuItem.Name = "execMachinecodeProgramToolStripMenuItem";
+            this.execMachinecodeProgramToolStripMenuItem.Size = new System.Drawing.Size(340, 34);
+            this.execMachinecodeProgramToolStripMenuItem.Text = "Exec machine-code program";
+            this.execMachinecodeProgramToolStripMenuItem.Click += new System.EventHandler(this.execMachinecodeProgramToolStripMenuItem_Click);
             // 
             // displayToolStripMenuItem
             // 
@@ -287,6 +447,9 @@
             // 
             // editDiskToolStripMenuItem
             // 
+            this.editDiskToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.inDrive1ToolStripMenuItem,
+            this.inDrive2ToolStripMenuItem});
             this.editDiskToolStripMenuItem.Name = "editDiskToolStripMenuItem";
             this.editDiskToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.editDiskToolStripMenuItem.Text = "Edit Disk";
@@ -463,10 +626,33 @@
             this.toolStrip1.TabIndex = 11;
             this.toolStrip1.Text = "toolStrip1";
             // 
+            // btnQuickSave
+            // 
+            this.btnQuickSave.Image = global::VzEmulator.Properties.Resources.Save;
+            this.btnQuickSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnQuickSave.Name = "btnQuickSave";
+            this.btnQuickSave.Size = new System.Drawing.Size(127, 29);
+            this.btnQuickSave.Text = "Quick Save";
+            this.btnQuickSave.Click += new System.EventHandler(this.btnQuickSave_Click);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 34);
+            // 
+            // btnQuickLoad
+            // 
+            this.btnQuickLoad.Image = global::VzEmulator.Properties.Resources.Open;
+            this.btnQuickLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnQuickLoad.Name = "btnQuickLoad";
+            this.btnQuickLoad.Size = new System.Drawing.Size(146, 29);
+            this.btnQuickLoad.Text = "Quick Load";
+            this.btnQuickLoad.ButtonClick += new System.EventHandler(this.btnQuickLoad_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 34);
             // 
             // toolStripLabel2
             // 
@@ -497,6 +683,24 @@
             this.txtMCEnd.Leave += new System.EventHandler(this.txtMCEnd_Leave);
             this.txtMCEnd.Validating += new System.ComponentModel.CancelEventHandler(this.txtMCEnd_Validating);
             this.txtMCEnd.Click += new System.EventHandler(this.toolStripTextBox1_Click);
+            // 
+            // btnExecMachineCode
+            // 
+            this.btnExecMachineCode.Image = global::VzEmulator.Properties.Resources.runMachineCode;
+            this.btnExecMachineCode.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnExecMachineCode.Name = "btnExecMachineCode";
+            this.btnExecMachineCode.Size = new System.Drawing.Size(192, 29);
+            this.btnExecMachineCode.Text = "Exec Machine Code";
+            this.btnExecMachineCode.Click += new System.EventHandler(this.btnExecMachineCode_Click);
+            // 
+            // toolStripButton3
+            // 
+            this.toolStripButton3.Image = global::VzEmulator.Properties.Resources.Run;
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(189, 29);
+            this.toolStripButton3.Text = "Run Basic Program";
+            this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
             // 
             // overlayPanel1
             // 
@@ -561,204 +765,19 @@
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
             // 
-            // btnQuickSave
+            // inDrive1ToolStripMenuItem
             // 
-            this.btnQuickSave.Image = global::VzEmulator.Properties.Resources.Save;
-            this.btnQuickSave.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnQuickSave.Name = "btnQuickSave";
-            this.btnQuickSave.Size = new System.Drawing.Size(127, 29);
-            this.btnQuickSave.Text = "Quick Save";
-            this.btnQuickSave.Click += new System.EventHandler(this.btnQuickSave_Click);
+            this.inDrive1ToolStripMenuItem.Name = "inDrive1ToolStripMenuItem";
+            this.inDrive1ToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.inDrive1ToolStripMenuItem.Text = "in Drive 1";
+            this.inDrive1ToolStripMenuItem.Click += new System.EventHandler(this.inDrive1ToolStripMenuItem_Click);
             // 
-            // btnQuickLoad
+            // inDrive2ToolStripMenuItem
             // 
-            this.btnQuickLoad.Image = global::VzEmulator.Properties.Resources.Open;
-            this.btnQuickLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnQuickLoad.Name = "btnQuickLoad";
-            this.btnQuickLoad.Size = new System.Drawing.Size(146, 29);
-            this.btnQuickLoad.Text = "Quick Load";
-            this.btnQuickLoad.ButtonClick += new System.EventHandler(this.btnQuickLoad_Click);
-            // 
-            // btnExecMachineCode
-            // 
-            this.btnExecMachineCode.Image = global::VzEmulator.Properties.Resources.runMachineCode;
-            this.btnExecMachineCode.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnExecMachineCode.Name = "btnExecMachineCode";
-            this.btnExecMachineCode.Size = new System.Drawing.Size(192, 29);
-            this.btnExecMachineCode.Text = "Exec Machine Code";
-            this.btnExecMachineCode.Click += new System.EventHandler(this.btnExecMachineCode_Click);
-            // 
-            // toolStripButton3
-            // 
-            this.toolStripButton3.Image = global::VzEmulator.Properties.Resources.Run;
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(189, 29);
-            this.toolStripButton3.Text = "Run Basic Program";
-            this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
-            // 
-            // openDiskImageToolStripMenuItem
-            // 
-            this.openDiskImageToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.OpenDiskImage;
-            this.openDiskImageToolStripMenuItem.Name = "openDiskImageToolStripMenuItem";
-            this.openDiskImageToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
-            this.openDiskImageToolStripMenuItem.Text = "Open Disk Image";
-            this.openDiskImageToolStripMenuItem.ToolTipText = "Load a disk image into the current drive, overwrites the current drive content in" +
-    " memory.";
-            this.openDiskImageToolStripMenuItem.Click += new System.EventHandler(this.openDiskImageToolStripMenuItem_Click);
-            // 
-            // saveDiskImageToolStripMenuItem
-            // 
-            this.saveDiskImageToolStripMenuItem.BackColor = System.Drawing.SystemColors.Control;
-            this.saveDiskImageToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.SaveDiskImage;
-            this.saveDiskImageToolStripMenuItem.Name = "saveDiskImageToolStripMenuItem";
-            this.saveDiskImageToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
-            this.saveDiskImageToolStripMenuItem.Text = "Save Disk Image";
-            this.saveDiskImageToolStripMenuItem.ToolTipText = "Save the current drive content to a disk image file";
-            this.saveDiskImageToolStripMenuItem.Click += new System.EventHandler(this.saveDiskImageToolStripMenuItem_Click);
-            // 
-            // reformatDiskSectorsToolStripMenuItem
-            // 
-            this.reformatDiskSectorsToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.SaveDiskImage2;
-            this.reformatDiskSectorsToolStripMenuItem.Name = "reformatDiskSectorsToolStripMenuItem";
-            this.reformatDiskSectorsToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
-            this.reformatDiskSectorsToolStripMenuItem.Text = "Save Disk image with reformat";
-            this.reformatDiskSectorsToolStripMenuItem.ToolTipText = "Reformat the current drive content into standard sector format and save it to a d" +
-    "isk image file";
-            this.reformatDiskSectorsToolStripMenuItem.Click += new System.EventHandler(this.reformatDiskSectorsToolStripMenuItem_Click);
-            // 
-            // openvzFileToolStripMenuItem
-            // 
-            this.openvzFileToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.OpenVzFile;
-            this.openvzFileToolStripMenuItem.Name = "openvzFileToolStripMenuItem";
-            this.openvzFileToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
-            this.openvzFileToolStripMenuItem.Text = "Open .vz File";
-            this.openvzFileToolStripMenuItem.ToolTipText = "Read a .vz file into memory";
-            this.openvzFileToolStripMenuItem.Click += new System.EventHandler(this.openvzFileToolStripMenuItem_Click);
-            // 
-            // saveBasicProgramToolStripMenuItem
-            // 
-            this.saveBasicProgramToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.SaveBasicProgram;
-            this.saveBasicProgramToolStripMenuItem.Name = "saveBasicProgramToolStripMenuItem";
-            this.saveBasicProgramToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
-            this.saveBasicProgramToolStripMenuItem.Text = "Save Basic Program";
-            this.saveBasicProgramToolStripMenuItem.ToolTipText = "Save the current basic program into a .vz file";
-            this.saveBasicProgramToolStripMenuItem.Click += new System.EventHandler(this.saveBasicProgramToolStripMenuItem_Click);
-            // 
-            // saveMachinecodeProgramToolStripMenuItem
-            // 
-            this.saveMachinecodeProgramToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.SaveMachineCode;
-            this.saveMachinecodeProgramToolStripMenuItem.Name = "saveMachinecodeProgramToolStripMenuItem";
-            this.saveMachinecodeProgramToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
-            this.saveMachinecodeProgramToolStripMenuItem.Text = "Save Machine-code program";
-            this.saveMachinecodeProgramToolStripMenuItem.ToolTipText = "Save the current machine-code program into a .vz file";
-            this.saveMachinecodeProgramToolStripMenuItem.Click += new System.EventHandler(this.saveMachinecodeProgramToolStripMenuItem_Click);
-            // 
-            // openMemoryImageToolStripMenuItem
-            // 
-            this.openMemoryImageToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.Open;
-            this.openMemoryImageToolStripMenuItem.Name = "openMemoryImageToolStripMenuItem";
-            this.openMemoryImageToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
-            this.openMemoryImageToolStripMenuItem.Text = "Open Memory Image";
-            this.openMemoryImageToolStripMenuItem.ToolTipText = "Read all memory from a file";
-            this.openMemoryImageToolStripMenuItem.Click += new System.EventHandler(this.openMemoryImageToolStripMenuItem_Click);
-            // 
-            // saveMemoryImageToolStripMenuItem
-            // 
-            this.saveMemoryImageToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.Save;
-            this.saveMemoryImageToolStripMenuItem.Name = "saveMemoryImageToolStripMenuItem";
-            this.saveMemoryImageToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
-            this.saveMemoryImageToolStripMenuItem.Text = "Save Memory Image";
-            this.saveMemoryImageToolStripMenuItem.ToolTipText = "Save all memory to a file";
-            this.saveMemoryImageToolStripMenuItem.Click += new System.EventHandler(this.saveMemoryImageToolStripMenuItem_Click);
-            // 
-            // testPreviewFileToolStripMenuItem
-            // 
-            this.testPreviewFileToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.greenFolderOpen;
-            this.testPreviewFileToolStripMenuItem.Name = "testPreviewFileToolStripMenuItem";
-            this.testPreviewFileToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
-            this.testPreviewFileToolStripMenuItem.Text = "Open Folder";
-            this.testPreviewFileToolStripMenuItem.ToolTipText = "Open a folder of .vz files with quick preview";
-            this.testPreviewFileToolStripMenuItem.Click += new System.EventHandler(this.testPreviewFileToolStripMenuItem_Click);
-            // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.exit;
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(356, 34);
-            this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
-            // 
-            // copyTextToolStripMenuItem
-            // 
-            this.copyTextToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.CopyText;
-            this.copyTextToolStripMenuItem.Name = "copyTextToolStripMenuItem";
-            this.copyTextToolStripMenuItem.Size = new System.Drawing.Size(348, 34);
-            this.copyTextToolStripMenuItem.Text = "Copy Screen Text";
-            this.copyTextToolStripMenuItem.Click += new System.EventHandler(this.copyTextToolStripMenuItem_Click);
-            // 
-            // copyImageToolStripMenuItem
-            // 
-            this.copyImageToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.CopyImage;
-            this.copyImageToolStripMenuItem.Name = "copyImageToolStripMenuItem";
-            this.copyImageToolStripMenuItem.Size = new System.Drawing.Size(348, 34);
-            this.copyImageToolStripMenuItem.Text = "Copy Screen Image";
-            this.copyImageToolStripMenuItem.Click += new System.EventHandler(this.copyImageToolStripMenuItem_Click);
-            // 
-            // captureScreenOutputToolStripMenuItem
-            // 
-            this.captureScreenOutputToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.ExtractText;
-            this.captureScreenOutputToolStripMenuItem.Name = "captureScreenOutputToolStripMenuItem";
-            this.captureScreenOutputToolStripMenuItem.Size = new System.Drawing.Size(348, 34);
-            this.captureScreenOutputToolStripMenuItem.Text = "Capture Screen Output";
-            this.captureScreenOutputToolStripMenuItem.Click += new System.EventHandler(this.captureScreenOutputToolStripMenuItem_Click);
-            // 
-            // pasteTextToolStripMenuItem
-            // 
-            this.pasteTextToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.key2;
-            this.pasteTextToolStripMenuItem.Name = "pasteTextToolStripMenuItem";
-            this.pasteTextToolStripMenuItem.Size = new System.Drawing.Size(348, 34);
-            this.pasteTextToolStripMenuItem.Text = "Paste Text (Simulate Keypress)";
-            this.pasteTextToolStripMenuItem.Click += new System.EventHandler(this.pasteTextToolStripMenuItem_Click);
-            // 
-            // startToolStripMenuItem
-            // 
-            this.startToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.Run;
-            this.startToolStripMenuItem.Name = "startToolStripMenuItem";
-            this.startToolStripMenuItem.Size = new System.Drawing.Size(340, 34);
-            this.startToolStripMenuItem.Text = "Start";
-            this.startToolStripMenuItem.Click += new System.EventHandler(this.startToolStripMenuItem_Click);
-            // 
-            // pauseToolStripMenuItem
-            // 
-            this.pauseToolStripMenuItem.Enabled = false;
-            this.pauseToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.Pause;
-            this.pauseToolStripMenuItem.Name = "pauseToolStripMenuItem";
-            this.pauseToolStripMenuItem.Size = new System.Drawing.Size(340, 34);
-            this.pauseToolStripMenuItem.Text = "Pause";
-            this.pauseToolStripMenuItem.Click += new System.EventHandler(this.pauseToolStripMenuItem_Click);
-            // 
-            // unPauseToolStripMenuItem
-            // 
-            this.unPauseToolStripMenuItem.Enabled = false;
-            this.unPauseToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.unpause;
-            this.unPauseToolStripMenuItem.Name = "unPauseToolStripMenuItem";
-            this.unPauseToolStripMenuItem.Size = new System.Drawing.Size(340, 34);
-            this.unPauseToolStripMenuItem.Text = "Un-Pause";
-            this.unPauseToolStripMenuItem.Click += new System.EventHandler(this.unPauseToolStripMenuItem_Click);
-            // 
-            // execMachinecodeProgramToolStripMenuItem
-            // 
-            this.execMachinecodeProgramToolStripMenuItem.Image = global::VzEmulator.Properties.Resources.runMachineCode;
-            this.execMachinecodeProgramToolStripMenuItem.Name = "execMachinecodeProgramToolStripMenuItem";
-            this.execMachinecodeProgramToolStripMenuItem.Size = new System.Drawing.Size(340, 34);
-            this.execMachinecodeProgramToolStripMenuItem.Text = "Exec machine-code program";
-            this.execMachinecodeProgramToolStripMenuItem.Click += new System.EventHandler(this.execMachinecodeProgramToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 34);
+            this.inDrive2ToolStripMenuItem.Name = "inDrive2ToolStripMenuItem";
+            this.inDrive2ToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.inDrive2ToolStripMenuItem.Text = "in Drive 2";
+            this.inDrive2ToolStripMenuItem.Click += new System.EventHandler(this.inDrive2ToolStripMenuItem_Click);
             // 
             // frmMain
             // 
@@ -867,6 +886,8 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.Panel pnlTop;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem inDrive1ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem inDrive2ToolStripMenuItem;
     }
 }
 

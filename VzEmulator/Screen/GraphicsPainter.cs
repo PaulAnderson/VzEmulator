@@ -23,12 +23,13 @@ namespace VzEmulator.Screen
         public Renderer TextModeRenderer { get; private set; }
         public Renderer GraphicsModeRenderer { get; private set; }
 
-        internal GraphicsPainter(Byte[] VideoMemory, ILatchValue outputLatch, int RenderStartAddress, ILatchValue extendedGraphicsLatch = null)
+        internal GraphicsPainter(Byte[] VideoMemory, ILatchValue outputLatch, int RenderStartAddress, ILatchValue extendedGraphicsLatch = null, int screenSizeX = 32, int screenSizeY = 16)
         {
+
             OutputLatch = outputLatch;
             ExtendedGraphicsLatch = extendedGraphicsLatch;
 
-            TextModeRenderer = new TextModeRenderer(VideoMemory, 0);
+            TextModeRenderer = new TextModeRenderer(VideoMemory, 0) { ScreenSizeX = screenSizeX, ScreenSizeY = screenSizeY };
             GraphicsModeRenderer = new GraphicsModeRenderer(VideoMemory, 0);
 
         }

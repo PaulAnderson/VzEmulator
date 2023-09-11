@@ -10,19 +10,29 @@ namespace VzEmulator.Screen
         const string FileName = "Fonts/Font.png";
         public DirectBitmap _FontBitmap;
 
-        protected override int Width => 256;
-        protected override int Height => 192;
+        public int ScreenSizeY { get; set; } = 16;
+        public int ScreenSizeX { get; set; } = 32;
+        protected int CharSizeY { get; set; } = 12;
+        protected int CharSizeX { get; set; } = 8;
+
+        protected override int Width => CharSizeX * ScreenSizeX; //256 for 32 columns
+        protected override int Height => CharSizeY * ScreenSizeY; //192 for 16 rows
 
         public TextModeRenderer(byte[] Memory, ushort VideoMemoryStartAddress)
             : base(Memory, VideoMemoryStartAddress)
         {
-            _GraphicsBitmap = new DirectBitmap(Width, Height);
             var fontLoader = new PngFontLoader();
             _FontBitmap = fontLoader.LoadFont(FileName);
+            _GraphicsBitmap = new DirectBitmap(Width, Height);
+
         }
 
         public override Bitmap Render(Graphics gr, ScreenConstants.ExtendedGraphicsModeFlags ModeFlags)
         {
+            if (_GraphicsBitmap.Width != Width || _GraphicsBitmap.Height != Height)
+            {
+                _GraphicsBitmap = new DirectBitmap(Width, Height);
+            }
             renderTextMode(ModeFlags.HasFlag(ScreenConstants.ExtendedGraphicsModeFlags.CSS_BackColour), ModeFlags.HasFlag(ScreenConstants.ExtendedGraphicsModeFlags.SG6));
             if (gr != null)
             {
@@ -40,11 +50,13 @@ namespace VzEmulator.Screen
 
                 var scale = 1;
 
-                for (int y = 0; y < 16; y++)
+                //todo user definable x,y size. Default 32x16
+                
+                for (int y = 0; y < ScreenSizeY; y++)
                 {
-                    for (int x = 0; x < 32; x++)
+                    for (int x = 0; x < ScreenSizeX; x++)
                     {
-                        var offset = 32 * y + x;
+                        var offset = ScreenSizeX * y + x;
                         var c = _Memory[_VideoMemoryStartAddress + offset];
                         
                         var destx = x * (8 * scale);

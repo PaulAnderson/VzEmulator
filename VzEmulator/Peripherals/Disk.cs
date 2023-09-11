@@ -30,6 +30,7 @@ namespace VzEmulator.Peripherals
         public int TrackLength = 2480;   // 99200/40
         public int Tracks = 40;
         public const int SectorsPerTrack = 16;
+        private bool hasChanges;
         private string fileName;
         private byte[] contents;
         public byte this[int address] {
@@ -40,7 +41,7 @@ namespace VzEmulator.Peripherals
             set
             {
                 contents[address] = value;
-                
+                hasChanges = true;
             }
         }
 
@@ -173,7 +174,7 @@ namespace VzEmulator.Peripherals
             public int length;
             internal byte[] data;
         }
-        public IEnumerable<Sector> FindSoftSectors(bool ignoreCheckSumErrors=false)
+        public IEnumerable<Sector> FindSoftSectors(bool ignoreCheckSumErrors=false,int start=0,int? end = null)
         {
             //search contents array for sector IDAMs
             //IDAM: 0xFE,0xE7,0x18,0xC3,Track No, Sector No, checksum
@@ -182,8 +183,11 @@ namespace VzEmulator.Peripherals
             
             List<Sector> sectors = new List<Sector>();
 
+            var startPos = start;
+            var endPos = contents.Length-1;
+            if (end.HasValue) endPos = end.Value;
             //search for GAP1, IDAM and GAP2 in contents array
-            for (int i=0;i<contents.Length;i++)
+            for (int i=startPos;i<=endPos;i++)
             {
                 bool gap1Found = false;
                 int gap1Lenth=14;//default

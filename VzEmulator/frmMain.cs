@@ -74,6 +74,9 @@ namespace VzEmulator
             toolStripStatusLabel1.Text = "";
             toolStripStatusLabel2.Text = "";
 
+            var statusUpdater = new StatusUpdater(toolStripStatusLabel1);
+            Presenter.AttachDriveWatcher(statusUpdater);
+
             StartEmulation();
         }
 
@@ -199,7 +202,7 @@ namespace VzEmulator
             {
                 Presenter.LoadDiskImage(openFileDialog.FileName);
                 var fileName = Path.GetFileName(openFileDialog.FileName);
-                toolStripStatusLabel1.Text = $"Opened Disk image {fileName}.";
+                toolStripStatusLabel1.Text = $"Opened Disk image {fileName} for in-memory editing. It must be saved to persist changes.";
             }
         }
 
@@ -210,7 +213,7 @@ namespace VzEmulator
             {
                 Presenter.SaveDiskImage(saveFileDialog.FileName);
                 var fileName = Path.GetFileName(saveFileDialog.FileName);
-                toolStripStatusLabel1.Text = $"Saved  Disk image {fileName}";
+                toolStripStatusLabel1.Text = $"Saved Disk image {fileName}";
             }
         }
 
@@ -307,7 +310,15 @@ namespace VzEmulator
         }
         private void editDiskToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Presenter.EditDisk();
+            Presenter.EditDisk(1);
+        }
+        private void inDrive1ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Presenter.EditDisk(1);
+        }
+        private void inDrive2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Presenter.EditDisk(2);
         }
         private void integerScalingToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -574,7 +585,7 @@ namespace VzEmulator
         {
             Presenter.RunBasic();
         }
-
+ 
     }
 }
  

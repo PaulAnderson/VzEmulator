@@ -31,14 +31,20 @@ namespace VzEmulator
         int maxAddress = 0x10000;
 
         private TextboxValidation validation = new TextboxValidation();
+        private const int  screenXwidth = 48;
 
-        public frmMemoryView(IMemoryAccessor memory)
+        public frmMemoryView(IMemoryAccessor memory, string Title = null)
         {
             InitializeComponent();
 
+            if (!string.IsNullOrEmpty(Title))
+            {
+                this.Text= Title;
+            }
+
             pictureBox1.MouseWheel += new MouseEventHandler(pictureBox1_MouseWheel);
 
-            var graphicsPainter = new FormsGraphicsPainter(pictureBox1, Memory, null, 0, 5)
+            var graphicsPainter = new FormsGraphicsPainter(pictureBox1, Memory, 5, screenXwidth, 16)
             {
                 UseFixedScale = true,
             };
@@ -103,9 +109,12 @@ namespace VzEmulator
 
             for (var line = 0; line < Lines; line++ )
             {
-                var startLineAddr = line << 5;
-                var blockAddrStr = string.Format("{0:X4}", blockAddr);
+                var startLineAddr = line * screenXwidth;
+                var blockAddrChars = 4;
+                if (blockAddr > 0xFFFF) blockAddrChars = 5;
+                var blockAddrStr = string.Format($"{{0:X{blockAddrChars}}}", blockAddr);
 
+                WriteString(Memory, startLineAddr, "     ", true);
                 WriteString(Memory, startLineAddr, blockAddrStr,true);
 
                 for (var i = 0; i < RowLength; i++ )
@@ -114,17 +123,19 @@ namespace VzEmulator
                     var value = EditingMemory[blockAddr + i];
                     var valueStr = string.Format("{0:X2}", value);
                     var colour = !(SearchResults.Contains(blockAddr + i)) && !(isCursorLocation & cursorBlink);
-
-                    WriteString(Memory, startLineAddr + 5 + i * 3, valueStr, colour);
+                    var hexValuesStartX = 6;
+                    var charValuesStartX = 32;
+                    WriteString(Memory, startLineAddr + hexValuesStartX + i * 3, valueStr, colour); //Write hex value and space
+                    Memory[startLineAddr + charValuesStartX + i] = ConvertChar(value,colour); //Write char value
 
                     if (isCursorLocation && cursorNibbleLocation > 0)
                     {
                         //Show edit to high nibble
-                        WriteString(Memory, startLineAddr + 5 + i * 3, string.Format("{0:X1}",cursorNibbleValue>>4), true);
+                        WriteString(Memory, startLineAddr + hexValuesStartX + i * 3, string.Format("{0:X1}",cursorNibbleValue>>4), true);
                     }
 
-                    Memory[startLineAddr + 5 + i * 3 + 2] = 0x60;
-                    if (value == 20) Memory[startLineAddr + 5 + i * 3 + 2] = ((byte)'*')+0x40;
+                    Memory[startLineAddr + hexValuesStartX + i * 3 + 2] = 0x60;
+                    if (value == 20) Memory[startLineAddr + hexValuesStartX + i * 3 + 2] = ((byte)'*')+0x40;
                 }
                 blockAddr += (ushort)RowLength;
             }
@@ -146,6 +157,18 @@ namespace VzEmulator
             } else
             {
                 if (value > 0x40) value -= (char)0x40;
+            }
+            return value;
+        }
+        private byte ConvertChar(byte value, bool colour)
+        {
+            if (colour)
+            {
+                if (value < 0x40) value += 0x40;
+            }
+            else
+            {
+                if (value > 0x40) value -= 0x40;
             }
             return value;
         }
@@ -222,6 +245,10 @@ namespace VzEmulator
                     cursorLocation++;
                     cursorMoved = true;
                     break;
+                case Keys.End:
+                    startAddr = (EditingMemory.Size - (RowLength * Lines));
+                    cursorMoved = true;
+                    break;
                 default:
                     try
                     {
@@ -271,12 +298,27 @@ namespace VzEmulator
             //validate memory postion. Wrap around if out of range
             if (wrapAround)
             {
-                if (startAddr < 0) startAddr += maxAddress - 1; ;
-                if (startAddr >= maxAddress) startAddr -= (maxAddress - 1);
+                if (startAddr < 0)
+                {
+                    //use startAddr to store the offset from the end of memory, to position the cursor in the expected place
+                    var cursorOffset = startAddr;
+                    if (cursorOffset > 0) cursorOffset = 0;
+
+                    startAddr = maxAddress - RowLength * Lines;
+
+                    //set cursor position based on earlier calculated offset from end of memory
+                    cursorLocation = RowLength*Lines + cursorOffset;
+                }
+                if (startAddr > maxAddress - RowLength * Lines)
+                {
+                    startAddr = 0;
+                    cursorLocation = 0;
+                }
             } else
             {
+                //start memory view at 0, set cursor to location 0
                 if (startAddr < 0) startAddr = 0;
-                if (startAddr >= maxAddress) startAddr = maxAddress - 1;
+                if (startAddr > maxAddress - RowLength * Lines) startAddr = maxAddress - RowLength * Lines;
             }
         }
 
@@ -291,6 +333,11 @@ namespace VzEmulator
         private void Button_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             e.IsInputKey = true;
+        }
+
+        private void frmMemoryView_ResizeEnd(object sender, EventArgs e)
+        {
+            Text = $"Memory View - {EditingMemory.ToString()} - {EditingMemory.Size} bytes. Size: {this.Size.Width}x{this.Size.Height}";
         }
     }
 }

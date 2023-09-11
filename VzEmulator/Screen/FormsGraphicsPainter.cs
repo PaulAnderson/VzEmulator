@@ -88,6 +88,22 @@ namespace VzEmulator.Screen
             }
         }
 
+        internal FormsGraphicsPainter(Control ctrl, Byte[] VideoMemory,int RefreshIntervalMS, int screenSizeX = 32, int screenSizeY = 16 )
+       : base(VideoMemory, null, 0, null)
+        {
+            ((TextModeRenderer)TextModeRenderer).ScreenSizeX= screenSizeX;
+            ((TextModeRenderer)TextModeRenderer).ScreenSizeY = screenSizeY;
+
+            if (ctrl != null)
+            {
+                paintControl = ctrl;
+                paintControl.Paint += new System.Windows.Forms.PaintEventHandler(Control_Paint);
+
+                SetupRefreshTimer(RefreshIntervalMS: RefreshIntervalMS);
+                SetupFpsCalculator(RefreshIntervalMS: 1000);
+            }
+        }
+
         private void SetupRefreshTimer(int RefreshIntervalMS)
         {
             screenRefreshTimer = new Timer {Interval = RefreshIntervalMS};

@@ -12,6 +12,7 @@ namespace VzEmulator.Peripherals
         DataWrite,
         DataRead,
         WriteProtectRead,
+        ActiveDriveChanged,
     }
 
     internal class DriveStatusChange
@@ -19,8 +20,9 @@ namespace VzEmulator.Peripherals
         public DriveStatusChangeType ChangeType { get; set; }
         public int DriveNumber { get; set; }
         public int CurrentTrack { get; set; }
-        public byte byteWritten { get; set; }
-        public byte byteRead { get; set; }
+        public int CurrentSector { get; set; }
+        public byte[] bytesWritten { get; set; }
+        public byte[] bytesRead { get; set; }
         public int DataLocation { get; set; }
     }
 }

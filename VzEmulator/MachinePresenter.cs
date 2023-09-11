@@ -157,10 +157,10 @@ namespace VzEmulator
             var frm2 = new frmMemoryView(_machine.Cpu.Memory);
             frm2.Show();
         }
-        internal void EditDisk()
+        internal void EditDisk(byte driveNo)
         {
             //todo select disk to edit
-            var frm2 = new frmMemoryView(_machine.Drive.Disk0);
+            var frm2 = new frmMemoryView(driveNo == 1 ? _machine.Drive.Disk0 : _machine.Drive.Disk1,$"Edit disk in drive #{driveNo}");
             frm2.Show();
         }
 

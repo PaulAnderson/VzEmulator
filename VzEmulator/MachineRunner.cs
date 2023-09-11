@@ -111,24 +111,6 @@ namespace VzEmulator
             _machine.JumpToUsrExec();
         }
 
-        internal void DebugRegisters()
-        {
-            var frm = new frmDebug(_machine.Cpu, _machine.Memory);
-            frm.Show();
-        }
-
-        internal void DebugMemory()
-        {
-            var frm2 = new frmMemoryView(_machine.Cpu.Memory);
-            frm2.Show();
-        }
-        internal void EditDisk()
-        {
-            //todo select disk to edit
-            var frm2 = new frmMemoryView(_machine.Drive.Disk0);
-            frm2.Show();
-        }
-
         internal void SetMemory( int startAddress, byte[] content)
         {
             _machine.Cpu.Memory.SetContents(startAddress, content);

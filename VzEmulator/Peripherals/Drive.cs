@@ -1,4 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Remoting;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
+using static VzEmulator.Peripherals.Disk;
 
 namespace VzEmulator.Peripherals
 {
@@ -17,6 +22,7 @@ namespace VzEmulator.Peripherals
         byte firstHalfBit = 0;
         byte currentWritingByte = 0;
         int bytesWritten = 0;
+        List<byte> writeLog = new List<byte>();
         bool inDosInitRoutine = false;
         bool writeProtect = false;
         Disk[] diskContent = { new Disk(), new Disk() };
@@ -148,8 +154,13 @@ namespace VzEmulator.Peripherals
 
                 //todo Drive selection. Record current value in latch.
                 //Handle drive 1 and drive 2 active
+                var previousActiveDrive = activeDrive;
                 if ((value & 0x10) == 0x10) activeDrive = 0;
                 else if ((value & 0x80) == 0x80) activeDrive = 1;
+                if (previousActiveDrive!=activeDrive)
+                {
+                    OnActiveDriveChanged(activeDrive);
+                }
 
                 byte stepNo = (byte)(value & 0x0F);
                 Step(stepNo);
@@ -172,8 +183,34 @@ namespace VzEmulator.Peripherals
 
             if (isWriteEnable)
             {
-                if (prevWriteEnable)
+                if (!prevWriteEnable)
                 {
+                    //Started write
+
+                    //ignore first bit written, just result byte to be written
+                    currentWritingByte = 0;
+                    writeBitNo = 0;
+                    firstHalfBit = 0;
+
+                    //Adjust write location to next full byte
+                    if (inDosInitRoutine)
+                    {
+                        diskLocationOntrack = 0;
+                    }
+                    else
+                    {
+                        int writeOffset = 2; //How many bytes skipped in the time to switch from reading to writing
+                        diskLocationOntrack = ((int)(Math.Ceiling(diskLocationOntrack / 8.0) + writeOffset) * 8);
+                    }
+
+                    //Reset write counter
+                    bytesWritten = 0;
+                    writeLog.Clear();
+                }
+                else
+                {
+                    //continuing write 
+
                     if ((writeBitNo & 1) == 0)
                     {
                         //first written bit of actual bit. Just store it for later comparison
@@ -209,7 +246,7 @@ namespace VzEmulator.Peripherals
 
                         //write byte
                         diskContent[activeDrive][fileIndex] = currentWritingByte;
-
+                        writeLog.Add(currentWritingByte);
                         if (DebugEnabled)
                         {
                             if ((bytesWritten & 0x0F) == 0x0)
@@ -236,31 +273,32 @@ namespace VzEmulator.Peripherals
                         writeBitNo++;
                     }
                 }
-                else
-                {
-                    //ignore first bit written, just result byte to be written
-                    currentWritingByte = 0;
-                    writeBitNo = 0;
-                    firstHalfBit = 0;
-
-                    //Adjust write location to next full byte
-                    if (inDosInitRoutine)
-                    {
-                        diskLocationOntrack = 0;
-                    }
-                    else
-                    {
-                        int writeOffset = 2; //How many bytes skipped in the time to switch from reading to writing
-                        diskLocationOntrack = ((int)(Math.Ceiling(diskLocationOntrack / 8.0) + writeOffset) * 8);
-                    }
-
-                    //Reset write counter
-                    bytesWritten = 0;
-                }
             }
             else
             {
-                if (prevWriteEnable) Console.WriteLine();
+                //End write
+
+                if (prevWriteEnable)
+                {
+                    //Debug output
+                    Console.WriteLine($"Disk Write {bytesWritten} to Track {diskCurrentTrack} end at byte {diskLocationOntrack / 8}");
+                    if (writeLog.Count==140)
+                    {
+                        //todo make it work for multiple sectors written
+                        try
+                        {
+                            var writeEndPosition = (diskCurrentTrack * diskContent[activeDrive].TrackLength) + (diskLocationOntrack / 8);
+                            var sectorsWritten = diskContent[activeDrive].FindSoftSectors(false, writeEndPosition - writeLog.Count - 15, writeEndPosition);
+                            var sector = sectorsWritten.First();
+                            Console.WriteLine($"Track {sector.trackNo} Sector {sector.sectorNo}");
+
+                            //log write event
+                            OnWrite(sector.trackNo, sector.sectorNo, writeLog.ToArray(), writeEndPosition-writeLog.Count);
+                        }
+                        catch { }
+                    }
+
+                }
             }
             prevWriteEnable = isWriteEnable;
 
@@ -304,6 +342,26 @@ namespace VzEmulator.Peripherals
             {
                 ChangeType = DriveStatusChangeType.Control,
                 CurrentTrack = diskCurrentTrack
+            });
+        }
+        protected void OnWrite(int track, int sector, byte[] data, int writeStartPosition)
+        {
+            OnDriveStatusChangeEvent(new DriveStatusChange
+            {
+                ChangeType = DriveStatusChangeType.DataWrite,
+                CurrentTrack = track,
+                CurrentSector = sector,
+                bytesWritten = data,
+                DriveNumber = activeDrive,
+                DataLocation = writeStartPosition
+            });
+        }
+        protected void OnActiveDriveChanged(byte activeDrive)
+        {
+            OnDriveStatusChangeEvent(new DriveStatusChange
+            {
+                ChangeType = DriveStatusChangeType.ActiveDriveChanged,
+                DriveNumber = activeDrive
             });
         }
         internal event EventHandler<DriveStatusChange> DriveStatusChangeEvent;

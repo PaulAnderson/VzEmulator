@@ -166,7 +166,7 @@
             this.tableLayoutPanel1.Controls.Add(this.textBox28, 1, 18);
             this.tableLayoutPanel1.Controls.Add(this.textBox30, 1, 19);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(454, 27);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(531, 27);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 20;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -189,13 +189,14 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(446, 823);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(522, 978);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // label20
             // 
             this.label20.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.Location = new System.Drawing.Point(267, 355);
+            this.label20.Location = new System.Drawing.Point(312, 336);
             this.label20.Margin = new System.Windows.Forms.Padding(3, 3, 3, 5);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(78, 26);
@@ -206,7 +207,7 @@
             // 
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(267, 318);
+            this.label19.Location = new System.Drawing.Point(312, 299);
             this.label19.Margin = new System.Windows.Forms.Padding(3, 3, 3, 5);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(82, 24);
@@ -217,7 +218,7 @@
             // 
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(267, 281);
+            this.label18.Location = new System.Drawing.Point(312, 262);
             this.label18.Margin = new System.Windows.Forms.Padding(3, 3, 3, 5);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(82, 24);
@@ -228,7 +229,7 @@
             // 
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(267, 225);
+            this.label17.Location = new System.Drawing.Point(312, 225);
             this.label17.Margin = new System.Windows.Forms.Padding(3, 3, 3, 5);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(82, 24);
@@ -239,7 +240,7 @@
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(267, 188);
+            this.label16.Location = new System.Drawing.Point(312, 188);
             this.label16.Margin = new System.Windows.Forms.Padding(3, 3, 3, 5);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(82, 24);
@@ -250,7 +251,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(267, 151);
+            this.label15.Location = new System.Drawing.Point(312, 151);
             this.label15.Margin = new System.Windows.Forms.Padding(3, 3, 3, 5);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(82, 24);
@@ -261,7 +262,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(267, 114);
+            this.label14.Location = new System.Drawing.Point(312, 114);
             this.label14.Margin = new System.Windows.Forms.Padding(3, 3, 3, 5);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(82, 24);
@@ -272,7 +273,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(267, 77);
+            this.label13.Location = new System.Drawing.Point(312, 77);
             this.label13.Margin = new System.Windows.Forms.Padding(3, 3, 3, 5);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(82, 24);
@@ -283,7 +284,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(267, 40);
+            this.label12.Location = new System.Drawing.Point(312, 40);
             this.label12.Margin = new System.Windows.Forms.Padding(3, 3, 3, 5);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(82, 24);
@@ -295,9 +296,9 @@
             this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox1.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(355, 3);
+            this.textBox1.Location = new System.Drawing.Point(415, 3);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(88, 31);
+            this.textBox1.Size = new System.Drawing.Size(104, 31);
             this.textBox1.TabIndex = 0;
             // 
             // textBox2
@@ -305,9 +306,9 @@
             this.textBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.textBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox2.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(355, 40);
+            this.textBox2.Location = new System.Drawing.Point(415, 40);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(88, 31);
+            this.textBox2.Size = new System.Drawing.Size(104, 31);
             this.textBox2.TabIndex = 0;
             // 
             // textBox3
@@ -315,9 +316,9 @@
             this.textBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.textBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox3.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.Location = new System.Drawing.Point(355, 77);
+            this.textBox3.Location = new System.Drawing.Point(415, 77);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(88, 31);
+            this.textBox3.Size = new System.Drawing.Size(104, 31);
             this.textBox3.TabIndex = 0;
             // 
             // textBox4
@@ -325,9 +326,9 @@
             this.textBox4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.textBox4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox4.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox4.Location = new System.Drawing.Point(355, 114);
+            this.textBox4.Location = new System.Drawing.Point(415, 114);
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(88, 31);
+            this.textBox4.Size = new System.Drawing.Size(104, 31);
             this.textBox4.TabIndex = 0;
             // 
             // textBox5
@@ -335,9 +336,9 @@
             this.textBox5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.textBox5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox5.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox5.Location = new System.Drawing.Point(355, 151);
+            this.textBox5.Location = new System.Drawing.Point(415, 151);
             this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(88, 31);
+            this.textBox5.Size = new System.Drawing.Size(104, 31);
             this.textBox5.TabIndex = 0;
             // 
             // textBox6
@@ -345,9 +346,9 @@
             this.textBox6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.textBox6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox6.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox6.Location = new System.Drawing.Point(355, 188);
+            this.textBox6.Location = new System.Drawing.Point(415, 188);
             this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(88, 31);
+            this.textBox6.Size = new System.Drawing.Size(104, 31);
             this.textBox6.TabIndex = 0;
             // 
             // textBox7
@@ -355,9 +356,9 @@
             this.textBox7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.textBox7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox7.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox7.Location = new System.Drawing.Point(355, 225);
+            this.textBox7.Location = new System.Drawing.Point(415, 225);
             this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(88, 31);
+            this.textBox7.Size = new System.Drawing.Size(104, 31);
             this.textBox7.TabIndex = 0;
             // 
             // textBox8
@@ -365,9 +366,9 @@
             this.textBox8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.textBox8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox8.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox8.Location = new System.Drawing.Point(355, 281);
+            this.textBox8.Location = new System.Drawing.Point(415, 262);
             this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(88, 31);
+            this.textBox8.Size = new System.Drawing.Size(104, 31);
             this.textBox8.TabIndex = 0;
             // 
             // textBox9
@@ -375,9 +376,9 @@
             this.textBox9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.textBox9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox9.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox9.Location = new System.Drawing.Point(355, 318);
+            this.textBox9.Location = new System.Drawing.Point(415, 299);
             this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(88, 31);
+            this.textBox9.Size = new System.Drawing.Size(104, 31);
             this.textBox9.TabIndex = 0;
             // 
             // label1
@@ -453,7 +454,7 @@
             this.label7.Location = new System.Drawing.Point(3, 225);
             this.label7.Margin = new System.Windows.Forms.Padding(3, 3, 3, 5);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(190, 48);
+            this.label7.Size = new System.Drawing.Size(262, 24);
             this.label7.TabIndex = 1;
             this.label7.Text = "Start Of Input Buffer";
             // 
@@ -461,7 +462,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(3, 281);
+            this.label8.Location = new System.Drawing.Point(3, 262);
             this.label8.Margin = new System.Windows.Forms.Padding(3, 3, 3, 5);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(250, 24);
@@ -472,7 +473,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(3, 318);
+            this.label9.Location = new System.Drawing.Point(3, 299);
             this.label9.Margin = new System.Windows.Forms.Padding(3, 3, 3, 5);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(190, 24);
@@ -483,7 +484,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(3, 355);
+            this.label10.Location = new System.Drawing.Point(3, 336);
             this.label10.Margin = new System.Windows.Forms.Padding(3, 3, 3, 5);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(166, 24);
@@ -494,7 +495,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(267, 3);
+            this.label11.Location = new System.Drawing.Point(312, 3);
             this.label11.Margin = new System.Windows.Forms.Padding(3, 3, 3, 5);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(82, 24);
@@ -506,9 +507,9 @@
             this.textBox10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.textBox10.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox10.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox10.Location = new System.Drawing.Point(355, 355);
+            this.textBox10.Location = new System.Drawing.Point(415, 336);
             this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(88, 31);
+            this.textBox10.Size = new System.Drawing.Size(104, 31);
             this.textBox10.TabIndex = 0;
             // 
             // textBox11
@@ -516,9 +517,9 @@
             this.textBox11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.textBox11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox11.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox11.Location = new System.Drawing.Point(355, 429);
+            this.textBox11.Location = new System.Drawing.Point(415, 410);
             this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(88, 31);
+            this.textBox11.Size = new System.Drawing.Size(104, 31);
             this.textBox11.TabIndex = 11;
             // 
             // textBox12
@@ -526,9 +527,9 @@
             this.textBox12.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.textBox12.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox12.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox12.Location = new System.Drawing.Point(355, 392);
+            this.textBox12.Location = new System.Drawing.Point(415, 373);
             this.textBox12.Name = "textBox12";
-            this.textBox12.Size = new System.Drawing.Size(88, 31);
+            this.textBox12.Size = new System.Drawing.Size(104, 31);
             this.textBox12.TabIndex = 11;
             // 
             // textBox13
@@ -536,9 +537,9 @@
             this.textBox13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.textBox13.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox13.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox13.Location = new System.Drawing.Point(355, 466);
+            this.textBox13.Location = new System.Drawing.Point(415, 447);
             this.textBox13.Name = "textBox13";
-            this.textBox13.Size = new System.Drawing.Size(88, 31);
+            this.textBox13.Size = new System.Drawing.Size(104, 31);
             this.textBox13.TabIndex = 11;
             // 
             // textBox14
@@ -546,9 +547,9 @@
             this.textBox14.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.textBox14.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox14.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox14.Location = new System.Drawing.Point(267, 392);
+            this.textBox14.Location = new System.Drawing.Point(312, 373);
             this.textBox14.Name = "textBox14";
-            this.textBox14.Size = new System.Drawing.Size(82, 31);
+            this.textBox14.Size = new System.Drawing.Size(97, 31);
             this.textBox14.TabIndex = 11;
             this.textBox14.Text = "0x0000";
             // 
@@ -557,9 +558,9 @@
             this.textBox15.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.textBox15.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox15.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox15.Location = new System.Drawing.Point(267, 429);
+            this.textBox15.Location = new System.Drawing.Point(312, 410);
             this.textBox15.Name = "textBox15";
-            this.textBox15.Size = new System.Drawing.Size(82, 31);
+            this.textBox15.Size = new System.Drawing.Size(97, 31);
             this.textBox15.TabIndex = 11;
             this.textBox15.Text = "0x0000";
             // 
@@ -568,19 +569,20 @@
             this.textBox16.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.textBox16.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox16.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox16.Location = new System.Drawing.Point(267, 466);
+            this.textBox16.Location = new System.Drawing.Point(312, 447);
             this.textBox16.Name = "textBox16";
-            this.textBox16.Size = new System.Drawing.Size(82, 31);
+            this.textBox16.Size = new System.Drawing.Size(97, 31);
             this.textBox16.TabIndex = 11;
             this.textBox16.Text = "0x0000";
             // 
             // textBox19
             // 
             this.textBox19.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.textBox19.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox19.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox19.Location = new System.Drawing.Point(355, 503);
+            this.textBox19.Location = new System.Drawing.Point(415, 484);
             this.textBox19.Name = "textBox19";
-            this.textBox19.Size = new System.Drawing.Size(86, 31);
+            this.textBox19.Size = new System.Drawing.Size(104, 31);
             this.textBox19.TabIndex = 12;
             // 
             // textBox18
@@ -588,9 +590,9 @@
             this.textBox18.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.textBox18.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox18.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox18.Location = new System.Drawing.Point(355, 577);
+            this.textBox18.Location = new System.Drawing.Point(415, 558);
             this.textBox18.Name = "textBox18";
-            this.textBox18.Size = new System.Drawing.Size(88, 31);
+            this.textBox18.Size = new System.Drawing.Size(104, 31);
             this.textBox18.TabIndex = 12;
             // 
             // textBox20
@@ -598,9 +600,9 @@
             this.textBox20.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.textBox20.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox20.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox20.Location = new System.Drawing.Point(355, 651);
+            this.textBox20.Location = new System.Drawing.Point(415, 632);
             this.textBox20.Name = "textBox20";
-            this.textBox20.Size = new System.Drawing.Size(88, 31);
+            this.textBox20.Size = new System.Drawing.Size(104, 31);
             this.textBox20.TabIndex = 12;
             // 
             // textBox21
@@ -608,9 +610,9 @@
             this.textBox21.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.textBox21.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox21.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox21.Location = new System.Drawing.Point(355, 540);
+            this.textBox21.Location = new System.Drawing.Point(415, 521);
             this.textBox21.Name = "textBox21";
-            this.textBox21.Size = new System.Drawing.Size(88, 31);
+            this.textBox21.Size = new System.Drawing.Size(104, 31);
             this.textBox21.TabIndex = 12;
             // 
             // textBox22
@@ -618,9 +620,9 @@
             this.textBox22.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.textBox22.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox22.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox22.Location = new System.Drawing.Point(355, 614);
+            this.textBox22.Location = new System.Drawing.Point(415, 595);
             this.textBox22.Name = "textBox22";
-            this.textBox22.Size = new System.Drawing.Size(88, 31);
+            this.textBox22.Size = new System.Drawing.Size(104, 31);
             this.textBox22.TabIndex = 12;
             // 
             // textBox17
@@ -628,18 +630,19 @@
             this.textBox17.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.textBox17.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox17.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox17.Location = new System.Drawing.Point(355, 688);
+            this.textBox17.Location = new System.Drawing.Point(415, 669);
             this.textBox17.Name = "textBox17";
-            this.textBox17.Size = new System.Drawing.Size(88, 31);
+            this.textBox17.Size = new System.Drawing.Size(104, 31);
             this.textBox17.TabIndex = 12;
             // 
             // textBox23
             // 
             this.textBox23.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.textBox23.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox23.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox23.Location = new System.Drawing.Point(267, 503);
+            this.textBox23.Location = new System.Drawing.Point(312, 484);
             this.textBox23.Name = "textBox23";
-            this.textBox23.Size = new System.Drawing.Size(79, 31);
+            this.textBox23.Size = new System.Drawing.Size(97, 31);
             this.textBox23.TabIndex = 13;
             this.textBox23.Text = "0x0000";
             // 
@@ -648,9 +651,9 @@
             this.textBox24.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.textBox24.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox24.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox24.Location = new System.Drawing.Point(267, 540);
+            this.textBox24.Location = new System.Drawing.Point(312, 521);
             this.textBox24.Name = "textBox24";
-            this.textBox24.Size = new System.Drawing.Size(82, 31);
+            this.textBox24.Size = new System.Drawing.Size(97, 31);
             this.textBox24.TabIndex = 13;
             this.textBox24.Text = "0x0000";
             // 
@@ -659,9 +662,9 @@
             this.textBox25.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.textBox25.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox25.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox25.Location = new System.Drawing.Point(267, 577);
+            this.textBox25.Location = new System.Drawing.Point(312, 558);
             this.textBox25.Name = "textBox25";
-            this.textBox25.Size = new System.Drawing.Size(82, 31);
+            this.textBox25.Size = new System.Drawing.Size(97, 31);
             this.textBox25.TabIndex = 13;
             this.textBox25.Text = "0x0000";
             // 
@@ -670,9 +673,9 @@
             this.textBox26.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.textBox26.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox26.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox26.Location = new System.Drawing.Point(267, 614);
+            this.textBox26.Location = new System.Drawing.Point(312, 595);
             this.textBox26.Name = "textBox26";
-            this.textBox26.Size = new System.Drawing.Size(82, 31);
+            this.textBox26.Size = new System.Drawing.Size(97, 31);
             this.textBox26.TabIndex = 13;
             this.textBox26.Text = "0x0000";
             // 
@@ -681,9 +684,9 @@
             this.textBox28.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.textBox28.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox28.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox28.Location = new System.Drawing.Point(267, 651);
+            this.textBox28.Location = new System.Drawing.Point(312, 632);
             this.textBox28.Name = "textBox28";
-            this.textBox28.Size = new System.Drawing.Size(82, 31);
+            this.textBox28.Size = new System.Drawing.Size(97, 31);
             this.textBox28.TabIndex = 13;
             this.textBox28.Text = "0x0000";
             // 
@@ -692,9 +695,9 @@
             this.textBox30.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.textBox30.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox30.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox30.Location = new System.Drawing.Point(267, 688);
+            this.textBox30.Location = new System.Drawing.Point(312, 669);
             this.textBox30.Name = "textBox30";
-            this.textBox30.Size = new System.Drawing.Size(82, 31);
+            this.textBox30.Size = new System.Drawing.Size(97, 31);
             this.textBox30.TabIndex = 13;
             this.textBox30.Text = "0x0000";
             // 
@@ -713,7 +716,7 @@
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(903, 625);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1056, 1008);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // tableLayoutPanel3
@@ -764,7 +767,7 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(445, 823);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(522, 978);
             this.tableLayoutPanel3.TabIndex = 3;
             this.tableLayoutPanel3.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel3_Paint);
             // 
@@ -862,9 +865,9 @@
             this.txtAF.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.txtAF.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtAF.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtAF.Location = new System.Drawing.Point(299, 3);
+            this.txtAF.Location = new System.Drawing.Point(351, 3);
             this.txtAF.Name = "txtAF";
-            this.txtAF.Size = new System.Drawing.Size(143, 31);
+            this.txtAF.Size = new System.Drawing.Size(168, 31);
             this.txtAF.TabIndex = 0;
             // 
             // txtBC
@@ -872,9 +875,9 @@
             this.txtBC.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.txtBC.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtBC.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBC.Location = new System.Drawing.Point(299, 40);
+            this.txtBC.Location = new System.Drawing.Point(351, 40);
             this.txtBC.Name = "txtBC";
-            this.txtBC.Size = new System.Drawing.Size(143, 31);
+            this.txtBC.Size = new System.Drawing.Size(168, 31);
             this.txtBC.TabIndex = 0;
             // 
             // txtDE
@@ -882,9 +885,9 @@
             this.txtDE.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.txtDE.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtDE.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDE.Location = new System.Drawing.Point(299, 77);
+            this.txtDE.Location = new System.Drawing.Point(351, 77);
             this.txtDE.Name = "txtDE";
-            this.txtDE.Size = new System.Drawing.Size(143, 31);
+            this.txtDE.Size = new System.Drawing.Size(168, 31);
             this.txtDE.TabIndex = 0;
             // 
             // txtHL
@@ -892,9 +895,9 @@
             this.txtHL.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.txtHL.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtHL.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtHL.Location = new System.Drawing.Point(299, 114);
+            this.txtHL.Location = new System.Drawing.Point(351, 114);
             this.txtHL.Name = "txtHL";
-            this.txtHL.Size = new System.Drawing.Size(143, 31);
+            this.txtHL.Size = new System.Drawing.Size(168, 31);
             this.txtHL.TabIndex = 0;
             // 
             // txtIX
@@ -902,9 +905,9 @@
             this.txtIX.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.txtIX.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtIX.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtIX.Location = new System.Drawing.Point(299, 151);
+            this.txtIX.Location = new System.Drawing.Point(351, 151);
             this.txtIX.Name = "txtIX";
-            this.txtIX.Size = new System.Drawing.Size(143, 31);
+            this.txtIX.Size = new System.Drawing.Size(168, 31);
             this.txtIX.TabIndex = 0;
             // 
             // txtIY
@@ -912,9 +915,9 @@
             this.txtIY.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.txtIY.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtIY.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtIY.Location = new System.Drawing.Point(299, 188);
+            this.txtIY.Location = new System.Drawing.Point(351, 188);
             this.txtIY.Name = "txtIY";
-            this.txtIY.Size = new System.Drawing.Size(143, 31);
+            this.txtIY.Size = new System.Drawing.Size(168, 31);
             this.txtIY.TabIndex = 0;
             // 
             // txtPC
@@ -922,9 +925,9 @@
             this.txtPC.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.txtPC.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtPC.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPC.Location = new System.Drawing.Point(299, 225);
+            this.txtPC.Location = new System.Drawing.Point(351, 225);
             this.txtPC.Name = "txtPC";
-            this.txtPC.Size = new System.Drawing.Size(143, 31);
+            this.txtPC.Size = new System.Drawing.Size(168, 31);
             this.txtPC.TabIndex = 0;
             // 
             // txtSP
@@ -932,9 +935,9 @@
             this.txtSP.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.txtSP.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtSP.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSP.Location = new System.Drawing.Point(299, 262);
+            this.txtSP.Location = new System.Drawing.Point(351, 262);
             this.txtSP.Name = "txtSP";
-            this.txtSP.Size = new System.Drawing.Size(143, 31);
+            this.txtSP.Size = new System.Drawing.Size(168, 31);
             this.txtSP.TabIndex = 0;
             // 
             // txtFlags
@@ -942,9 +945,9 @@
             this.txtFlags.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.txtFlags.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtFlags.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtFlags.Location = new System.Drawing.Point(299, 299);
+            this.txtFlags.Location = new System.Drawing.Point(351, 299);
             this.txtFlags.Name = "txtFlags";
-            this.txtFlags.Size = new System.Drawing.Size(143, 31);
+            this.txtFlags.Size = new System.Drawing.Size(168, 31);
             this.txtFlags.TabIndex = 0;
             // 
             // label42
@@ -963,9 +966,9 @@
             this.txtCall.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.txtCall.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtCall.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCall.Location = new System.Drawing.Point(299, 336);
+            this.txtCall.Location = new System.Drawing.Point(351, 336);
             this.txtCall.Name = "txtCall";
-            this.txtCall.Size = new System.Drawing.Size(143, 31);
+            this.txtCall.Size = new System.Drawing.Size(168, 31);
             this.txtCall.TabIndex = 0;
             // 
             // textBox27
@@ -973,9 +976,9 @@
             this.textBox27.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.textBox27.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox27.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox27.Location = new System.Drawing.Point(299, 410);
+            this.textBox27.Location = new System.Drawing.Point(351, 410);
             this.textBox27.Name = "textBox27";
-            this.textBox27.Size = new System.Drawing.Size(143, 31);
+            this.textBox27.Size = new System.Drawing.Size(168, 31);
             this.textBox27.TabIndex = 11;
             // 
             // txtBreakPoint
@@ -983,9 +986,9 @@
             this.txtBreakPoint.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.txtBreakPoint.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtBreakPoint.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBreakPoint.Location = new System.Drawing.Point(299, 373);
+            this.txtBreakPoint.Location = new System.Drawing.Point(351, 373);
             this.txtBreakPoint.Name = "txtBreakPoint";
-            this.txtBreakPoint.Size = new System.Drawing.Size(143, 31);
+            this.txtBreakPoint.Size = new System.Drawing.Size(168, 31);
             this.txtBreakPoint.TabIndex = 11;
             // 
             // textBox29
@@ -993,9 +996,9 @@
             this.textBox29.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.textBox29.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox29.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox29.Location = new System.Drawing.Point(299, 447);
+            this.textBox29.Location = new System.Drawing.Point(351, 447);
             this.textBox29.Name = "textBox29";
-            this.textBox29.Size = new System.Drawing.Size(143, 31);
+            this.textBox29.Size = new System.Drawing.Size(168, 31);
             this.textBox29.TabIndex = 11;
             // 
             // button1
@@ -1023,7 +1026,7 @@
             // 
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Consolas", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(454, 0);
+            this.label21.Location = new System.Drawing.Point(531, 0);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(106, 24);
             this.label21.TabIndex = 1;
@@ -1043,7 +1046,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(903, 625);
+            this.ClientSize = new System.Drawing.Size(1056, 1008);
             this.Controls.Add(this.tableLayoutPanel2);
             this.Name = "frmDebug";
             this.Text = "Debug";

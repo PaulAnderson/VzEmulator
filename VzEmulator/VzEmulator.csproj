@@ -173,6 +173,7 @@
     <Compile Include="Screen\GraphicsPainter.cs" />
     <Compile Include="Screen\ImageGraphicsPainter.cs" />
     <Compile Include="Screen\ScreenConstants.cs" />
+    <Compile Include="StatusUpdater.cs" />
     <Compile Include="SystemTime.cs" />
     <Compile Include="Z80DotNetClockSynchronizer.cs" />
     <Compile Include="Z80dotNetCpuAdapter.cs" />
