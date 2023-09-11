@@ -337,7 +337,7 @@ namespace VzEmulator
 
         private void frmMemoryView_ResizeEnd(object sender, EventArgs e)
         {
-            Text = $"Memory View - {EditingMemory.ToString()} - {EditingMemory.Size} bytes. Size: {this.Size.Width}x{this.Size.Height}";
+            //Text = $"Memory View - {EditingMemory.ToString()} - {EditingMemory.Size} bytes. Size: {this.Size.Width}x{this.Size.Height}";
         }
     }
 }
