@@ -74,8 +74,14 @@ namespace VzEmulator.Screen
                             var srcy = charOffset + row * 12;
                             var srcRect = new Rectangle(srcx, srcy, 8, 12);
                             gr.DrawImage(_FontBitmap.Bitmap, destPoints, srcRect, GraphicsUnit.Pixel, ImageAttributes);
-                        }
 
+                            if (Annotator != null)
+                            {
+                                Annotator.PostRender(x, y, offset, scale, c, destRect, gr);
+                            }
+
+
+                        }
                         else
                         {
                             //External chargen & SG6 semigraphics

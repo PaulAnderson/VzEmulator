@@ -35,30 +35,33 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 13);
+            this.label1.Location = new System.Drawing.Point(20, 20);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 13);
+            this.label1.Size = new System.Drawing.Size(56, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "Track: ";
             // 
             // TrackLabel
             // 
             this.TrackLabel.AutoSize = true;
-            this.TrackLabel.Location = new System.Drawing.Point(61, 13);
+            this.TrackLabel.Location = new System.Drawing.Point(92, 20);
+            this.TrackLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.TrackLabel.Name = "TrackLabel";
-            this.TrackLabel.Size = new System.Drawing.Size(13, 13);
+            this.TrackLabel.Size = new System.Drawing.Size(18, 20);
             this.TrackLabel.TabIndex = 1;
             this.TrackLabel.Text = "0";
             // 
             // frmDriveWatcher
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1200, 692);
             this.Controls.Add(this.TrackLabel);
             this.Controls.Add(this.label1);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "frmDriveWatcher";
-            this.Text = "frmDriveWatcher";
+            this.Text = "Disk Status";
             this.ResumeLayout(false);
             this.PerformLayout();
 

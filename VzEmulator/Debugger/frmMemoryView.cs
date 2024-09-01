@@ -14,6 +14,8 @@ namespace VzEmulator
 
         Byte[] Memory = new byte[2000];
         HashSet<int> SearchResults = new HashSet<int>();
+        HashSet<int> SearchResultsForRender = new HashSet<int>();
+
         IMemoryAccessor EditingMemory;
 
         Timer RefreshTimer;
@@ -31,6 +33,7 @@ namespace VzEmulator
         int maxAddress = 0x10000;
 
         private TextboxValidation validation = new TextboxValidation();
+        private bool IsFormClosing;
         private const int  screenXwidth = 48;
 
         public frmMemoryView(IMemoryAccessor memory, string Title = null)
@@ -39,7 +42,7 @@ namespace VzEmulator
 
             if (!string.IsNullOrEmpty(Title))
             {
-                this.Text= Title;
+                this.Text = Title;
             }
 
             pictureBox1.MouseWheel += new MouseEventHandler(pictureBox1_MouseWheel);
@@ -48,6 +51,7 @@ namespace VzEmulator
             {
                 UseFixedScale = true,
             };
+            graphicsPainter.Annotator = new SearchResultsAnnotator() { SearchResults = SearchResultsForRender };
 
             this.EditingMemory = memory;
             if (memory.Size>maxAddress)
@@ -68,6 +72,7 @@ namespace VzEmulator
             CursorTimer.Interval = 500; //ms
             CursorTimer.Tick += (v, a) => cursorBlink = !cursorBlink;
             CursorTimer.Start();
+ 
 
             ClearScreen();
         }
@@ -106,6 +111,7 @@ namespace VzEmulator
         {
             var blockAddr = startAddr;
 
+            SearchResultsForRender.Clear();
 
             for (var line = 0; line < Lines; line++ )
             {
@@ -122,11 +128,22 @@ namespace VzEmulator
                     var isCursorLocation = cursorLocation == i + line * RowLength;
                     var value = EditingMemory[blockAddr + i];
                     var valueStr = string.Format("{0:X2}", value);
-                    var colour = !(SearchResults.Contains(blockAddr + i)) && !(isCursorLocation & cursorBlink);
+                    var colour = !(isCursorLocation & cursorBlink & (this.ActiveControl==null));
                     var hexValuesStartX = 6;
                     var charValuesStartX = 32;
-                    WriteString(Memory, startLineAddr + hexValuesStartX + i * 3, valueStr, colour); //Write hex value and space
-                    Memory[startLineAddr + charValuesStartX + i] = ConvertChar(value,colour); //Write char value
+                    var hexCharLocationStart = startLineAddr + hexValuesStartX + i * 3;
+                    var CharacterLocation = startLineAddr + charValuesStartX + i;
+
+                    WriteString(Memory, hexCharLocationStart, valueStr, colour); //Write hex value and space
+                    Memory[CharacterLocation] = ConvertChar(value,colour); //Write char value
+
+                    //Use annotator to highlight search results. This block converts the memory address to screen location.
+                    if (SearchResults.Contains(blockAddr + i))
+                    {
+                        SearchResultsForRender.Add(hexCharLocationStart);
+                        SearchResultsForRender.Add(hexCharLocationStart+1);
+                        SearchResultsForRender.Add(CharacterLocation);
+                    }
 
                     if (isCursorLocation && cursorNibbleLocation > 0)
                     {
@@ -174,6 +191,8 @@ namespace VzEmulator
         }
         private void txtStartAddress_Validating(object sender, CancelEventArgs e)
         {
+            if (IsFormClosing) return;
+
             validation.ValueTextBox_Validate(sender, e);
         }
 
@@ -210,116 +229,131 @@ namespace VzEmulator
                         SearchResults.Remove(i);
                 }
         }
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            SearchResults.Clear();
+        }
 
         private void frmMemoryView_KeyDown(object sender, KeyEventArgs e)
-        { 
-            bool cursorMoved = false;
-            switch (e.KeyData)
+        {
+            if (this.ActiveControl != null)
             {
-                case Keys.Home:
-                    startAddr = 0;
-                    cursorMoved = true;
-                    break;
-                case Keys.PageUp:
-                    startAddr -= RowLength*Lines;
-                    cursorMoved = true;
-                    break;
-                case Keys.PageDown:
-                    startAddr += RowLength * Lines;
-                    cursorMoved = true;
-                    break;
-                case Keys.Up:
-                    cursorLocation -= RowLength;
-                    cursorMoved = true;
-                    break;
-                case Keys.Down:
-                    cursorLocation += RowLength;
-                     cursorMoved = true;
-                    break;
-                case Keys.Left:
-                    cursorMoved = true;
-                    if (cursorNibbleLocation==0)
-                        cursorLocation--;
-                    break;
-                case Keys.Right:
-                    cursorLocation++;
-                    cursorMoved = true;
-                    break;
-                case Keys.End:
-                    startAddr = (EditingMemory.Size - (RowLength * Lines));
-                    cursorMoved = true;
-                    break;
-                default:
-                    try
-                    {
-                        var key = ((char)e.KeyCode).ToString();
-                        var value = Byte.Parse(key, System.Globalization.NumberStyles.HexNumber);
-                        if (cursorNibbleLocation == 0)
-                        {
-                            cursorNibbleValue = (byte)((value & 0x0F) << 4);
-                            cursorNibbleLocation = 1;
-                        } else
-                        {
-                            var addr = startAddr + cursorLocation;
-                            if (wrapAround && addr >= maxAddress) addr -= maxAddress;
-                            Console.WriteLine($"Writing {value:X2} to {(addr):X4}");
-                            EditingMemory[addr] = (byte)(cursorNibbleValue | (byte)(value & 0x0F));
-                            cursorLocation++;
-                            cursorMoved = true;
+                //Search controls
+                if (e.KeyData == Keys.Tab)
+                    this.ActiveControl = null; //set focus to main editor
 
+            } else { 
+                //Main editor
+
+                bool cursorMoved = false;
+                switch (e.KeyData)
+                {
+                    case Keys.Home:
+                        startAddr = 0;
+                        cursorMoved = true;
+                        break;
+                    case Keys.PageUp:
+                        startAddr -= RowLength*Lines;
+                        cursorMoved = true;
+                        break;
+                    case Keys.PageDown:
+                        startAddr += RowLength * Lines;
+                        cursorMoved = true;
+                        break;
+                    case Keys.Up:
+                        cursorLocation -= RowLength;
+                        cursorMoved = true;
+                        break;
+                    case Keys.Down:
+                        cursorLocation += RowLength;
+                         cursorMoved = true;
+                        break;
+                    case Keys.Left:
+                        cursorMoved = true;
+                        if (cursorNibbleLocation==0)
+                            cursorLocation--;
+                        break;
+                    case Keys.Right:
+                        cursorLocation++;
+                        cursorMoved = true;
+                        break;
+                    case Keys.End:
+                        startAddr = (EditingMemory.Size - (RowLength * Lines));
+                        cursorMoved = true;
+                        break;
+                    default:
+                        try
+                        {
+                            var key = ((char)e.KeyCode).ToString();
+                            var value = Byte.Parse(key, System.Globalization.NumberStyles.HexNumber);
+                            if (cursorNibbleLocation == 0)
+                            {
+                                cursorNibbleValue = (byte)((value & 0x0F) << 4);
+                                cursorNibbleLocation = 1;
+                            } else
+                            {
+                                var addr = startAddr + cursorLocation;
+                                if (wrapAround && addr >= maxAddress) addr -= maxAddress;
+                                Console.WriteLine($"Writing {value:X2} to {(addr):X4}");
+                                EditingMemory[addr] = (byte)(cursorNibbleValue | (byte)(value & 0x0F));
+                                cursorLocation++;
+                                cursorMoved = true;
+
+                            }
                         }
-                    }
-                    catch (Exception)
+                        catch (Exception)
+                        {
+                            //do nothing
+                        }
+                        break;
+                }
+                if (cursorMoved)
+                {
+                    //Clear nibble editing
+                    cursorNibbleLocation = 0;
+                    cursorNibbleValue = 0;
+
+                    //Validate cursor position, scroll if off edge
+                    if (cursorLocation >= RowLength * Lines)
                     {
-                        //do nothing
+                        cursorLocation -= RowLength;
+                        startAddr += RowLength;
                     }
-                    break;
+                    if (cursorLocation < 0)
+                    {
+                        cursorLocation += RowLength;
+                        startAddr -= RowLength;
+                    }
+
+                }
+
+                //validate memory postion. Wrap around if out of range
+                if (wrapAround)
+                {
+                    if (startAddr < 0)
+                    {
+                        //use startAddr to store the offset from the end of memory, to position the cursor in the expected place
+                        var cursorOffset = startAddr;
+                        if (cursorOffset > 0) cursorOffset = 0;
+
+                        startAddr = maxAddress - RowLength * Lines;
+
+                        //set cursor position based on earlier calculated offset from end of memory
+                        cursorLocation = RowLength*Lines + cursorOffset;
+                    }
+                    if (startAddr > maxAddress - RowLength * Lines)
+                    {
+                        startAddr = 0;
+                        cursorLocation = 0;
+                    }
+                } else
+                {
+                    //start memory view at 0, set cursor to location 0
+                    if (startAddr < 0) startAddr = 0;
+                    if (startAddr > maxAddress - RowLength * Lines) startAddr = maxAddress - RowLength * Lines;
+                }
             }
-            if (cursorMoved)
-            {
-                //Clear nibble editing
-                cursorNibbleLocation = 0;
-                cursorNibbleValue = 0;
 
-                //Validate cursor position, scroll if off edge
-                if (cursorLocation >= RowLength * Lines)
-                {
-                    cursorLocation -= RowLength;
-                    startAddr += RowLength;
-                }
-                if (cursorLocation < 0)
-                {
-                    cursorLocation += RowLength;
-                    startAddr -= RowLength;
-                }
-
-            }
-
-            //validate memory postion. Wrap around if out of range
-            if (wrapAround)
-            {
-                if (startAddr < 0)
-                {
-                    //use startAddr to store the offset from the end of memory, to position the cursor in the expected place
-                    var cursorOffset = startAddr;
-                    if (cursorOffset > 0) cursorOffset = 0;
-
-                    startAddr = maxAddress - RowLength * Lines;
-
-                    //set cursor position based on earlier calculated offset from end of memory
-                    cursorLocation = RowLength*Lines + cursorOffset;
-                }
-                if (startAddr > maxAddress - RowLength * Lines)
-                {
-                    startAddr = 0;
-                    cursorLocation = 0;
-                }
-            } else
-            {
-                //start memory view at 0, set cursor to location 0
-                if (startAddr < 0) startAddr = 0;
-                if (startAddr > maxAddress - RowLength * Lines) startAddr = maxAddress - RowLength * Lines;
-            }
         }
 
         private void frmMemoryView_Load(object sender, EventArgs e)
@@ -328,6 +362,8 @@ namespace VzEmulator
             {
                 ctrl.PreviewKeyDown += Button_PreviewKeyDown;
             }
+
+            this.ActiveControl = null;
         }
 
         private void Button_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -339,5 +375,17 @@ namespace VzEmulator
         {
             //Text = $"Memory View - {EditingMemory.ToString()} - {EditingMemory.Size} bytes. Size: {this.Size.Width}x{this.Size.Height}";
         }
+
+        private void frmMemoryView_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            IsFormClosing = true;
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            this.ActiveControl = null;
+        }
+
+
     }
 }

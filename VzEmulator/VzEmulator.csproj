@@ -171,8 +171,10 @@
     </Compile>
     <Compile Include="Screen\ExtendedGraphicsModeFlags.cs" />
     <Compile Include="Screen\GraphicsPainter.cs" />
+    <Compile Include="Screen\IAnnotator.cs" />
     <Compile Include="Screen\ImageGraphicsPainter.cs" />
     <Compile Include="Screen\ScreenConstants.cs" />
+    <Compile Include="Screen\SearchResultsAnnotator.cs" />
     <Compile Include="StatusUpdater.cs" />
     <Compile Include="SystemTime.cs" />
     <Compile Include="Z80DotNetClockSynchronizer.cs" />
@@ -242,6 +244,9 @@
     <None Include="UI Images\greenFolder.ico" />
     <EmbeddedResource Include="Debugger\frmDriveWatcher.resx">
       <DependentUpon>frmDriveWatcher.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Debugger\frmProgramView.resx">
+      <DependentUpon>frmProgramView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmFolderView.resx">
       <DependentUpon>frmFolderView.cs</DependentUpon>

@@ -54,6 +54,13 @@ namespace VzEmulator.Screen
             }
         }
 
+        public IAnnotator Annotator
+        {
+            set {
+                TextModeRenderer.Annotator = value;
+            }
+        }
+
          
         private bool _grayScale;
         public bool GrayScale
