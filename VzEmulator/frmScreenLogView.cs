@@ -24,6 +24,10 @@ namespace VzEmulator
         {
             ScreenOutput.MemoryChanged += ScreenOutput_MemoryChanged;
         }
+        private void frmScreenLogView_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            ScreenOutput.MemoryChanged -= ScreenOutput_MemoryChanged;
+        }
 
         int LastAddress;
         byte LastValue;
@@ -31,6 +35,8 @@ namespace VzEmulator
         int clearingCount = 0;
         private void ScreenOutput_MemoryChanged(object sender, AddressChangedEventArgs e)
         {
+            if (this.IsDisposed) return;
+
             this.Invoke(new MethodInvoker(delegate ()
             {
                 var address =  e.Address- VzConstants.VideoRamStart;
@@ -80,5 +86,7 @@ namespace VzEmulator
         {
             textBox1.Clear();
         }
+
+
     }
 }

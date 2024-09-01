@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("VzEmulate")]
+[assembly: AssemblyTitle("Pauls Vz-300 Emulator")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("VzEmulate")]
-[assembly: AssemblyCopyright("Copyright Paul Anderson ©  2019")]
+[assembly: AssemblyCopyright("Copyright Paul Anderson ©  2019 - 2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

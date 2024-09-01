@@ -22,26 +22,48 @@ namespace VzEmulator
         private void frmPrinterView_Load(object sender, EventArgs e)
         {
             PrinterOutput.LinePrinted += PrinterOutput_LinePrinted;
-            var sb = new StringBuilder(PrinterOutput.PrintedLines.Count * 64);
-            foreach (string line in PrinterOutput.PrintedLines)
-            {
-                sb.AppendLine(line);
-            }
-            textBox1.Text = sb.ToString();
+            textBox1.Text = GetPrintBufferContentsAll();
         }
 
+        private void frmPrinterView_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            PrinterOutput.LinePrinted -= PrinterOutput_LinePrinted;
+
+        }
         private void PrinterOutput_LinePrinted(object sender, EventArgs e)
         {
+            if (this.IsDisposed) return; 
+
             this.Invoke(new MethodInvoker(delegate ()
             {
-                textBox1.Text += PrinterOutput.PrintedLines.Last() + "\r\n";
+                textBox1.Text += GetPrintBufferContentsLast();
             }));
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            PrinterOutput.PrintedLines.Clear();
+            ClearPrintBuffer();
             textBox1.Clear();
+        }
+
+        private string GetPrintBufferContentsAll()
+        {
+            var sb = new StringBuilder(PrinterOutput.PrintedLines.Count * 64);
+            foreach (string line in PrinterOutput.PrintedLines)
+            {
+                sb.AppendLine(line);
+            }
+            return sb.ToString();
+        }
+
+        private string GetPrintBufferContentsLast()
+        {
+            return PrinterOutput.PrintedLines.Last() + "\r\n";
+        }
+
+        private void ClearPrintBuffer()
+        {
+            PrinterOutput.PrintedLines.Clear();
         }
     }
 }

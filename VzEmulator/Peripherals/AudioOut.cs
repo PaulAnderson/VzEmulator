@@ -258,7 +258,6 @@ namespace VzEmulator.Peripherals
             double modulatedValue = Math.Sin(sinPos) * Math.Sin(sinPos2);
             double amplitude = (modulatedValue + 1) * 128;
             b[0] = (byte)((b[0] ^ (byte)amplitude)  );
-            b[1] = (byte)((b[0] ^ (byte)amplitude)  );
 
             sinPos += 0.1;
             sinPos2 += 0.21;
